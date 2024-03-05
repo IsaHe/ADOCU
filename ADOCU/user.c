@@ -12,11 +12,11 @@
 User askForUser(){
 	User u;
 
-	printf("Introduce el usuario: \n");
+	printf("Introduce el usuario: ");
 	fflush(stdin);
 	gets(u.username);
 
-	printf("Introduce la contraseña: \n");
+	printf("Introduce la contraseña: ");
 	fflush(stdin);
 	gets(u.password);
 

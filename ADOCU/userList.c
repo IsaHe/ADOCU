@@ -8,6 +8,7 @@
 #include "userList.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 //Coge los usuarios de fichero y los almacena en array dinamico
 void takeUsersFromFile(UserList *ul, char *fileName){
@@ -31,4 +32,30 @@ void seeUserList(UserList ul){
 	for(int i = 0; i<ul.numU; i++){
 			printf("%s %d %s %s %c \n", ul.uList[i].name,ul.uList[i].age,ul.uList[i].username,ul.uList[i].password,ul.uList[i].admin);
 		}
+}
+
+int findUserInList(UserList ul, User u){
+
+	int pos = 0;
+	int enc = 0;
+
+	while(enc == 0 && pos<ul.numU){
+		if (strcmp(ul.uList[pos].username,u.username) == 0 && strcmp(ul.uList[pos].password,u.password) == 0){
+			enc = 1;
+		}else if(strcmp(ul.uList[pos].username,u.username) == 0 && strcmp(ul.uList[pos].password,u.password) != 0){
+			enc = 2;
+		}else{
+			pos++;
+		}
+	}
+	if (enc == 1){
+		printf("Bienvenido! \n");
+		return pos;
+	}else if (enc == 2){
+		printf("Contraseña Incorrecta! \n");
+		return -1;
+	}else{
+		printf("No estas registrado, pulse el 2 ! \n");
+		return -1;
+	}
 }

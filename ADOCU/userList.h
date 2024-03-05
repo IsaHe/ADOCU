@@ -21,5 +21,6 @@ void takeUsersFromFile(UserList *ul, char *fileName);
 
 //Visualiza el array dinamico
 void seeUserList(UserList ul);
+int findUserInList(UserList ul, User u);
 
 #endif /* USERLIST_H_ */

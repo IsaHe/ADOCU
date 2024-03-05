@@ -24,7 +24,9 @@ int main(){
 		}else if(option == '1'){
 			u = askForUser();
 			takeUsersFromFile(&ul,FILE_NAME);
-			seeUserList(ul);
+			if (findUserInList(ul,u) != -1){
+				//Aqui va otro menu.
+			}
 
 		}else if(option == '2'){
 
