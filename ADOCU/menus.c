@@ -15,6 +15,7 @@ char mainMenu(){
 	printf("2. Registrarse \n");
 	printf("3. Valorar la aplicacion \n");
 	printf("0. Salir \n");
+	fflush(stdin);
 	printf("Introduce opción: ");
 	scanf("%c",&option);
 	return option;

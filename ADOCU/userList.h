@@ -21,6 +21,14 @@ void takeUsersFromFile(UserList *ul, char *fileName);
 
 //Visualiza el array dinamico
 void seeUserList(UserList ul);
+
+//Devuelve un int dependiendo si esta o no en la lista, si no esta devuelve (-1)
 int findUserInList(UserList ul, User u);
+
+//Mete un usuario a la lista
+void addUserToList(UserList *ul, User u);
+
+//Inserta la lista de usuarios en fichero
+void writeUsersInFile(UserList ul, char *fileName);
 
 #endif /* USERLIST_H_ */

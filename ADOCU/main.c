@@ -16,6 +16,8 @@ int main(){
 	User u;
 	UserList ul;
 
+	takeUsersFromFile(&ul,FILE_NAME);
+
 	do{
 		option = mainMenu();
 		if (option == '0'){
@@ -23,13 +25,14 @@ int main(){
 
 		}else if(option == '1'){
 			u = askForUser();
-			takeUsersFromFile(&ul,FILE_NAME);
 			if (findUserInList(ul,u) != -1){
 				//Aqui va otro menu.
 			}
 
 		}else if(option == '2'){
-
+			u = userToIntroduce();
+			addUserToList(&ul,u);
+			writeUsersInFile(ul,FILE_NAME);
 		}else if(option == '3'){
 
 		}

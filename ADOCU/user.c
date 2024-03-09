@@ -23,3 +23,29 @@ User askForUser(){
 	return u;
 
 }
+
+//Pregunta por el Usuario a Registrar
+User userToIntroduce(){
+	User u;
+
+	printf("Introduce el nombre: ");
+	fflush(stdin);
+	gets(u.name);
+
+	printf("Introduce la edad: ");
+	fflush(stdin);
+	scanf("%d",u.age);
+
+	printf("Introduce el usuario: ");
+	fflush(stdin);
+	gets(u.username);
+
+	printf("Introduce la contraseña: ");
+	fflush(stdin);
+	gets(u.password);
+
+	u.admin = 'U';
+
+	return u;
+
+}

@@ -21,4 +21,7 @@ typedef struct{
 //Pregunta al Usuario por su Usuario
 User askForUser();
 
+//Pregunta por el Usuario a Registrar
+User userToIntroduce();
+
 #endif /* USER_H_ */

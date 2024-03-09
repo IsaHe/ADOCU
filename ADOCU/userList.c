@@ -34,6 +34,7 @@ void seeUserList(UserList ul){
 		}
 }
 
+//Devuelve un int dependiendo si esta o no en la lista, si no esta devuelve (-1)
 int findUserInList(UserList ul, User u){
 
 	int pos = 0;
@@ -59,3 +60,27 @@ int findUserInList(UserList ul, User u){
 		return -1;
 	}
 }
+
+//Mete un usuario a la lista
+void addUserToList(UserList *ul, User u){
+	if (ul->numU < ul->tam){
+		ul->uList[ul->numU] = u;
+		ul->numU++;
+	}else{
+		printf("Lo sentimos el limite de usuarios esta completo :( \n");
+	}
+
+}
+
+//Inserta la lista de usuarios en fichero
+void writeUsersInFile(UserList ul, char *fileName){
+	FILE *pf;
+	pf = fopen(fileName,"w");
+	if (pf != (FILE*)NULL){
+		for (int i = 0; i < ul.numU; i++){
+			fprintf(pf, "%s %d %s %s %c\n", ul.uList[i].name,ul.uList[i].age,ul.uList[i].username, ul.uList[i].password, ul.uList[i].admin);
+		}
+	}
+	fclose(pf);
+}
+
