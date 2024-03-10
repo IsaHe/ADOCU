@@ -31,14 +31,18 @@ int main(){
 
 		}else if(option == '2'){
 			u = userToIntroduce();
-			addUserToList(&ul,u);
-			writeUsersInFile(ul,FILE_NAME);
+			if (findUserInListRegis(ul,u) != -1){
+				addUserToList(&ul,u);
+				writeUsersInFile(ul,FILE_NAME);
+			}
 		}else if(option == '3'){
 
 		}
 
 	}while(option != '0');
 
+	seeUserList(ul);
+	//Comprobar si el usuario que va a introducir no se encuentra en la lista ya
 
 	free(ul.uList);
 	return 0;

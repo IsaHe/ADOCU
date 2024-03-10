@@ -13,7 +13,7 @@ typedef struct{
 	char name[20];
 	char username[20];
 	char password[20];
-	int age;
+	char age[4];
 	char admin;
 
 }User;

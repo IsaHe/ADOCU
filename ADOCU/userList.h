@@ -31,4 +31,6 @@ void addUserToList(UserList *ul, User u);
 //Inserta la lista de usuarios en fichero
 void writeUsersInFile(UserList ul, char *fileName);
 
+//Ver si el usuario a registrar ya esta en la lista si esta devuelve(-1)
+int findUserInListRegis(UserList ul, User u);
 #endif /* USERLIST_H_ */

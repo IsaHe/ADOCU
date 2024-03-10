@@ -34,7 +34,7 @@ User userToIntroduce(){
 
 	printf("Introduce la edad: ");
 	fflush(stdin);
-	scanf("%d",u.age);
+	gets(u.age);
 
 	printf("Introduce el usuario: ");
 	fflush(stdin);

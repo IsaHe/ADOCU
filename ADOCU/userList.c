@@ -19,7 +19,7 @@ void takeUsersFromFile(UserList *ul, char *fileName){
 	if(pf != (FILE*)NULL){
 		ul->uList = (User *)malloc(ul->tam*sizeof(User));
 		ul->numU = 0;
-		while(fscanf(pf,"%s %d %s %s %s", u.name,&u.age,u.username,u.password,&u.admin) != EOF){
+		while(fscanf(pf,"%s %s %s %s %c", u.name,u.age,u.username,u.password,&u.admin) != EOF){
 			ul->uList[ul->numU] = u;
 			ul->numU++;
 		}
@@ -30,7 +30,7 @@ void takeUsersFromFile(UserList *ul, char *fileName){
 //Visualiza el array dinamico
 void seeUserList(UserList ul){
 	for(int i = 0; i<ul.numU; i++){
-			printf("%s %d %s %s %c \n", ul.uList[i].name,ul.uList[i].age,ul.uList[i].username,ul.uList[i].password,ul.uList[i].admin);
+			printf("%s %s %s %s %c \n", ul.uList[i].name,ul.uList[i].age,ul.uList[i].username,ul.uList[i].password,ul.uList[i].admin);
 		}
 }
 
@@ -78,9 +78,31 @@ void writeUsersInFile(UserList ul, char *fileName){
 	pf = fopen(fileName,"w");
 	if (pf != (FILE*)NULL){
 		for (int i = 0; i < ul.numU; i++){
-			fprintf(pf, "%s %d %s %s %c\n", ul.uList[i].name,ul.uList[i].age,ul.uList[i].username, ul.uList[i].password, ul.uList[i].admin);
+			fprintf(pf, "%s %s %s %s %c\n", ul.uList[i].name,ul.uList[i].age,ul.uList[i].username, ul.uList[i].password, ul.uList[i].admin);
 		}
 	}
 	fclose(pf);
+}
+
+//Ver si el usuario a registrar ya esta en la lista si esta devuelve(-1)
+int findUserInListRegis(UserList ul, User u){
+
+	int pos = 0;
+	int enc = 0;
+
+	while(enc == 0 && pos<ul.numU){
+		if (strcmp(ul.uList[pos].username,u.username) == 0){
+			enc = 1;
+		}else{
+			pos++;
+		}
+	}
+	if (enc == 1){
+		printf("Ese usuario ya esta registrado, pruebe otro :( \n");
+		return -1;
+	}else{
+		printf("Usuario registrado correctamente :)\n");
+		return pos;
+	}
 }
 
