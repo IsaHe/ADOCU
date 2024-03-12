@@ -20,3 +20,17 @@ char mainMenu(){
 	scanf("%c",&option);
 	return option;
 }
+
+char menuValoracion(){
+    char a;
+    printf("1. MUY MAL\n");
+	printf("2. MAL\n");
+	printf("3. REGULAR\n");
+	printf("4. BIEN\n");
+	printf("5. MUY BIEN\n");
+	printf("0. VOLVER\n");
+
+	printf("Introduce opción: ");
+	scanf("%c", &a);
+	return a;
+}

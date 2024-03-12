@@ -12,7 +12,7 @@
 #include <stdlib.h>
 
 int main(){
-	char option;
+	char option, optionVal;
 	User u;
 	UserList ul;
 
@@ -36,7 +36,26 @@ int main(){
 				writeUsersInFile(ul,FILE_NAME);
 			}
 		}else if(option == '3'){
-
+			menuValoracion();
+			optionVal = menuValoracion();
+			if(optionVal == '0'){
+				option;
+			}
+			else if(optionVal == '1'){
+				printf("HAS VALORADO MUY MAL\n");
+			}
+			else if(optionVal == '2'){
+				printf("HAS VALORADO MAL\n");
+			}
+			else if(optionVal == '3'){
+				printf("HAS VALORADO REGULAR\n");
+			}
+			else if(optionVal == '4'){
+				printf("HAS VALORADO BIEN\n");
+			}
+			else if(optionVal == '5'){
+				printf("HAS VALORADO MUY BIEN\n");
+			}
 		}
 
 	}while(option != '0');

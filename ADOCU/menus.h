@@ -3,5 +3,6 @@
 
 //Menu Principal
 char mainMenu();
+char menuValoracion();
 
 #endif
