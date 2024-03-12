@@ -34,7 +34,7 @@ void seeUserList(UserList ul){
 		}
 }
 
-//Devuelve un int dependiendo si esta o no en la lista, si no esta devuelve (-1)
+//Devuelve un int dependiendo si esta o no en la lista, si no esta devuelve (-1) (Inicio Sesion)
 int findUserInList(UserList ul, User u){
 
 	int pos = 0;
@@ -84,7 +84,7 @@ void writeUsersInFile(UserList ul, char *fileName){
 	fclose(pf);
 }
 
-//Ver si el usuario a registrar ya esta en la lista si esta devuelve(-1)
+//Ver si el usuario a registrar ya esta en la lista si esta devuelve(-1) (Registro)
 int findUserInListRegis(UserList ul, User u){
 
 	int pos = 0;
