@@ -29,7 +29,7 @@ char menuValoracion(){
 	printf("4. BIEN\n");
 	printf("5. MUY BIEN\n");
 	printf("0. VOLVER\n");
-
+	fflush(stdin);
 	printf("Introduce opción: ");
 	scanf("%c", &a);
 	return a;
