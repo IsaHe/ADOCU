@@ -12,15 +12,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include"valoration.h"
+#include "valorationList.h"
 
 int main(){
 	char option, optionVal;
 	User u;
 	UserList ul;
 	Valoration v;
+	ValorationList vl;
 
 	takeUsersFromFile(&ul,FILE_NAME1);
-
+	takeValorationsFromFile(&vl,FILE_NAME2);
+	seeValorations(vl);
 	do{
 		option = mainMenu();
 		if (option == '0'){
@@ -36,41 +39,41 @@ int main(){
 			u = userToIntroduce();
 			if (findUserInListRegis(ul,u) != -1){
 				addUserToList(&ul,u);
-				writeUsersInFile(ul,FILE_NAME1);
 			}
 		}else if(option == '3'){
-
 			optionVal = menuValoracion();
 			if(optionVal == '0'){
 
-				option;
-			}
-			else if(optionVal == '1'){
-				v = insertIntoValoration(1);
+			}else if(optionVal == '1'){
 				printf("HAS VALORADO MUY MAL\n");
-			}
-			else if(optionVal == '2'){
-				v = insertIntoValoration(2);
+				v = insertIntoValoration(optionVal);
+				addToValorations(&vl,v);
+			}else if(optionVal == '2'){
 				printf("HAS VALORADO MAL\n");
-			}
-			else if(optionVal == '3'){
-				v = insertIntoValoration(3);
+				v = insertIntoValoration(optionVal);
+				addToValorations(&vl,v);
+			}else if(optionVal == '3'){
 				printf("HAS VALORADO REGULAR\n");
-			}
-			else if(optionVal == '4'){
-				v = insertIntoValoration(4);
+				v = insertIntoValoration(optionVal);
+				addToValorations(&vl,v);
+			}else if(optionVal == '4'){
 				printf("HAS VALORADO BIEN\n");
-			}
-			else if(optionVal == '5'){
-				v = insertIntoValoration(5);
+				v = insertIntoValoration(optionVal);
+				addToValorations(&vl,v);
+			}else if(optionVal == '5'){
 				printf("HAS VALORADO MUY BIEN\n");
+				v = insertIntoValoration(optionVal);
+				addToValorations(&vl,v);
 			}
 		}
 
 	}while(option != '0');
 
+	writeUsersInFile(ul,FILE_NAME1);
+	writeValorationsInFile(vl,FILE_NAME2);
+
 	seeUserList(ul);
-	//Comprobar si el usuario que va a introducir no se encuentra en la lista ya
+	seeValorations(vl);
 
 	free(ul.uList);
 	return 0;

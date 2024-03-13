@@ -12,4 +12,5 @@ typedef struct {
 void takeValorationsFromFile(ValorationList *vl, char *fileName);
 void writeValorationsInFile(ValorationList vl, char *fileName);
 void seeValorations(ValorationList vl);
+void addToValorations(ValorationList *vl, Valoration val);
 #endif

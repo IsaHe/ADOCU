@@ -4,9 +4,9 @@
 
 typedef struct{
     
-    int val;
+    char val;
 
 }Valoration;
 
-Valoration insertIntoValoration(int val);
+Valoration insertIntoValoration(char val);
 #endif
