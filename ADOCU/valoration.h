@@ -6,5 +6,6 @@ typedef struct{
     char val;
 }Valoration;
 
+//Crear valoracion por un char pasado
 Valoration insertIntoValoration(char val);
 #endif

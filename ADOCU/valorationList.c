@@ -2,6 +2,7 @@
 #include"valorationList.h"
 #include<stdlib.h>
 
+//Coger lista de valoraciones de fichero
 void takeValorationsFromFile(ValorationList *vl, char *fileName){
     Valoration v;
     char val[2];
@@ -19,6 +20,8 @@ void takeValorationsFromFile(ValorationList *vl, char *fileName){
     }
     fclose(pf);
 }
+
+//Escribir lista de valoraciones en fichero
 void writeValorationsInFile(ValorationList vl, char *fileName){
     FILE *pf;
     pf = fopen(fileName,"w");
@@ -30,12 +33,14 @@ void writeValorationsInFile(ValorationList vl, char *fileName){
     fclose(pf);
 }
 
+//Visualizar lista de valoraciones
 void seeValorations(ValorationList vl){
     for (int i = 0; i < vl.numV; i++){
     	printf("%c\n",vl.valorations[i].val);
     }
 }
 
+//Añiadir valoracion a lista de valoraciones
 void addToValorations(ValorationList *vl, Valoration val){
 	if (vl->numV < vl->tam){
 		vl->valorations[vl->numV] = val;
