@@ -22,7 +22,7 @@ char mainMenu(){
 }
 
 char menuValoracion(){
-    char a;
+    char option;
     printf("1. MUY MAL\n");
 	printf("2. MAL\n");
 	printf("3. REGULAR\n");
@@ -31,6 +31,6 @@ char menuValoracion(){
 	printf("0. VOLVER\n");
 	fflush(stdin);
 	printf("Introduce opción: ");
-	scanf("%c", &a);
-	return a;
+	scanf("%c", &option);
+	return option;
 }
