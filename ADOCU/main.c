@@ -23,7 +23,6 @@ int main(){
 
 	takeUsersFromFile(&ul,FILE_NAME1);
 	takeValorationsFromFile(&vl,FILE_NAME2);
-	seeValorations(vl);
 	do{
 		option = mainMenu();
 		if (option == '0'){

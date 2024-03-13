@@ -4,13 +4,15 @@
 
 void takeValorationsFromFile(ValorationList *vl, char *fileName){
     Valoration v;
+    char val[2];
     vl->tam = 100;
     FILE *pf;
     pf = fopen(fileName, "r");
     if (pf != (FILE*)NULL){
         vl->valorations = (Valoration*)malloc(vl->tam*sizeof(Valoration));
         vl->numV = 0;
-        while (fscanf(pf, "%c", &v.val) != EOF){
+        while (fscanf(pf, "%s", val) != EOF){
+        	v.val = val[0];
         	vl->valorations[vl->numV] = v;
         	vl->numV++;
         }
@@ -38,6 +40,7 @@ void addToValorations(ValorationList *vl, Valoration val){
 	if (vl->numV < vl->tam){
 		vl->valorations[vl->numV] = val;
 		vl->numV++;
+		printf("Gracias por tu valoracion :) \n");
 	}else{
 		printf("La lista de valoraciones esta llena ;(\n");
 	}
