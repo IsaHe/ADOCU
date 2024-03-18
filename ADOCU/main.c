@@ -38,8 +38,15 @@ int main(){
 		//Opcion 1 iniciar sesion
 		}else if(option == '1'){
 			u = askForUser();
-			if (findUserInList(ul,u) != -1) { //Inicio de sesion correcto
+			if (findUserInList(ul,u) == 1) { //Inicio de sesion correcto
 				//Aqui va otro menu.
+				printf("Bienvenido :)! \n");
+			}else if(findUserInList(ul,u) == 2){
+				printf("Has iniciado sesion como admin ;)! \n");
+			}else if(findUserInList(ul,u) == -1){
+				printf("Contraseña incorrecta!\n");
+			}else if(findUserInList(ul,u) == -2){
+				printf("No estas registrado, pulse el 2. ! \n");
 			}
 
 		//Opcion 2 registrarse

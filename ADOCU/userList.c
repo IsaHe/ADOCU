@@ -45,19 +45,20 @@ int findUserInList(UserList ul, User u){
 			enc = 1;
 		}else if(strcmp(ul.uList[pos].username,u.username) == 0 && strcmp(ul.uList[pos].password,u.password) != 0){
 			enc = 2;
+		}else if(strcmp(u.username,"Admin") == 0 && strcmp(u.password,"Admin") == 0){
+			enc = 3;
 		}else{
 			pos++;
 		}
 	}
 	if (enc == 1){
-		printf("Bienvenido! \n");
-		return pos;
+		return 1;
 	}else if (enc == 2){
-		printf("Contraseña Incorrecta! \n");
 		return -1;
+	}else if(enc == 3){
+		return 2;
 	}else{
-		printf("No estas registrado, pulse el 2 ! \n");
-		return -1;
+		return -2;
 	}
 }
 
