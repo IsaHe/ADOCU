@@ -41,11 +41,12 @@ int main(){
 			if (findUserInList(ul,u) == 1) { //Inicio de sesion correcto
 				//Aqui va otro menu.
 				printf("Bienvenido :)! \n");
-			}else if(findUserInList(ul,u) == 2){
+			}else if(findUserInList(ul,u) == 2){ //Inicio sesion como admin
+				//Aqui va otro menu
 				printf("Has iniciado sesion como admin ;)! \n");
-			}else if(findUserInList(ul,u) == -1){
+			}else if(findUserInList(ul,u) == -1){ //Contraseña incorrecta
 				printf("Contraseña incorrecta!\n");
-			}else if(findUserInList(ul,u) == -2){
+			}else if(findUserInList(ul,u) == -2){ //No estar registrado
 				printf("No estas registrado, pulse el 2. ! \n");
 			}
 
