@@ -34,3 +34,27 @@ char menuValoracion(){
 	scanf("%c", &option);
 	return option;
 }
+
+char menuAdmin(){
+	char option;
+	printf("1. Eliminar Usuarios\n");
+	printf("2. Eliminar Grupo\n");
+	printf("3. Eliminar Actividades\n");
+	printf("4. Ver Valoracion Media\n");
+	printf("5. Volver\n");
+	printf("Introduce una opción: ");
+	fflush(stdin);
+	scanf("%c",&option);
+	return option;
+}
+
+char menuLogIn(){
+	char option;
+		printf("1. Crear Grupo\n");
+		printf("2. Unirse a Grupo\n");
+		printf("3. Volver\n");
+		printf("Introduce una opción: ");
+		fflush(stdin);
+		scanf("%c",&option);
+		return option;
+}

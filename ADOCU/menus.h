@@ -4,5 +4,6 @@
 //Menu Principal
 char mainMenu();
 char menuValoracion();
-
+char menuAdmin();
+char menuLogIn();
 #endif
