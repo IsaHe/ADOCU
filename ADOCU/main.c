@@ -45,6 +45,8 @@ int main(){
 					optionLogIn = menuLogIn();
 					if(optionLogIn == '1'){
 						printf("Crear Grupo\n");
+                        char* optionGroup = menuCrearGrupo();
+
 					}else if(optionLogIn == '2'){
 						printf("Unirse a Grupo\n");
 					}else{

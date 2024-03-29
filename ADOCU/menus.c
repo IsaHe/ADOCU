@@ -7,6 +7,9 @@
 
 #include"menus.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "grupo.h"
 
 //Menu Principal
 char mainMenu(){
@@ -57,4 +60,29 @@ char menuLogIn(){
 		fflush(stdin);
 		scanf("%c",&option);
 		return option;
+}
+
+char* menuCrearGrupo() {
+    char* nomGrupo = NULL;
+    char* numParticipantes = NULL;
+
+    do {
+        printf("Nombre del Grupo: ");
+        fflush(stdin);
+        scanf("%s", nomGrupo);
+    } while (validateNombreGrupo(nomGrupo));
+
+    do {
+        printf("Numero de participantes: ");
+        fflush(stdin);
+        scanf("%s", numParticipantes);
+    } while (validateNumUsuariosMax(numParticipantes));
+
+    char* result = (char*) malloc(sizeof(char) * (strlen(nomGrupo) + strlen(numParticipantes) + 2));
+    strcpy(result, nomGrupo);
+    strcat(result, ";");
+    strcat(result, numParticipantes);
+
+    return result;
+
 }
