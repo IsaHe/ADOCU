@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include"valoration.h"
 #include "valorationList.h"
+#include "grupo.h"
 
 int main(){
 	//Creación de variables
@@ -45,8 +46,7 @@ int main(){
 					optionLogIn = menuLogIn();
 					if(optionLogIn == '1'){
 						printf("Crear Grupo\n");
-                        char* optionGroup = menuCrearGrupo();
-
+                        Grupo* g = crearGrupo(menuCrearGrupo());
 					}else if(optionLogIn == '2'){
 						printf("Unirse a Grupo\n");
 					}else{

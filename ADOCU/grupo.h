@@ -1,6 +1,7 @@
 #include "user.h"
 #include <stdbool.h>
 #include <string.h>
+#include <stdlib.h>
 
 #ifndef ADOCU_GRUPO_H
 #define ADOCU_GRUPO_H
@@ -13,7 +14,7 @@ typedef struct {
     int numUsuariosAct;
 }Grupo;
 
-void crearGrupo(char* optionGroup);
+Grupo* crearGrupo(char* optionGroup);
 void unirseGrupo(char* codInvitacion);
 void addUserToGrupo(Grupo* g, User u);
 
