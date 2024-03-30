@@ -86,3 +86,13 @@ char* menuCrearGrupo() {
     return result;
 
 }
+
+char* menuUnirseGrupo() {
+    char *codInvitacion = NULL;
+
+    printf("Introduce el código de invitación: ");
+    fflush(stdin);
+    scanf("%s", codInvitacion);
+
+    return codInvitacion;
+}

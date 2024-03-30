@@ -15,13 +15,15 @@ typedef struct {
 }Grupo;
 
 Grupo* crearGrupo(char* optionGroup);
-void unirseGrupo(char* codInvitacion);
+Grupo* unirseGrupo(char* codInvitacion, User u);
 void addUserToGrupo(Grupo* g, User u);
 
 bool isGrupoLleno(Grupo* g);
 bool isUserInGrupo(Grupo* g, User u);
-bool validarCodInvitacion(char* codInvitacion);
+Grupo* validarCodInvitacion(char* codInvitacion);
 bool validateNombreGrupo(char* nombreGrupo);
 bool validateNumUsuariosMax(char* numUsuariosMax);
+
+void freeGrupo(Grupo* g);
 
 #endif //ADOCU_GRUPO_H

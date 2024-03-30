@@ -7,4 +7,5 @@ char menuValoracion();
 char menuAdmin();
 char menuLogIn();
 char* menuCrearGrupo();
+char* menuUnirseGrupo();
 #endif

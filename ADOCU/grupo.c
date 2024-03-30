@@ -1,9 +1,13 @@
 #include "grupo.h"
 
 
+Grupo* listaGrupos[255];
+int numGrupos = 0;
+
 Grupo* crearGrupo(char* optionGroup){
-    // optionGroup contiene un char* con formato: "nombreGrupo;numUsuariosMax"
-    // Se debe separar el nombre del grupo y el número de usuarios máximo
+
+    if(numGrupos >= 255)
+        return NULL;
 
     char* nombreGrupo = malloc(MAX_NOMBRE_GRUPO);
     for(int i = 0 ;*optionGroup != ';'; optionGroup++, i++){
@@ -24,23 +28,72 @@ Grupo* crearGrupo(char* optionGroup){
     g->numUsuariosAct = 1;
     g->users = malloc(sizeof(User) * g->numUsuariosMax);
 
+    listaGrupos[numGrupos] = g;
+    numGrupos++;
     return g;
 }
 
-void unirseGrupo(char* codInvitacion){
+void addUserToGrupo(Grupo* g, User u){
+    g->users[g->numUsuariosAct - 1] = u;
+}
 
+Grupo* unirseGrupo(char* codInvitacion, User u){
+
+    Grupo* g = validarCodInvitacion(codInvitacion);
+
+    if (g == NULL || isGrupoLleno(g) || isUserInGrupo(g, u))
+        return NULL;
+
+    g->numUsuariosAct++;
+    addUserToGrupo(g, u);
+    return g;
 }
 
 bool isGrupoLleno(Grupo* g){
+    if (g->numUsuariosAct == g->numUsuariosMax)
+        return true;
     return false;
 }
 
 bool isUserInGrupo(Grupo* g, User u){
+    for (int i = 0; i < g->numUsuariosAct; ++i){
+        if (strcmp(g->users[i].username, u.username) == 0)
+            return true;
+    }
     return false;
 }
 
-bool validarCodInvitacion(char* codInvitacion){
-    return false;
+Grupo* validarCodInvitacion(char* codInvitacion){
+    // El codigo de invitacion sera: "nombreGrupo/numUsuariosActuales"
+
+    char* nombreGrupo = malloc(MAX_NOMBRE_GRUPO);
+    for ( int i = 0; *codInvitacion; codInvitacion++, i++){
+        if(i >= MAX_NOMBRE_GRUPO)
+            return NULL;
+        if (*codInvitacion == '/'){
+            nombreGrupo[i] = '\0';
+            break;
+        }
+        nombreGrupo[i] = *codInvitacion;
+    }
+
+    codInvitacion++;
+
+    char* numUsuariosAct = malloc(3);
+    for ( int i = 0; *codInvitacion; codInvitacion++, i++){
+        if(i >= 3 || (*codInvitacion < '0' || *codInvitacion > '9'))
+            return NULL;
+
+        numUsuariosAct[i] = *codInvitacion;
+    }
+
+    for (int i = 0; i < numGrupos; ++i) {
+        if ((strcmp(listaGrupos[i]->nombreGrupo, nombreGrupo) == 0 && listaGrupos[i]->numUsuariosAct == atoi(numUsuariosAct))){
+            return listaGrupos[i];
+        }
+    }
+
+    return NULL;
 }
 
 bool validateNombreGrupo(char* nombreGrupo){
@@ -67,4 +120,11 @@ bool validateNumUsuariosMax(char* numUsuariosMax){
         return false;
 
     return true;
+}
+
+void freeGrupo(Grupo* g){
+    // TODO: Aplicar al cerrar la app
+    free(g->nombreGrupo);
+    free(g->users);
+    free(g);
 }

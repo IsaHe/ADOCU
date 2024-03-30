@@ -22,6 +22,7 @@ int main(){
 	UserList ul;
 	Valoration v;
 	ValorationList vl;
+    Grupo* g;
 
 	//Coger los Datos de Fichero o BD
 	takeUsersFromFile(&ul,FILE_NAME1);
@@ -46,9 +47,10 @@ int main(){
 					optionLogIn = menuLogIn();
 					if(optionLogIn == '1'){
 						printf("Crear Grupo\n");
-                        Grupo* g = crearGrupo(menuCrearGrupo());
+                        g = crearGrupo(menuCrearGrupo());
 					}else if(optionLogIn == '2'){
 						printf("Unirse a Grupo\n");
+                        g = unirseGrupo(menuUnirseGrupo(), u);
 					}else{
 						printf("Caracter no valido!\n");
 					}
