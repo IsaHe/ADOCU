@@ -58,7 +58,6 @@ int main(){
 					}else if(optionLogIn == '2'){
 						printf("Unirse a Grupo\n");
                         g = unirseGrupo(menuUnirseGrupo(), u, gl);
-                        printf("Te has unido al grupo con éxito\n");
 					}else{
 						printf("Caracter no valido!\n");
 					}
@@ -134,10 +133,12 @@ int main(){
 	//Visualización de los datos
 	seeUserList(ul);
 	seeValorations(vl);
+	seeGroupsNames(*gl);
 
 	//Liberar Memoria
 	free(vl.valorations);
 	free(ul.uList);
-
+	freeGrupo(g);
+	free(gl);
 	return 0;
 }

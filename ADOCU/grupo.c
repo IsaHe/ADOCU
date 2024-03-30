@@ -27,6 +27,7 @@ Grupo* unirseGrupo(char* codInvitacion, User u, GruposList* gl){
     for(int i = 0; i < gl->numGrupos; i++){
         if(strcmp(gl->grupos[i].nombreGrupo, codInvitacion) == 0 && !isGrupoLleno(&gl->grupos[i]) && !isUserInGrupo(&gl->grupos[i], u)){
             addUserToGrupo(&gl->grupos[i], u);
+            printf("Te has unido al grupo con éxito\n");
             return &gl->grupos[i];
         }
     }
@@ -56,6 +57,13 @@ bool codigoInvitacionValido(char* codInvitacion, GruposList gl){
         }
     }
     return false;
+}
+
+void seeGroupsNames(GruposList gl){
+	for(int i = 0; i < gl.numGrupos; i++){
+		printf("Grupo: %s, con %d usuarios", gl.grupos[i].nombreGrupo, gl.grupos[i].numUsuariosAct);
+
+	}
 }
 
 void freeGrupo(Grupo* g){

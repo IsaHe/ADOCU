@@ -29,6 +29,7 @@ bool isGrupoLleno(Grupo* g);
 bool isUserInGrupo(Grupo* g, User u);
 bool codigoInvitacionValido(char* codInvitacion, GruposList gl);
 
+void seeGroupsNames(GruposList gl);
 void freeGrupo(Grupo* g);
 
 char* menuUnirseGrupo();
