@@ -107,3 +107,27 @@ int findUserInListRegis(UserList ul, User u){
 	}
 }
 
+int userToEliminate(UserList ul){
+	int pos;
+
+	for(int i = 0; i < ul.numU; i++){
+		if (strcmp(ul.uList[i].username, "Admin") != 0){
+			printf("%d. %s\n", i+1, ul.uList[i].username);
+		}
+	}
+	printf("0. Volver\n");
+	printf("Elige una opcion: ");
+	fflush(stdin);
+	scanf("%d",&pos);
+	return pos;
+}
+
+void deleteUserWithPosition(UserList *ul, int pos){
+	if (pos == 0){
+		printf("No se ha eliminado ningun usuario\n");
+	}else{
+		printf("falta el metodo de eliminar el usuario\n");
+	}
+
+}
+

@@ -33,4 +33,10 @@ void writeUsersInFile(UserList ul, char *fileName);
 
 //Ver si el usuario a registrar ya esta en la lista si esta devuelve(-1)
 int findUserInListRegis(UserList ul, User u);
+
+//Devuelve la pos del user a eliminar
+int userToEliminate(UserList ul);
+
+//Elimina a un usuario de la lista
+void deleteUserWithPosition(UserList *ul, int pos);
 #endif /* USERLIST_H_ */

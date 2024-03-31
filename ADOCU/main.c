@@ -58,8 +58,6 @@ int main(){
 					}else if(optionLogIn == '2'){
 						printf("Unirse a Grupo\n");
                         g = unirseGrupo(menuUnirseGrupo(), u, gl);
-					}else{
-						printf("Caracter no valido!\n");
 					}
 				}while(optionLogIn != '3');
 
@@ -70,14 +68,15 @@ int main(){
 					optionAdmin = menuAdmin();
 					if(optionAdmin == '1'){ //Eliminar Usuarios
 						printf("Eliminar Usuarios\n");
+						int pos = userToEliminate(ul);
+						deleteUserWithPosition(&ul,pos);
+
 					}else if (optionAdmin == '2'){ //Eliminar Grupos
 						printf("Eliminar Grupo\n");
 					}else if (optionAdmin == '3'){ //Eliminar Actividades
 						printf("Eliminar Actividades\n");
 					}else if (optionAdmin == '4'){ //Ver Valoracion Media
 						printf("Ver Valoracion Media\n");
-					}else{ //Caracter no valido
-						printf("Caracter no valido!\n");
 					}
 				}while(optionAdmin != '5');
 			}else if(findUserInList(ul,u) == -1){ //Contraseña incorrecta
@@ -118,8 +117,6 @@ int main(){
 					printf("HAS VALORADO MUY BIEN\n");
 					v = insertIntoValoration(optionVal);
 					addToValorations(&vl,v);
-				}else{ //Caracteres no validos
-					printf("Caracter no valido!\n");
 				}
 			}while(optionVal != '0');
 		}
