@@ -123,10 +123,27 @@ int userToEliminate(UserList ul){
 }
 
 void deleteUserWithPosition(UserList *ul, int pos){
+	int j = 0;
 	if (pos == 0){
 		printf("No se ha eliminado ningun usuario\n");
 	}else{
-		printf("falta el metodo de eliminar el usuario\n");
+		User*aux = (User*)malloc(sizeof(User)*(ul->tam));
+		for(int i = 0; i < ul->numU; i++){
+			if(i == pos-1){
+				printf("Usuario eliminado correctamente!\n");
+			}else{
+				aux[j] = ul->uList[i];
+				j++;
+			}
+		}
+
+		free(ul->uList);
+		ul->uList = (User*)malloc(sizeof(User)*ul->tam);
+		ul->numU = 0;
+		for (int i = 0; i < j; i++){
+			ul->uList[i] = aux[i];
+			ul->numU++;
+		}
 	}
 
 }

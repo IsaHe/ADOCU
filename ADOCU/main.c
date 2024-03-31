@@ -68,8 +68,12 @@ int main(){
 					optionAdmin = menuAdmin();
 					if(optionAdmin == '1'){ //Eliminar Usuarios
 						printf("Eliminar Usuarios\n");
-						int pos = userToEliminate(ul);
-						deleteUserWithPosition(&ul,pos);
+						int pos = userToEliminate(ul); //Conseguir la posicion del array del usuario
+						if(pos < (ul.numU+1)){
+							deleteUserWithPosition(&ul,pos); //Eliminar al usuario por la posicion del array
+						}else{
+							printf("Ese usuario no esta, Intentelo de nuevo! \n"); //Si el usuario no esta en el array.
+						}
 
 					}else if (optionAdmin == '2'){ //Eliminar Grupos
 						printf("Eliminar Grupo\n");
