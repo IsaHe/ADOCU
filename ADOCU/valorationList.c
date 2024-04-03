@@ -50,3 +50,23 @@ void addToValorations(ValorationList *vl, Valoration val){
 		printf("La lista de valoraciones esta llena ;(\n");
 	}
 }
+
+//Calcular valoración media
+float calculateMeanValoration(ValorationList vl){
+    float result = 0, convertido;
+    
+
+    for(int i = 0; i<vl.numV; i++){
+        char valoracion[2] = {vl.valorations[i].val, '\0'};
+        sscanf(valoracion, "%f", &convertido);
+        result += convertido;
+    }
+
+    return (result / vl.numV) * 2;
+}
+
+
+//manera del admin de ver la valoración media
+void seeMeanValoration(float valoration){
+    printf("VALORACIÓN MEDIA -> %.2f\n", valoration);
+}

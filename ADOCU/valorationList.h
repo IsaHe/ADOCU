@@ -20,4 +20,10 @@ void seeValorations(ValorationList vl);
 
 //Añiadir valoracion a lista de valoraciones
 void addToValorations(ValorationList *vl, Valoration val);
+
+//Calcular valoración media
+float calculateMeanValoration(ValorationList vl);
+
+//manera del admin de ver la valoración media
+void seeMeanValoration(float valoration);
 #endif

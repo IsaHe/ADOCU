@@ -22,6 +22,7 @@ int main(){
 	UserList ul;
 	Valoration v;
 	ValorationList vl;
+	float meanValoration;
     Grupo* g;
     GruposList* gl = malloc(sizeof(GruposList));
     gl->numGrupos = 0;
@@ -81,6 +82,8 @@ int main(){
 						printf("Eliminar Actividades\n");
 					}else if (optionAdmin == '4'){ //Ver Valoracion Media
 						printf("Ver Valoracion Media\n");
+						meanValoration = calculateMeanValoration(vl);
+						seeMeanValoration(meanValoration);
 					}
 				}while(optionAdmin != '5');
 			}else if(findUserInList(ul,u) == -1){ //Contraseña incorrecta
