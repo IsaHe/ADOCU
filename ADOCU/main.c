@@ -54,8 +54,11 @@ int main(){
                         char* nombreGrupo = menuCrearGrupoNombre();
                         int numUsuarios = menuCrearGrupoNumUsuarios();
                         g = crearGrupo(nombreGrupo, numUsuarios, gl);
-                        printf("Grupo creado con éxito\n");
-
+                        if (g == NULL){
+                        	printf("Grupo ya existente :(\n");
+                        }else{
+                        	printf("Grupo creado con éxito :)\nPara unirte a un grupo debes poner su nombre.\n");
+                        }
 					}else if(optionLogIn == '2'){
 						printf("Unirse a Grupo\n");
                         g = unirseGrupo(menuUnirseGrupo(), u, gl);

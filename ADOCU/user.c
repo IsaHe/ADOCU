@@ -14,11 +14,11 @@ User askForUser(){
 
 	printf("Introduce el usuario: ");
 	fflush(stdin);
-	gets(u.username);
+	scanf("%s",u.username);
 
 	printf("Introduce la contraseña: ");
 	fflush(stdin);
-	gets(u.password);
+	scanf("%s",u.password);
 
 	return u;
 
@@ -30,19 +30,19 @@ User userToIntroduce(){
 
 	printf("Introduce el nombre: ");
 	fflush(stdin);
-	gets(u.name);
+	scanf("%s",u.name);
 
 	printf("Introduce la edad: ");
 	fflush(stdin);
-	gets(u.age);
+	scanf("%s",u.age);
 
 	printf("Introduce el usuario: ");
 	fflush(stdin);
-	gets(u.username);
+	scanf("%s",u.username);
 
 	printf("Introduce la contraseña: ");
 	fflush(stdin);
-	gets(u.password);
+	scanf("%s",u.password);
 
 	u.admin = 'U';
 

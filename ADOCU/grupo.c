@@ -7,6 +7,11 @@ Grupo* crearGrupo(char* nombreGrupo, int numUsuariosMax, GruposList* gl){
     g->numUsuariosAct = 0;
     g->users = (User*)malloc(numUsuariosMax * sizeof(User));
 
+    for (int i = 0; i < gl->numGrupos; i++){
+    	if (strcmp(gl->grupos[i].nombreGrupo,g->nombreGrupo) == 0){
+    		return NULL;
+    	}
+    }
     gl->grupos[gl->numGrupos] = *g;
     gl->numGrupos++;
 
@@ -61,7 +66,7 @@ bool codigoInvitacionValido(char* codInvitacion, GruposList gl){
 
 void seeGroupsNames(GruposList gl){
 	for(int i = 0; i < gl.numGrupos; i++){
-		printf("Grupo: %s, con %d usuarios", gl.grupos[i].nombreGrupo, gl.grupos[i].numUsuariosAct);
+		printf("Grupo: %s, con %d usuarios, y un maximo de %d usuarios\n", gl.grupos[i].nombreGrupo, gl.grupos[i].numUsuariosAct, gl.grupos[i].numUsuariosMax);
 
 	}
 }
@@ -78,8 +83,10 @@ char* menuCrearGrupoNombre() {
 
     do {
         printf("Introduce el nombre del grupo: ");
-        fgets(nombreGrupo, MAX_NOMBRE_GRUPO + 1, stdin);
-    } while (strlen(nombreGrupo) == 1);
+        fflush(stdout);
+        fflush(stdin);
+        fgets(nombreGrupo, MAX_NOMBRE_GRUPO, stdin);
+    } while (strlen(nombreGrupo) < 1);
 
     nombreGrupo[strcspn(nombreGrupo, "\n")] = 0;
 
@@ -91,6 +98,7 @@ int menuCrearGrupoNumUsuarios() {
 
     do {
         printf("Introduce el número máximo de usuarios del grupo: ");
+        fflush(stdin);
         fgets(str, 10, stdin);
     } while (str[0] == 0);
 
@@ -112,6 +120,7 @@ char* menuUnirseGrupo() {
 
     do {
         printf("Introduce el código de invitación del grupo: ");
+        fflush(stdin);
         fgets(codInvitacion, MAX_NOMBRE_GRUPO + 1, stdin);
     } while (strlen(codInvitacion) == 1);
 
