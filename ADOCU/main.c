@@ -7,6 +7,7 @@
 
 #define FILE_NAME1 "users.txt"
 #define FILE_NAME2 "valorations.txt"
+#define MAX_ACTIVITIES 10
 #include "menus.h"
 #include "userList.h"
 #include <stdio.h>
@@ -17,16 +18,17 @@
 
 int main(){
 	//Creación de variables
-	char option, optionVal, optionAdmin, optionLogIn;
+	char option, optionVal, optionAdmin, optionLogIn, optionActivity;
 	User u;
 	UserList ul;
 	Valoration v;
 	ValorationList vl;
 	float meanValoration;
     Grupo* g;
-    GruposList* gl = malloc(sizeof(GruposList));
-    gl->numGrupos = 0;
-    gl->grupos = malloc(100 * sizeof(Grupo*));
+    GruposList* gl = (GruposList*) malloc(sizeof(GruposList));
+	gl -> numGrupos = 0;
+	gl -> grupos = (Grupo*) malloc(sizeof(Grupo*) * 100);
+	Activity activityList[MAX_ACTIVITIES] = {"Futbol", "Boxeo", "Baloncesto", "Piraguismo", "Tenis", "Padel", "Golf", "Ajedrez", "Senderismo", "Surf"};
 
 	//Coger los Datos de Fichero o BD
 	takeUsersFromFile(&ul,FILE_NAME1);
@@ -46,7 +48,7 @@ int main(){
 			u = askForUser();
 			if (findUserInList(ul,u) == 1) { //Inicio de sesion correcto
 				//Menu Inicio Sesion
-				printf("Bienvenido :)! \n");
+				printf("Bienvenido :)!\n");
 				do{
 					optionLogIn = menuLogIn();
 					if(optionLogIn == '1'){
@@ -62,6 +64,17 @@ int main(){
 					}else if(optionLogIn == '2'){
 						printf("Unirse a Grupo\n");
                         g = unirseGrupo(menuUnirseGrupo(), u, gl);
+						if (g != NULL) {
+							do {
+								optionActivity = menuActivity();
+								if (optionActivity == '1') {
+									int option = seeActivities(activityList, MAX_ACTIVITIES);
+									addActivity(activityList[option - 1], g);
+								} else if (optionActivity == '2') {
+									seeGroupActivities(g);
+								}
+							} while (optionActivity != '3');
+						}
 					}
 				}while(optionLogIn != '3');
 

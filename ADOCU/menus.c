@@ -1,26 +1,19 @@
-/*
- * menus.c
- *
- *  Created on: 4 mar 2024
- *      Author: apera
- */
-
-#include"menus.h"
+#include "menus.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "grupo.h"
 
 //Menu Principal
-char mainMenu(){
+char mainMenu() {
 	char option;
-	printf("1. Iniciar Sesión \n");
-	printf("2. Registrarse \n");
-	printf("3. Valorar la aplicacion \n");
-	printf("0. Salir \n");
-	fflush(stdin);
+	printf("1. Iniciar Sesión\n");
+	printf("2. Registrarse\n");
+	printf("3. Valorar la aplicacion\n");
+	printf("0. Salir\n");
 	printf("Introduce opción: ");
-	scanf("%c",&option);
+	fflush(stdin);
+	scanf(" %c", &option);
 	return option;
 }
 
@@ -34,7 +27,7 @@ char menuValoracion(){
 	printf("0. VOLVER\n");
 	fflush(stdin);
 	printf("Introduce opción: ");
-	scanf("%c", &option);
+	scanf(" %c", &option);
 	return option;
 }
 
@@ -47,7 +40,7 @@ char menuAdmin(){
 	printf("5. Volver\n");
 	printf("Introduce una opción: ");
 	fflush(stdin);
-	scanf("%c",&option);
+	scanf(" %c",&option);
 	return option;
 }
 
@@ -58,8 +51,17 @@ char menuLogIn(){
 		printf("3. Volver\n");
 		printf("Introduce una opción: ");
 		fflush(stdin);
-		scanf("%c",&option);
+		scanf(" %c",&option);
 		return option;
 }
 
-
+char menuActivity() {
+	char option;
+	printf("1. Añadir actividades\n");
+	printf("2. Ver actividades\n");
+	printf("3. Volver\n");
+	printf("Introduce una opción: ");
+	fflush(stdin);
+	scanf(" %c", &option);
+	return option;
+}

@@ -6,5 +6,6 @@ char mainMenu();
 char menuValoracion();
 char menuAdmin();
 char menuLogIn();
+char menuActivity();
 
 #endif

@@ -6,6 +6,7 @@ Grupo* crearGrupo(char* nombreGrupo, int numUsuariosMax, GruposList* gl){
     g->numUsuariosMax = numUsuariosMax;
     g->numUsuariosAct = 0;
     g->users = (User*)malloc(numUsuariosMax * sizeof(User));
+    g -> numActivities = 0;
 
     for (int i = 0; i < gl->numGrupos; i++){
     	if (strcmp(gl->grupos[i].nombreGrupo,g->nombreGrupo) == 0){
@@ -19,8 +20,17 @@ Grupo* crearGrupo(char* nombreGrupo, int numUsuariosMax, GruposList* gl){
 }
 
 void addUserToGrupo(Grupo* g, User u){
-    g->users[g->numUsuariosAct] = u;
-    g->numUsuariosAct++;
+    int find = 0;
+    for (int i = 0; i < g -> numUsuariosAct; i++) {
+        if (strcmp(g -> users[i].username, u.username) == 0) {
+            find = 1;
+        }
+    }
+
+    if (find == 0) {
+        g->users[g->numUsuariosAct] = u;
+        g->numUsuariosAct++;
+    }
 }
 
 Grupo* unirseGrupo(char* codInvitacion, User u, GruposList* gl){
@@ -30,7 +40,7 @@ Grupo* unirseGrupo(char* codInvitacion, User u, GruposList* gl){
     }
 
     for(int i = 0; i < gl->numGrupos; i++){
-        if(strcmp(gl->grupos[i].nombreGrupo, codInvitacion) == 0 && !isGrupoLleno(&gl->grupos[i]) && !isUserInGrupo(&gl->grupos[i], u)){
+        if(strcmp(gl->grupos[i].nombreGrupo, codInvitacion) == 0 && isGrupoLleno(&gl->grupos[i], u)){
             addUserToGrupo(&gl->grupos[i], u);
             printf("Te has unido al grupo con éxito\n");
             return &gl->grupos[i];
@@ -40,17 +50,8 @@ Grupo* unirseGrupo(char* codInvitacion, User u, GruposList* gl){
     return NULL;
 }
 
-bool isGrupoLleno(Grupo* g){
-    return g->numUsuariosAct == g->numUsuariosMax;
-}
-
-bool isUserInGrupo(Grupo* g, User u){
-    for(int i = 0; i < g->numUsuariosAct; i++){
-        if(strcmp(g->users[i].username, u.username) == 0){
-            return true;
-        }
-    }
-    return false;
+bool isGrupoLleno(Grupo* g, User u){
+    return g -> numUsuariosAct < g -> numUsuariosMax;
 }
 
 bool codigoInvitacionValido(char* codInvitacion, GruposList gl){
@@ -83,9 +84,8 @@ char* menuCrearGrupoNombre() {
 
     do {
         printf("Introduce el nombre del grupo: ");
-        fflush(stdout);
         fflush(stdin);
-        fgets(nombreGrupo, MAX_NOMBRE_GRUPO, stdin);
+        scanf("%s", nombreGrupo);
     } while (strlen(nombreGrupo) < 1);
 
     nombreGrupo[strcspn(nombreGrupo, "\n")] = 0;
@@ -99,18 +99,12 @@ int menuCrearGrupoNumUsuarios() {
     do {
         printf("Introduce el número máximo de usuarios del grupo: ");
         fflush(stdin);
-        fgets(str, 10, stdin);
+        scanf("%s", str);
     } while (str[0] == 0);
 
     // Convertir la cadena a un número entero
     char *end;
     long numUsuarios = strtol(str, &end, 10);
-
-    // Verificar si la conversión fue exitosa
-    if (end == str || *end != '\n' || numUsuarios > INT_MAX) {
-        printf("Entrada inválida. Por favor, introduce un número.\n");
-        return -1;
-    }
 
     return (int)numUsuarios;
 }
@@ -121,10 +115,44 @@ char* menuUnirseGrupo() {
     do {
         printf("Introduce el código de invitación del grupo: ");
         fflush(stdin);
-        fgets(codInvitacion, MAX_NOMBRE_GRUPO + 1, stdin);
-    } while (strlen(codInvitacion) == 1);
+        scanf("%s", codInvitacion);
+    } while (strlen(codInvitacion) < 1);
 
     codInvitacion[strcspn(codInvitacion, "\n")] = 0;
 
     return codInvitacion;
+}
+
+int seeActivities(Activity* activityList, int size) {
+  int option;
+  for (int i = 0; i < size; i++) {
+    printf("%i. %s\n", i + 1, activityList[i].name);
+  }
+  printf("Elige una opcion: ");
+  scanf(" %i", &option);
+  return option;
+}
+
+void addActivity(Activity activity, Grupo* group) {
+  int activityInList = 0;
+  for (int i = 0; i < group -> numActivities; i++) {
+    if (strcmp(activity.name, group -> activityList[i].name) == 0) {
+      activityInList = 1;
+    }
+  }
+
+  if (activityInList == 0) {
+    group -> activityList[group -> numActivities] = activity;
+    group -> numActivities += 1;
+    printf("Actividad seleccionada.\n");
+  } else {
+    printf("Lo siento esa actividad ya está seleccionada.\n");
+  }
+}
+
+void seeGroupActivities(Grupo* group) {
+    printf("Actividades del grupo:\n");
+    for (int i = 0; i < group -> numActivities; i++) {
+        printf("%s\n", group -> activityList[i].name);
+    }
 }
