@@ -28,7 +28,8 @@ int main(){
     GruposList* gl = (GruposList*) malloc(sizeof(GruposList));
 	gl -> numGrupos = 0;
 	gl -> grupos = (Grupo*) malloc(sizeof(Grupo*) * 100);
-	Activity activityList[MAX_ACTIVITIES] = {"Futbol", "Boxeo", "Baloncesto", "Piraguismo", "Tenis", "Padel", "Golf", "Ajedrez", "Senderismo", "Surf"};
+	ActivityList activityList;
+	initActivities(&activityList);
 
 	//Coger los Datos de Fichero o BD
 	takeUsersFromFile(&ul,FILE_NAME1);
@@ -68,8 +69,12 @@ int main(){
 							do {
 								optionActivity = menuActivity();
 								if (optionActivity == '1') {
-									int option = seeActivities(activityList, MAX_ACTIVITIES);
-									addActivity(activityList[option - 1], g);
+									int option = seeActivities(&activityList);
+									if (option == -1) {
+										printf("Seleccione una opcion valida.\n");
+									} else {
+										addActivityToGroup(activityList.activityList[option - 1], g);
+									}
 								} else if (optionActivity == '2') {
 									seeGroupActivities(g);
 								}
@@ -92,10 +97,20 @@ int main(){
 							printf("Ese usuario no esta, Intentelo de nuevo! \n"); //Si el usuario no esta en el array.
 						}
 
-					}else if (optionAdmin == '2'){ //Eliminar Grupos
-						printf("Eliminar Grupo\n");
+					}else if (optionAdmin == '2'){ //Añadir Actividades
+						printf("Añadir Actividades\n");
+						if (activityList.numActivities == 10) {
+							printf("No se pueden seleccionar mas actividades.\n");
+						} else {
+							printf("Escribe una actividad que van a poder seleccionar los grupos: ");
+							fflush(stdin);
+							Activity activity;
+							scanf("%s", activity.name);
+							addActivity(&activityList, activity);
+						}
 					}else if (optionAdmin == '3'){ //Eliminar Actividades
 						printf("Eliminar Actividades\n");
+						deleteActivity(&activityList);
 					}else if (optionAdmin == '4'){ //Ver Valoracion Media
 						printf("Ver Valoracion Media\n");
 						meanValoration = calculateMeanValoration(vl);

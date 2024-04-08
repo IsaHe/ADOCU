@@ -1,4 +1,5 @@
 #include "grupo.h"
+#include <string.h>
 
 Grupo* crearGrupo(char* nombreGrupo, int numUsuariosMax, GruposList* gl){
     Grupo* g = (Grupo*)malloc(sizeof(Grupo));
@@ -123,17 +124,21 @@ char* menuUnirseGrupo() {
     return codInvitacion;
 }
 
-int seeActivities(Activity* activityList, int size) {
+int seeActivities(ActivityList* activityList) {
   int option;
-  for (int i = 0; i < size; i++) {
-    printf("%i. %s\n", i + 1, activityList[i].name);
+  for (int i = 0; i < activityList -> numActivities; i++) {
+    printf("%i. %s\n", i + 1, activityList -> activityList[i].name);
   }
   printf("Elige una opcion: ");
   scanf(" %i", &option);
-  return option;
+  if (option <= activityList -> numActivities) {
+      return option;
+  } else {
+      return -1;
+  }
 }
 
-void addActivity(Activity activity, Grupo* group) {
+void addActivityToGroup(Activity activity, Grupo* group) {
   int activityInList = 0;
   for (int i = 0; i < group -> numActivities; i++) {
     if (strcmp(activity.name, group -> activityList[i].name) == 0) {
@@ -154,5 +159,58 @@ void seeGroupActivities(Grupo* group) {
     printf("Actividades del grupo:\n");
     for (int i = 0; i < group -> numActivities; i++) {
         printf("%s\n", group -> activityList[i].name);
+    }
+}
+
+void initActivities(ActivityList* activityList) {
+    strcpy(activityList -> activityList[0].name, "Futbol");
+    strcpy(activityList -> activityList[1].name, "Boxeo");
+    strcpy(activityList -> activityList[2].name, "Baloncesto");
+    strcpy(activityList -> activityList[3].name, "Piraguismo");
+    strcpy(activityList -> activityList[4].name, "Tenis");
+    strcpy(activityList -> activityList[5].name, "Padel");
+    strcpy(activityList -> activityList[6].name, "Golf");
+    strcpy(activityList -> activityList[7].name, "Ajedrez");
+    strcpy(activityList -> activityList[8].name, "Senderismo");
+    strcpy(activityList -> activityList[9].name, "Surf");
+    activityList -> numActivities = 10;
+}
+
+void deleteActivity(ActivityList* activityList) {
+    int option = seeActivities(activityList);
+    if (option == -1) {
+        printf("Seleccione una opcion valida.\n");
+    } else {
+        Activity activityListAux[(activityList -> numActivities) - 1];
+        int count = 0;
+        for (int i = 0; i < activityList -> numActivities; i++) {
+            if (option - 1 != i) {
+                activityListAux[count] = activityList -> activityList[i];
+                count++;
+            }
+        }
+        activityList -> numActivities -= 1;
+        printf("La actividad se ha eliminado correctamente.\n");
+
+        for (int i = 0; i < activityList -> numActivities; i++) {
+            activityList -> activityList[i] = activityListAux[i];
+        }
+    }
+}
+
+void addActivity(ActivityList* activityList, Activity activity) {
+    int activityIsInList = 0;
+    for (int i = 0; i < activityList -> numActivities; i++) {
+        if (strcmp(activityList -> activityList[i].name, activity.name) == 0) {
+            activityIsInList = 1;
+        }
+    }
+
+    if (activityIsInList == 0) {
+        activityList -> activityList[activityList -> numActivities] = activity;
+        activityList -> numActivities += 1;
+        printf("La actividad se ha añadido correctamente.\n");
+    } else {
+        printf("La actividad ya esta en la lista.\n");
     }
 }

@@ -8,10 +8,16 @@
 #ifndef ADOCU_GRUPO_H
 #define ADOCU_GRUPO_H
 #define MAX_NOMBRE_GRUPO 20
+#define MAX_ACTIVITIES 10
 
 typedef struct {
   char name[30];
 } Activity;
+
+typedef struct {
+    Activity activityList[MAX_ACTIVITIES];
+    int numActivities;
+} ActivityList;
 
 typedef struct {
     User* users;
@@ -27,9 +33,12 @@ typedef struct {
     int numGrupos;
 }GruposList;
 
-int seeActivities(Activity* activityList, int size);
-void addActivity(Activity activity, Grupo* group);
+int seeActivities(ActivityList* activityList);
+void addActivityToGroup(Activity activity, Grupo* group);
 void seeGroupActivities(Grupo* group);
+void initActivities(ActivityList* activityList);
+void deleteActivity(ActivityList* activityList);
+void addActivity(ActivityList* activityList, Activity activity);
 
 Grupo* crearGrupo(char* nombreGrupo, int numUsuariosMax, GruposList* gl);
 Grupo* unirseGrupo(char* codInvitacion, User u, GruposList* gl);

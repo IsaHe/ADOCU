@@ -34,7 +34,7 @@ char menuValoracion(){
 char menuAdmin(){
 	char option;
 	printf("1. Eliminar Usuarios\n");
-	printf("2. Eliminar Grupo\n");
+	printf("2. Añadir Actividades\n");
 	printf("3. Eliminar Actividades\n");
 	printf("4. Ver Valoracion Media\n");
 	printf("5. Volver\n");
