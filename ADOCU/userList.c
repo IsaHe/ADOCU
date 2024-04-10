@@ -1,150 +1,128 @@
-/*
- * userList.c
- *
- *  Created on: 4 mar 2024
- *      Author: apera
- */
-
 #include "userList.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
-//Coge los usuarios de fichero y los almacena en array dinamico
-void takeUsersFromFile(UserList *ul, char *fileName){
-	User u;
-	ul->tam = 100;
-	FILE * pf;
-	pf = fopen(fileName,"r");
-	if(pf != (FILE*)NULL){
-		ul->uList = (User *)malloc(ul->tam*sizeof(User));
-		ul->numU = 0;
-		while(fscanf(pf,"%s %s %s %s %c", u.name,u.age,u.username,u.password,&u.admin) != EOF){
-			ul->uList[ul->numU] = u;
-			ul->numU++;
+void takeUsersFromFile(UserList* userList, char* fileName) {
+	User user;
+	userList -> size = 100;
+	FILE* file;
+	file = fopen(fileName, "r");
+	if (file != (FILE*) NULL) {
+		userList -> userList = (User*) malloc(userList -> size * sizeof(User));
+		userList -> numUsers = 0;
+		while (fscanf(file, "%s %s %s %s %c", user.name, user.age, user.username, user.password, &user.admin) != EOF) {
+			userList -> userList[userList -> numUsers] = user;
+			userList -> numUsers++;
 		}
-		fclose(pf);
+		fclose(file);
 	}
 }
 
-//Visualiza el array dinamico
-void seeUserList(UserList ul){
-	for(int i = 0; i<ul.numU; i++){
-			printf("%s %s %s %s %c \n", ul.uList[i].name,ul.uList[i].age,ul.uList[i].username,ul.uList[i].password,ul.uList[i].admin);
+void seeUserList(UserList userList) {
+	for (int i = 0; i < userList.numUsers; i++) {
+			printf("%s %s %s %s %c \n", userList.userList[i].name, userList.userList[i].age, userList.userList[i].username, userList.userList[i].password, userList.userList[i].admin);
 		}
 }
 
-//Devuelve un int dependiendo si esta o no en la lista, si no esta devuelve (-1) (Inicio Sesion)
-int findUserInList(UserList ul, User u){
-
-	int pos = 0;
-	int enc = 0;
-
-	while(enc == 0 && pos<ul.numU){
-		if (strcmp(ul.uList[pos].username,u.username) == 0 && strcmp(ul.uList[pos].password,u.password) == 0){
-			enc = 1;
-		}else if(strcmp(ul.uList[pos].username,u.username) == 0 && strcmp(ul.uList[pos].password,u.password) != 0){
-			enc = 2;
-		}else if(strcmp(u.username,"Admin") == 0 && strcmp(u.password,"Admin") == 0){
-			enc = 3;
-		}else{
-			pos++;
+int findUserInList(UserList userList, User user) {
+	int position = 0;
+	int find = 0;
+	while (find == 0 && position < userList.numUsers) {
+		if (strcmp(userList.userList[position].username, user.username) == 0 && strcmp(userList.userList[position].password, user.password) == 0) {
+			find = 1;
+		} else if (strcmp(userList.userList[position].username, user.username) == 0 && strcmp(userList.userList[position].password, user.password) != 0) {
+			find = 2;
+		} else if (strcmp(user.username, "Admin") == 0 && strcmp(user.password, "Admin") == 0) {
+			find = 3;
+		} else {
+			position++;
 		}
 	}
-	if (enc == 1){
+	if (find == 1) {
 		return 1;
-	}else if (enc == 2){
+	} else if (find == 2) {
 		return -1;
-	}else if(enc == 3){
+	} else if (find == 3) {
 		return 2;
-	}else{
+	} else {
 		return -2;
 	}
 }
 
-//Mete un usuario a la lista
-void addUserToList(UserList *ul, User u){
-	if (ul->numU < ul->tam){
-		ul->uList[ul->numU] = u;
-		ul->numU++;
-	}else{
-		printf("Lo sentimos el limite de usuarios esta completo :( \n");
+void addUserToList(UserList* userList, User user) {
+	if (userList -> numUsers < userList -> size) {
+		userList -> userList[userList -> numUsers] = user;
+		userList -> numUsers++;
+	} else {
+		printf("Lo sentimos el limite de usuarios esta completo :(\n");
 	}
-
 }
 
-//Inserta la lista de usuarios en fichero
-void writeUsersInFile(UserList ul, char *fileName){
-	FILE *pf;
-	pf = fopen(fileName,"w");
-	if (pf != (FILE*)NULL){
-		for (int i = 0; i < ul.numU; i++){
-			fprintf(pf, "%s %s %s %s %c\n", ul.uList[i].name,ul.uList[i].age,ul.uList[i].username, ul.uList[i].password, ul.uList[i].admin);
+void writeUsersInFile(UserList userList, char* fileName) {
+	FILE* file;
+	file = fopen(fileName, "w");
+	if (file != (FILE*) NULL) {
+		for (int i = 0; i < userList.numUsers; i++) {
+			fprintf(file, "%s %s %s %s %c\n", userList.userList[i].name, userList.userList[i].age, userList.userList[i].username, userList.userList[i].password, userList.userList[i].admin);
 		}
 	}
-	fclose(pf);
+	fclose(file);
 }
 
-//Ver si el usuario a registrar ya esta en la lista si esta devuelve(-1) (Registro)
-int findUserInListRegis(UserList ul, User u){
-
-	int pos = 0;
-	int enc = 0;
-
-	while(enc == 0 && pos<ul.numU){
-		if (strcmp(ul.uList[pos].username,u.username) == 0){
-			enc = 1;
-		}else{
-			pos++;
+int findUserInListRegister(UserList userList, User user) {
+	int position = 0;
+	int find = 0;
+	while (find == 0 && position < userList.numUsers) {
+		if (strcmp(userList.userList[position].username, user.username) == 0) {
+			find = 1;
+		} else {
+			position++;
 		}
 	}
-	if (enc == 1){
-		printf("Ese usuario ya esta registrado, pruebe otro :( \n");
+	if (find == 1) {
+		printf("Ese usuario ya esta registrado, pruebe otro :(\n");
 		return -1;
-	}else{
+	} else {
 		printf("Usuario registrado correctamente :)\n");
-		return pos;
+		return position;
 	}
 }
 
-int userToEliminate(UserList ul){
-	int pos;
-
-	for(int i = 0; i < ul.numU; i++){
-		if (strcmp(ul.uList[i].username, "Admin") != 0){
-			printf("%d. %s\n", i+1, ul.uList[i].username);
+int userToRemove(UserList userList) {
+	int position;
+	for (int i = 0; i < userList.numUsers; i++) {
+		if (strcmp(userList.userList[i].username, "Admin") != 0) {
+			printf("%d. %s\n", i + 1, userList.userList[i].username);
 		}
 	}
 	printf("0. Volver\n");
 	printf("Elige una opcion: ");
 	fflush(stdin);
-	scanf("%d",&pos);
-	return pos;
+	scanf("%d", &position);
+	return position;
 }
 
-void deleteUserWithPosition(UserList *ul, int pos){
+void deleteUserWithPosition(UserList* userList, int position) {
 	int j = 0;
-	if (pos == 0){
-		printf("No se ha eliminado ningun usuario\n");
-	}else{
-		User*aux = (User*)malloc(sizeof(User)*(ul->tam));
-		for(int i = 0; i < ul->numU; i++){
-			if(i == pos-1){
+	if (position == 0) {
+		printf("No se ha eliminado ningun usuario.\n");
+	} else {
+		User* auxUser = (User*) malloc(sizeof(User) * userList -> size);
+		for (int i = 0; i < userList -> numUsers; i++) {
+			if (i == position - 1) {
 				printf("Usuario eliminado correctamente!\n");
-			}else{
-				aux[j] = ul->uList[i];
+			} else {
+				auxUser[j] = userList -> userList[i];
 				j++;
 			}
 		}
-
-		free(ul->uList);
-		ul->uList = (User*)malloc(sizeof(User)*ul->tam);
-		ul->numU = 0;
-		for (int i = 0; i < j; i++){
-			ul->uList[i] = aux[i];
-			ul->numU++;
+		free(userList -> userList);
+		userList -> userList = (User*) malloc(sizeof(User) * userList -> size);
+		userList -> numUsers = 0;
+		for (int i = 0; i < j; i++) {
+			userList -> userList[i] = auxUser[i];
+			userList -> numUsers++;
 		}
 	}
-
 }
-

@@ -1,9 +1,8 @@
 #include "valoration.h"
 #include <stdio.h>
 
-//Crear valoracion por un char pasado
-Valoration insertIntoValoration(char val){
-    Valoration v;
-    v.val = val;
-    return v;
+Valoration insertIntoValoration(char valoration) {
+    Valoration valorationResult;
+    valorationResult.valoration = valoration;
+    return valorationResult;
 }

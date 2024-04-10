@@ -1,72 +1,62 @@
-#include<stdio.h>
-#include"valorationList.h"
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "valorationList.h"
 
-//Coger lista de valoraciones de fichero
-void takeValorationsFromFile(ValorationList *vl, char *fileName){
-    Valoration v;
-    char val[2];
-    vl->tam = 100;
-    FILE *pf;
-    pf = fopen(fileName, "r");
-    if (pf != (FILE*)NULL){
-        vl->valorations = (Valoration*)malloc(vl->tam*sizeof(Valoration));
-        vl->numV = 0;
-        while (fscanf(pf, "%s", val) != EOF){
-        	v.val = val[0];
-        	vl->valorations[vl->numV] = v;
-        	vl->numV++;
+void takeValorationsFromFile(ValorationList* valorationList, char* fileName) {
+    Valoration valorationResult;
+    char valoration[2];
+    valorationList -> size = 100;
+    FILE* file;
+    file = fopen(fileName, "r");
+    if (file != (FILE*) NULL) {
+        valorationList -> valorations = (Valoration*) malloc(valorationList -> size * sizeof(Valoration));
+        valorationList -> numValorations = 0;
+        while (fscanf(file, "%s", valoration) != EOF) {
+            valorationResult.valoration = valoration[0];
+            valorationList -> valorations[valorationList -> numValorations] = valorationResult;
+            valorationList -> numValorations++;
         }
     }
-    fclose(pf);
+    fclose(file);
 }
 
-//Escribir lista de valoraciones en fichero
-void writeValorationsInFile(ValorationList vl, char *fileName){
-    FILE *pf;
-    pf = fopen(fileName,"w");
-    if (pf != (FILE*)NULL){
-        for (int i = 0; i < vl.numV; i++){
-            fprintf(pf,"%c\n",vl.valorations[i].val);
+void writeValorationsInFile(ValorationList valorationList, char* fileName) {
+    FILE* file;
+    file = fopen(fileName, "w");
+    if (file != (FILE*) NULL) {
+        for (int i = 0; i < valorationList.numValorations; i++) {
+            fprintf(file, "%c\n", valorationList.valorations[i].valoration);
         }
     }
-    fclose(pf);
+    fclose(file);
 }
 
-//Visualizar lista de valoraciones
-void seeValorations(ValorationList vl){
-    for (int i = 0; i < vl.numV; i++){
-    	printf("%c\n",vl.valorations[i].val);
+void seeValorations(ValorationList valorationList) {
+    for (int i = 0; i < valorationList.numValorations; i++) {
+        printf("%c\n", valorationList.valorations[i].valoration);
     }
 }
 
-//Añiadir valoracion a lista de valoraciones
-void addToValorations(ValorationList *vl, Valoration val){
-	if (vl->numV < vl->tam){
-		vl->valorations[vl->numV] = val;
-		vl->numV++;
-		printf("Gracias por tu valoracion :) \n");
-	}else{
-		printf("La lista de valoraciones esta llena ;(\n");
-	}
-}
-
-//Calcular valoración media
-float calculateMeanValoration(ValorationList vl){
-    float result = 0, convertido;
-    
-
-    for(int i = 0; i<vl.numV; i++){
-        char valoracion[2] = {vl.valorations[i].val, '\0'};
-        sscanf(valoracion, "%f", &convertido);
-        result += convertido;
+void addToValorations(ValorationList* valorationList, Valoration valoration) {
+    if (valorationList -> numValorations < valorationList -> size) {
+        valorationList -> valorations[valorationList -> numValorations] = valoration;
+        valorationList -> numValorations++;
+        printf("Gracias por tu valoracion :)\n");
+    } else {
+        printf("La lista de valoraciones esta llena ;(\n");
     }
-
-    return (result / vl.numV) * 2;
 }
 
+float calculateMeanValoration(ValorationList valorationList) {
+    float result = 0, converted;
+    for (int i = 0; i < valorationList.numValorations; i++) {
+        char valoration[2] = {valorationList.valorations[i].valoration, '\0'};
+        sscanf(valoration, "%f", &converted);
+        result += converted;
+    }
+    return (result / valorationList.numValorations) * 2;
+}
 
-//manera del admin de ver la valoración media
-void seeMeanValoration(float valoration){
+void seeMeanValoration(float valoration) {
     printf("VALORACIÓN MEDIA -> %.2f\n", valoration);
 }

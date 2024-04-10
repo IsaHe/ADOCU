@@ -54,4 +54,4 @@ char* menuUnirseGrupo();
 char* menuCrearGrupoNombre();
 int menuCrearGrupoNumUsuarios();
 
-#endif //ADOCU_GRUPO_H
+#endif

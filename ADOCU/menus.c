@@ -4,7 +4,6 @@
 #include <string.h>
 #include "grupo.h"
 
-//Menu Principal
 char mainMenu() {
 	char option;
 	printf("1. Iniciar Sesión\n");
@@ -17,21 +16,21 @@ char mainMenu() {
 	return option;
 }
 
-char menuValoracion(){
+char menuValoration(){
     char option;
     printf("1. MUY MAL\n");
 	printf("2. MAL\n");
 	printf("3. REGULAR\n");
 	printf("4. BIEN\n");
 	printf("5. MUY BIEN\n");
-	printf("0. VOLVER\n");
+	printf("0. Volver\n");
 	fflush(stdin);
 	printf("Introduce opción: ");
 	scanf(" %c", &option);
 	return option;
 }
 
-char menuAdmin(){
+char menuAdmin() {
 	char option;
 	printf("1. Eliminar Usuarios\n");
 	printf("2. Añadir Actividades\n");
@@ -40,19 +39,19 @@ char menuAdmin(){
 	printf("5. Volver\n");
 	printf("Introduce una opción: ");
 	fflush(stdin);
-	scanf(" %c",&option);
+	scanf(" %c", &option);
 	return option;
 }
 
-char menuLogIn(){
+char menuLogIn() {
 	char option;
-		printf("1. Crear Grupo\n");
-		printf("2. Unirse a Grupo\n");
-		printf("3. Volver\n");
-		printf("Introduce una opción: ");
-		fflush(stdin);
-		scanf(" %c",&option);
-		return option;
+	printf("1. Crear Grupo\n");
+	printf("2. Unirse a Grupo\n");
+	printf("3. Volver\n");
+	printf("Introduce una opción: ");
+	fflush(stdin);
+	scanf(" %c", &option);
+	return option;
 }
 
 char menuActivity() {

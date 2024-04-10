@@ -1,11 +1,10 @@
-
 #ifndef VALORATION_H_
 #define VALORATION_H_
 
-typedef struct{
-    char val;
-}Valoration;
+typedef struct {
+    char valoration;
+} Valoration;
 
-//Crear valoracion por un char pasado
-Valoration insertIntoValoration(char val);
+Valoration insertIntoValoration(char valoration);
+
 #endif

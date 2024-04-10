@@ -1,51 +1,31 @@
-/*
- * user.c
- *
- *  Created on: 4 mar 2024
- *      Author: apera
- */
-
 #include <stdio.h>
 #include "user.h"
 
-//Pregunta al Usuario por su Usuario
-User askForUser(){
-	User u;
-
+User askForUser() {
+	User user;
 	printf("Introduce el usuario: ");
 	fflush(stdin);
-	scanf("%s",u.username);
-
+	scanf("%s", user.username);
 	printf("Introduce la contraseña: ");
 	fflush(stdin);
-	scanf("%s",u.password);
-
-	return u;
-
+	scanf("%s", user.password);
+	return user;
 }
 
-//Pregunta por el Usuario a Registrar
-User userToIntroduce(){
-	User u;
-
+User userToIntroduce() {
+	User user;
 	printf("Introduce el nombre: ");
 	fflush(stdin);
-	scanf("%s",u.name);
-
+	scanf("%s", user.name);
 	printf("Introduce la edad: ");
 	fflush(stdin);
-	scanf("%s",u.age);
-
+	scanf("%s", user.age);
 	printf("Introduce el usuario: ");
 	fflush(stdin);
-	scanf("%s",u.username);
-
+	scanf("%s", user.username);
 	printf("Introduce la contraseña: ");
 	fflush(stdin);
-	scanf("%s",u.password);
-
-	u.admin = 'U';
-
-	return u;
-
+	scanf("%s", user.password);
+	user.admin = 'U';
+	return user;
 }
