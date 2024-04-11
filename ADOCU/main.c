@@ -1,13 +1,15 @@
 #define FILE_NAME1 "users.txt"
 #define FILE_NAME2 "valorations.txt"
 #define MAX_ACTIVITIES 10
+
 #include "menus.h"
 #include "userList.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "valoration.h"
 #include "valorationList.h"
-#include "grupo.h"
+#include "group.h"
 
 int main() {
 	// Declaracion de variables
@@ -17,10 +19,10 @@ int main() {
 	Valoration valoration;
 	ValorationList valorationList;
 	float meanValoration;
-    Grupo* group;
-    GruposList* groupList = (GruposList*) malloc(sizeof(GruposList));
-	groupList -> numGrupos = 0;
-	groupList -> grupos = (Grupo*) malloc(sizeof(Grupo*) * 100);
+	Group group;
+	GroupList groupList;
+	groupList.groups = (Group*) malloc(sizeof(Group) * 100);
+	groupList.numGroups = 0;
 	ActivityList activityList;
 	initActivities(&activityList);
 
@@ -41,39 +43,47 @@ int main() {
 			if (findUserInList(userList, user) == 1) { // Inicio sesion correcto
 				// Menu inicio sesion
 				printf("Bienvenido :)!\n");
-				do {
-					optionLogIn = menuLogIn();
-					if (optionLogIn == '1') {
-						// Menu crear grupo
-						printf("Crear Grupo\n");
-                        char* groupName = menuCrearGrupoNombre();
-                        int numUsers = menuCrearGrupoNumUsuarios();
-                        group = crearGrupo(groupName, numUsers, groupList);
-                        if (group == NULL) {
-                        	printf("Grupo ya existente :(\n");
-                        } else {
-                        	printf("Grupo creado con éxito :)\nPara unirte a un grupo debes poner su nombre.\n");
-                        }
-					} else if (optionLogIn == '2') {
-						printf("Unirse a Grupo\n");
-                        group = unirseGrupo(menuUnirseGrupo(), user, groupList);
-						if (group != NULL) {
-							do {
-								optionActivity = menuActivity();
-								if (optionActivity == '1') {
-									int option = seeActivities(&activityList);
-									if (option == -1) {
-										printf("Seleccione una opcion valida.\n");
-									} else {
-										addActivityToGroup(activityList.activityList[option - 1], group);
-									}
-								} else if (optionActivity == '2') {
-									seeGroupActivities(group);
-								}
-							} while (optionActivity != '3');
+				int userInGroup = 0;
+				for (int i = 0; i < groupList.numGroups; i++) {
+					for (int j = 0; j < groupList.groups[i].numUsers; j++) {
+						if (strcmp(groupList.groups[i].users[j].username, user.username) == 0) {
+							userInGroup = 1;
 						}
 					}
-				} while (optionLogIn != '3');
+				}
+				if (userInGroup == 0) {
+				printf("El usuario NO esta en un grupo.\n");
+					do {
+						optionLogIn = menuLogIn();
+						if (optionLogIn == '1') {
+							// Menu crear grupo
+							printf("Crear Grupo\n");
+							group.name = menuCreateGroupName();
+							group.maxUsers = menuCreateGroupMaxUsers();
+							createGroup(group.name, group.maxUsers, &groupList);
+						} else if (optionLogIn == '2') {
+							printf("Unirse a Grupo\n");
+							char* groupName = menuJoinGroup();
+							joinGroup(groupName, user, &groupList);
+							printGroups(groupList);
+						}
+					} while (optionLogIn != '3');
+				} else {
+					printf("El usuario SI tiene grupo.\n");
+					do {
+						optionActivity = menuActivity();
+						if (optionActivity == '1') {
+							int option = seeActivities(&activityList);
+							if (option == -1) {
+								printf("Seleccione una opcion valida.\n");
+							} else {
+								addActivityToGroup(activityList.activityList[option - 1], &group);
+							}
+						} else if (optionActivity == '2') {
+							seeGroupActivities(&group);
+						}
+					} while (optionActivity != '3');
+				}
 			} else if (findUserInList(userList, user) == 2) { // Inicio sesion como Admin
 				// Menu Admin
 				printf("¡Has iniciado sesion como admin ;)!\n");
@@ -155,13 +165,12 @@ int main() {
 	// Visualizacion de los datos
 	seeUserList(userList);
 	seeValorations(valorationList);
-	seeGroupsNames(*groupList);
+	printGroups(groupList);
 
 	// Liberar memoria
 	free(valorationList.valorations);
 	free(userList.userList);
-	freeGrupo(group);
-	free(groupList);
+	free(groupList.groups);
 
 	return 0;
 }
