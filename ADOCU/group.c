@@ -48,9 +48,8 @@ void printGroups(GroupList groupList) {
 }
 
 void freeGroup(Group* group) {
-  free(group -> name);
   free(group -> users);
-  free(group);
+  free(group -> name);
 }
 
 char* menuJoinGroup() {
@@ -126,17 +125,17 @@ void seeGroupActivities(Group* group) {
 }
 
 void initActivities(ActivityList* activityList) {
-    strcpy(activityList -> activityList[0].name, "Futbol");
-    strcpy(activityList -> activityList[1].name, "Boxeo");
-    strcpy(activityList -> activityList[2].name, "Baloncesto");
-    strcpy(activityList -> activityList[3].name, "Piraguismo");
-    strcpy(activityList -> activityList[4].name, "Tenis");
-    strcpy(activityList -> activityList[5].name, "Padel");
-    strcpy(activityList -> activityList[6].name, "Golf");
-    strcpy(activityList -> activityList[7].name, "Ajedrez");
-    strcpy(activityList -> activityList[8].name, "Senderismo");
-    strcpy(activityList -> activityList[9].name, "Surf");
-    activityList -> numActivities = 10;
+  strcpy(activityList -> activityList[0].name, "Futbol");
+  strcpy(activityList -> activityList[1].name, "Boxeo");
+  strcpy(activityList -> activityList[2].name, "Baloncesto");
+  strcpy(activityList -> activityList[3].name, "Piraguismo");
+  strcpy(activityList -> activityList[4].name, "Tenis");
+  strcpy(activityList -> activityList[5].name, "Padel");
+  strcpy(activityList -> activityList[6].name, "Golf");
+  strcpy(activityList -> activityList[7].name, "Ajedrez");
+  strcpy(activityList -> activityList[8].name, "Senderismo");
+  strcpy(activityList -> activityList[9].name, "Surf");
+  activityList -> numActivities = 10;
 }
 
 void deleteActivity(ActivityList* activityList) {
