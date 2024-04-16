@@ -3,25 +3,119 @@
 #include <stdio.h>
 #include <string.h>
 
-void takeUsersFromFile(UserList* userList, char* fileName) {
-	User user;
+int readUsersFromDB(UserList* userList, sqlite3* db) {
+	sqlite3_stmt* statement;
+
+	char sql[] = "select * from users";
+
+	int result = sqlite3_prepare_v2(db, sql, -1, &statement, NULL);
+	if (result != SQLITE_OK) {
+		printf("Error preparando el statement (SELECT).\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+	
 	userList -> size = 100;
-	FILE* file;
-	file = fopen(fileName, "r");
-	if (file != (FILE*) NULL) {
-		userList -> userList = (User*) malloc(userList -> size * sizeof(User));
-		userList -> numUsers = 0;
-		while (fscanf(file, "%s %s %s %s %c", user.name, user.age, user.username, user.password, &user.admin) != EOF) {
+	userList -> userList = (User*) malloc(userList -> size * sizeof(User));
+	userList -> numUsers = 0;
+	do {
+		result = sqlite3_step(statement);
+		if (result == SQLITE_ROW) {
+			User user;
+			strcpy(user.name, (char*) sqlite3_column_text(statement, 0));
+			strcpy(user.username, (char*) sqlite3_column_text(statement, 1));
+			strcpy(user.password, (char*) sqlite3_column_text(statement, 2));
+			user.age = sqlite3_column_int(statement, 3);
+			char admin[2];
+			strcpy(admin, (char*) sqlite3_column_text(statement, 4));
+			user.admin = admin[0];
 			userList -> userList[userList -> numUsers] = user;
 			userList -> numUsers++;
 		}
-		fclose(file);
+	} while (result == SQLITE_ROW);
+
+	result = sqlite3_finalize(statement);
+	if (result != SQLITE_OK) {
+		printf("Error finalizando el statement (SELECT).\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
 	}
+
+	return SQLITE_OK;
+}
+
+int deleteDB(sqlite3* db, char* table) {
+	sqlite3_stmt* statement;
+
+	char sql[100];
+	sprintf(sql, "delete from '%s'", table);
+
+	int result = sqlite3_prepare_v2(db, sql, -1, &statement, NULL);
+	if (result != SQLITE_OK) {
+		printf("Error preparando el statement (DELETE).\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	result = sqlite3_step(statement);
+	if (result != SQLITE_DONE) {
+		printf("Error eliminando datos.\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	result = sqlite3_finalize(statement);
+	if (result != SQLITE_OK) {
+		printf("Error finalizando el statement (DELETE).\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	return SQLITE_OK;
+}
+
+int insertUsersInDB(UserList userList, sqlite3* db) {
+	deleteDB(db, "users");
+	for (int i = 0; i < userList.numUsers; i++) {
+		sqlite3_stmt* statement;
+
+		char sql[] = "insert into users (name, username, password, age, admin) values (?, ?, ?, ?, ?)";
+		int result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &statement, NULL);
+		if (result != SQLITE_OK) {
+			printf("Error preparando el statement (INSERT).\n");
+			printf("%s\n", sqlite3_errmsg(db));
+			return result;
+		}
+
+		sqlite3_bind_text(statement, 1, userList.userList[i].name, strlen(userList.userList[i].name), SQLITE_STATIC);
+		sqlite3_bind_text(statement, 2, userList.userList[i].username, strlen(userList.userList[i].username), SQLITE_STATIC);
+		sqlite3_bind_text(statement, 3, userList.userList[i].password, strlen(userList.userList[i].password), SQLITE_STATIC);
+		sqlite3_bind_int(statement, 4, userList.userList[i].age);
+		char admin[2];
+		admin[0] = 'U';
+		admin[1] = '\0';
+		sqlite3_bind_text(statement, 5, admin, strlen(admin), SQLITE_STATIC);
+
+		result = sqlite3_step(statement);
+		if (result != SQLITE_DONE) {
+			printf("Error insertando un usuario.\n");
+			return result;
+		}
+
+		result = sqlite3_finalize(statement);
+		if (result != SQLITE_OK) {
+			printf("Error finalizando el statement (INSERT).\n");
+			printf("%s\n", sqlite3_errmsg(db));
+			return result;
+		}
+	}
+
+	return SQLITE_OK;
 }
 
 void seeUserList(UserList userList) {
 	for (int i = 0; i < userList.numUsers; i++) {
-			printf("%s %s %s %s %c \n", userList.userList[i].name, userList.userList[i].age, userList.userList[i].username, userList.userList[i].password, userList.userList[i].admin);
+			printf("%s %i %s %s %c\n", userList.userList[i].name, userList.userList[i].age, userList.userList[i].username, userList.userList[i].password, userList.userList[i].admin);
 		}
 }
 
@@ -57,17 +151,6 @@ void addUserToList(UserList* userList, User user) {
 	} else {
 		printf("Lo sentimos el limite de usuarios esta completo :(\n");
 	}
-}
-
-void writeUsersInFile(UserList userList, char* fileName) {
-	FILE* file;
-	file = fopen(fileName, "w");
-	if (file != (FILE*) NULL) {
-		for (int i = 0; i < userList.numUsers; i++) {
-			fprintf(file, "%s %s %s %s %c\n", userList.userList[i].name, userList.userList[i].age, userList.userList[i].username, userList.userList[i].password, userList.userList[i].admin);
-		}
-	}
-	fclose(file);
 }
 
 int findUserInListRegister(UserList userList, User user) {

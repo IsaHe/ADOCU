@@ -1,4 +1,5 @@
 #include "user.h"
+#include "sqlite3.h"
 
 #ifndef USERLIST_H_
 #define USERLIST_H_
@@ -9,11 +10,12 @@ typedef struct {
 	int numUsers;
 } UserList;
 
-void takeUsersFromFile(UserList* userList, char* fileName);
+int readUsersFromDB(UserList* userList, sqlite3* db);
+int deleteDB(sqlite3* db, char* table);
+int insertUsersInDB(UserList userList, sqlite3* db);
 void seeUserList(UserList userList);
 int findUserInList(UserList userList, User user);
 void addUserToList(UserList* userList, User user);
-void writeUsersInFile(UserList userList, char* fileName);
 int findUserInListRegister(UserList userList, User user);
 int userToRemove(UserList userList);
 void deleteUserWithPosition(UserList* userList, int position);

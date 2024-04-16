@@ -19,7 +19,7 @@ User userToIntroduce() {
 	scanf("%s", user.name);
 	printf("Introduce la edad: ");
 	fflush(stdin);
-	scanf("%s", user.age);
+	scanf("%i", &user.age);
 	printf("Introduce el usuario: ");
 	fflush(stdin);
 	scanf("%s", user.username);

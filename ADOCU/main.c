@@ -10,9 +10,13 @@
 #include "valoration.h"
 #include "valorationList.h"
 #include "group.h"
+#include "sqlite3.h"
+
+
 
 int main() {
 	// Declaracion de variables
+	sqlite3* db;
 	char option, optionValoration, optionAdmin, optionLogIn, optionActivity;
 	User user;
 	UserList userList;
@@ -26,8 +30,18 @@ int main() {
 	ActivityList activityList;
 	initActivities(&activityList);
 
+	// Abrir base de datos
+	int result = sqlite3_open("adocu.sqlite", &db);
+	if (result != SQLITE_OK) {
+		printf("Error opening database\n");
+		return result;
+	}
+	printf("Database opened\n");
+
 	// Coger los datos de fichero o base de datos
-	takeUsersFromFile(&userList, FILE_NAME1);
+	int test = readUsersFromDB(&userList, db);
+	printf("%i\n", test);
+	seeUserList(userList);
 	takeValorationsFromFile(&valorationList, FILE_NAME2);
 
 	// Menus
@@ -159,7 +173,7 @@ int main() {
 	} while (option != '0');
 
 	// Escritura de datos en fichero o base de datos
-	writeUsersInFile(userList, FILE_NAME1);
+	insertUsersInDB(userList, db);
 	writeValorationsInFile(valorationList, FILE_NAME2);
 
 	// Visualizacion de los datos
