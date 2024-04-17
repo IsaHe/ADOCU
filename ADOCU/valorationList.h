@@ -9,8 +9,8 @@ typedef struct {
     int size;
 } ValorationList;
 
-void takeValorationsFromFile(ValorationList* valorationList, char* fileName);
-void writeValorationsInFile(ValorationList valorationList, char* fileName);
+int readValorationsFromDB(ValorationList* valorationList, sqlite3* db);
+int insertValorationsInDB(ValorationList valorationList, sqlite3* db);
 void seeValorations(ValorationList valorationList);
 void addToValorations(ValorationList* valorationList, Valoration valoration);
 float calculateMeanValoration(ValorationList valorationList);

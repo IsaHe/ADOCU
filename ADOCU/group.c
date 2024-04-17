@@ -12,6 +12,7 @@ void createGroup(char* name, int maxUsers, GroupList* groupList) {
   group.maxUsers = maxUsers;
   group.numUsers = 0;
   group.users = (User*) malloc(sizeof(User) * maxUsers);
+  group.numActivities = 0;
   int exists = 0;
   for (int i = 0; i < groupList -> numGroups; i++) {
     if (groupList -> groups[i].name == group.name) {
@@ -156,7 +157,7 @@ int readActivitiesInDB(ActivityList* activityList, sqlite3* db) {
 	return SQLITE_OK;
 }
 
-int insertActibitiesInDB(ActivityList activityList, sqlite3* db) {
+int insertActivitiesInDB(ActivityList activityList, sqlite3* db) {
   deleteDB(db, "activities");
 
   for (int i = 0; i < activityList.numActivities; i++) {

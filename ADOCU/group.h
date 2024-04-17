@@ -40,7 +40,7 @@ int seeActivities(ActivityList* activityList);
 void addActivityToGroup(Activity activity, Group* group);
 void seeGroupActivities(Group* group);
 int readActivitiesInDB(ActivityList* activityList, sqlite3* db);
-int insertActibitiesInDB(ActivityList activityList, sqlite3* db);
+int insertActivitiesInDB(ActivityList activityList, sqlite3* db);
 void deleteActivity(ActivityList* activityList);
 void addActivity(ActivityList* activityList, Activity activity);
 

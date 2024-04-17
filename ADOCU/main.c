@@ -40,7 +40,7 @@ int main() {
 	// Coger los datos de fichero o base de datos
 	readUsersFromDB(&userList, db);
 	seeUserList(userList);
-	takeValorationsFromFile(&valorationList, FILE_NAME2);
+	readValorationsFromDB(&valorationList, db);
 	readActivitiesInDB(&activityList, db);
 
 	// Menus
@@ -61,6 +61,7 @@ int main() {
 					for (int j = 0; j < groupList.groups[i].numUsers; j++) {
 						if (strcmp(groupList.groups[i].users[j].username, user.username) == 0) {
 							userInGroup = 1;
+							group = groupList.groups[i];
 						}
 					}
 				}
@@ -73,6 +74,7 @@ int main() {
 							printf("Crear Grupo\n");
 							group.name = menuCreateGroupName();
 							group.maxUsers = menuCreateGroupMaxUsers();
+							group.numActivities = 0;
 							createGroup(group.name, group.maxUsers, &groupList);
 						} else if (optionLogIn == '2') {
 							printf("Unirse a Grupo\n");
@@ -173,13 +175,12 @@ int main() {
 
 	// Escritura de datos en fichero o base de datos
 	insertUsersInDB(userList, db);
-	writeValorationsInFile(valorationList, FILE_NAME2);
-	insertActibitiesInDB(activityList, db);
+	insertValorationsInDB(valorationList, db);
+	insertActivitiesInDB(activityList, db);
 
 	// Visualizacion de los datos
 	seeUserList(userList);
 	seeValorations(valorationList);
-	seeActivities(&activityList);
 	printGroups(groupList);
 
 	// Liberar memoria
