@@ -7,7 +7,6 @@ char mainMenu() {
 	char option;
 	printf("1. Iniciar Sesión\n");
 	printf("2. Registrarse\n");
-	printf("3. Valorar la aplicacion\n");
 	printf("0. Salir\n");
 	printf("Introduce opción: ");
 	fflush(stdin);
@@ -35,7 +34,8 @@ char menuAdmin() {
 	printf("2. Añadir Actividades\n");
 	printf("3. Eliminar Actividades\n");
 	printf("4. Ver Valoracion Media\n");
-	printf("5. Volver\n");
+	printf("5. Ver Valoracion Por Usuario\n");
+	printf("6. Volver\n");
 	printf("Introduce una opción: ");
 	fflush(stdin);
 	scanf(" %c", &option);
@@ -46,7 +46,8 @@ char menuLogIn() {
 	char option;
 	printf("1. Crear Grupo\n");
 	printf("2. Unirse a Grupo\n");
-	printf("3. Volver\n");
+	printf("3. Valorar Aplicacion\n");
+	printf("4. Volver\n");
 	printf("Introduce una opción: ");
 	fflush(stdin);
 	scanf(" %c", &option);

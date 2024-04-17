@@ -41,6 +41,7 @@ Group* joinGroup(char* name, User user, GroupList* groupList) {
       }
     }
   }
+  return NULL;
 }
 
 void printGroups(GroupList groupList) {

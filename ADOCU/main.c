@@ -84,8 +84,38 @@ int main() {
 							} else {
 								printf("No se ha podido unir al grupo.\n");
 							}
+						} else if (optionLogIn == '3') {
+							do {
+								optionValoration = menuValoration();
+								if (optionValoration == '1') { // Crear valoracion de 1
+									printf("HAS VALORADO MUY MAL\n");
+									valoration = insertIntoValoration(optionValoration);
+									addToValorations(&valorationList, valoration);
+									insertUserValorationInDB(valoration, user, db);
+								} else if (optionValoration == '2') { // Crear valoracion de 2
+									printf("HAS VALORADO MAL\n");
+									valoration = insertIntoValoration(optionValoration);
+									addToValorations(&valorationList, valoration);
+									insertUserValorationInDB(valoration, user, db);
+								} else if (optionValoration == '3') { // Crear valoracion de 3
+									printf("HAS VALORADO REGULAR\n");
+									valoration = insertIntoValoration(optionValoration);
+									addToValorations(&valorationList, valoration);
+									insertUserValorationInDB(valoration, user, db);
+								} else if (optionValoration == '4') { // Crear valoracion de 4
+									printf("HAS VALORADO BIEN\n");
+									valoration = insertIntoValoration(optionValoration);
+									addToValorations(&valorationList, valoration);
+									insertUserValorationInDB(valoration, user, db);
+								} else if (optionValoration == '5') { // Crear valoracion de 5
+									printf("HAS VALORADO MUY BIEN\n");
+									valoration = insertIntoValoration(optionValoration);
+									addToValorations(&valorationList, valoration);
+									insertUserValorationInDB(valoration, user, db);
+								}
+							} while (optionValoration != '0');
 						}
-					} while (optionLogIn != '3');
+					} while (optionLogIn != '4');
 				}
 				if (userInGroup == 1) {
 					do {
@@ -134,8 +164,11 @@ int main() {
 						printf("Ver Valoracion Media\n");
 						meanValoration = calculateMeanValoration(valorationList);
 						seeMeanValoration(meanValoration);
+					} else if (optionAdmin == '5') { // Ver valoracion por usuario
+						printf("Ver Valoracion Por Usuario\n");
+						readUserValorationsFromDB(db);
 					}
-				} while (optionAdmin != '5');
+				} while (optionAdmin != '6');
 			} else if (findUserInList(userList, user) == -1) { // Contraseña incorrecta
 				printf("Contraseña incorrecta!\n");
 			} else if (findUserInList(userList, user) == -2){ // No estar registrado
@@ -147,33 +180,6 @@ int main() {
 			if (findUserInListRegister(userList, user) != -1) { // Registro correcto
 				addUserToList(&userList, user);
 			}
-		// Opcion 3 valorar la app
-		} else if (option == '3') {
-			//Menu de valoracion
-			do {
-				optionValoration = menuValoration();
-				if (optionValoration == '1') { // Crear valoracion de 1
-					printf("HAS VALORADO MUY MAL\n");
-					valoration = insertIntoValoration(optionValoration);
-					addToValorations(&valorationList, valoration);
-				} else if (optionValoration == '2') { // Crear valoracion de 2
-					printf("HAS VALORADO MAL\n");
-					valoration = insertIntoValoration(optionValoration);
-					addToValorations(&valorationList, valoration);
-				} else if (optionValoration == '3') { // Crear valoracion de 3
-					printf("HAS VALORADO REGULAR\n");
-					valoration = insertIntoValoration(optionValoration);
-					addToValorations(&valorationList, valoration);
-				} else if (optionValoration == '4') { // Crear valoracion de 4
-					printf("HAS VALORADO BIEN\n");
-					valoration = insertIntoValoration(optionValoration);
-					addToValorations(&valorationList, valoration);
-				} else if (optionValoration == '5') { // Crear valoracion de 5
-					printf("HAS VALORADO MUY BIEN\n");
-					valoration = insertIntoValoration(optionValoration);
-					addToValorations(&valorationList, valoration);
-				}
-			} while (optionValoration != '0');
 		}
 	} while (option != '0');
 

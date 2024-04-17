@@ -13,9 +13,12 @@ User askForUser(UserList userList) {
 	scanf("%s", user.password);
 	for (int i = 0; i < userList.numUsers; i++) {
 		if (strcmp(user.username, userList.userList[i].username) == 0 && strcmp(user.password, userList.userList[i].password) == 0) {
-			return userList.userList[i];
+			strcpy(user.name, userList.userList[i].name);
+			user.age = userList.userList[i].age;
+			user.admin = userList.userList[i].admin;
 		}
 	}
+	return user;
 }
 
 User userToIntroduce() {
