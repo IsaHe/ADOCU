@@ -23,9 +23,9 @@ int main() {
 	Valoration valoration;
 	ValorationList valorationList;
 	float meanValoration;
-	Group group;
+	Group* group;
 	GroupList groupList;
-	groupList.groups = (Group*) malloc(sizeof(Group) * 100);
+	groupList.groups = (Group**) malloc(sizeof(Group*) * 100);
 	groupList.numGroups = 0;
 	ActivityList activityList;
 
@@ -58,8 +58,8 @@ int main() {
 				printf("Bienvenido :)!\n");
 				int userInGroup = 0;
 				for (int i = 0; i < groupList.numGroups; i++) {
-					for (int j = 0; j < groupList.groups[i].numUsers; j++) {
-						if (strcmp(groupList.groups[i].users[j].username, user.username) == 0) {
+					for (int j = 0; j < groupList.groups[i] -> numUsers; j++) {
+						if (strcmp(groupList.groups[i] -> users[j].username, user.username) == 0) {
 							userInGroup = 1;
 							group = groupList.groups[i];
 						}
@@ -71,16 +71,20 @@ int main() {
 						if (optionLogIn == '1') {
 							// Menu crear grupo
 							printf("Crear Grupo\n");
-							group.name = menuCreateGroupName();
-							group.maxUsers = menuCreateGroupMaxUsers();
-							group.numActivities = 0;
-							createGroup(group.name, group.maxUsers, &groupList);
+							Group* group = (Group*) malloc(sizeof(Group));
+							group -> name = menuCreateGroupName();
+							group -> maxUsers = menuCreateGroupMaxUsers();
+							createGroup(group -> name, group -> maxUsers, &groupList, group);
 						} else if (optionLogIn == '2') {
 							printf("Unirse a Grupo\n");
 							char* groupName = menuJoinGroup();
-							joinGroup(groupName, user, &groupList);
-							userInGroup = 1;
-							break;
+							group = joinGroup(groupName, user, &groupList);
+							if (group != NULL) {
+								userInGroup = 1;
+								break;
+							} else {
+								printf("No se ha podido unir al grupo.\n");
+							}
 						}
 					} while (optionLogIn != '3');
 				}
@@ -92,12 +96,13 @@ int main() {
 							if (option == -1) {
 								printf("Seleccione una opcion valida.\n");
 							} else {
-								addActivityToGroup(activityList.activityList[option - 1], &group);
+								addActivityToGroup(activityList.activityList[option - 1], group);
 							}
 						} else if (optionActivity == '2') {
-							seeGroupActivities(&group);
+							seeGroupActivities(group);
 						}
 					} while (optionActivity != '3');
+					updateGroupActivitiesInGroupList(&groupList, group);
 				}
 			} else if (findUserInList(userList, user) == 2) { // Inicio sesion como Admin
 				// Menu Admin

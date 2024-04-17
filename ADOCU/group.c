@@ -6,16 +6,15 @@
 
 #define MAX_GROUP_NAME 30
 
-void createGroup(char* name, int maxUsers, GroupList* groupList) {
-  Group group;
-  group.name = name;
-  group.maxUsers = maxUsers;
-  group.numUsers = 0;
-  group.users = (User*) malloc(sizeof(User) * maxUsers);
-  group.numActivities = 0;
+void createGroup(char* name, int maxUsers, GroupList* groupList, Group* group) {
+  group -> name = name;
+  group -> maxUsers = maxUsers;
+  group -> numUsers = 0;
+  group -> users = (User*) malloc(sizeof(User) * maxUsers);
+  group -> numActivities = 0;
   int exists = 0;
   for (int i = 0; i < groupList -> numGroups; i++) {
-    if (groupList -> groups[i].name == group.name) {
+    if (strcmp(groupList -> groups[i] -> name, group -> name) == 0) {
       exists = 1;
     }
   }
@@ -28,15 +27,18 @@ void createGroup(char* name, int maxUsers, GroupList* groupList) {
   }
 }
 
-void joinGroup(char* name, User user, GroupList* groupList) {
+Group* joinGroup(char* name, User user, GroupList* groupList) {
   for (int i = 0; i < groupList -> numGroups; i++) {
-    if (strcmp(groupList -> groups[i].name, name) == 0) {
-      if (groupList -> groups[i].maxUsers > groupList -> groups[i].numUsers) {
-        groupList -> groups[i].users[groupList -> groups[i].numUsers] = user;
-        groupList -> groups[i].numUsers++;
+    if (strcmp(groupList -> groups[i] -> name, name) == 0) {
+      if (groupList -> groups[i] -> maxUsers > groupList -> groups[i] -> numUsers) {
+        Group* group = groupList -> groups[i];
+        groupList -> groups[i] -> users[groupList -> groups[i] -> numUsers] = user;
+        groupList -> groups[i] -> numUsers++;
         printf("Te has unido al grupo correctamente.\n");
+        return group;
       } else {
         printf("Este grupo ha alcanzado el numero maximo de usuarios.\n");
+        return NULL;
       }
     }
   }
@@ -45,7 +47,7 @@ void joinGroup(char* name, User user, GroupList* groupList) {
 void printGroups(GroupList groupList) {
   printf("Numero de grupos: %i\n", groupList.numGroups);
   for (int i = 0; i < groupList.numGroups; i++) {
-    printf("Grupo %i: %s  %i\n", i + 1, groupList.groups[i].name, groupList.groups[i].numUsers);
+    printf("Grupo %i: %s  %i\n", i + 1, groupList.groups[i] -> name, groupList.groups[i] -> numUsers);
   }
 }
 
@@ -117,6 +119,14 @@ void addActivityToGroup(Activity activity, Group* group) {
   } else {
     printf("Lo siento esa actividad ya está seleccionada.\n");
   }
+}
+
+void updateGroupActivitiesInGroupList(GroupList* groupList, Group* group) {
+    for (int i = 0; i < groupList -> numGroups; i++) {
+        if (strcmp(groupList -> groups[i] -> name, group -> name) == 0) {
+            groupList -> groups[i] = group;
+        }
+    }
 }
 
 void seeGroupActivities(Group* group) {
@@ -227,4 +237,50 @@ void addActivity(ActivityList* activityList, Activity activity) {
     } else {
         printf("La actividad ya esta en la lista.\n");
     }
+}
+
+void writeGroupsInFile(GroupList groupList, char* fileName) {
+  FILE* file;
+
+  file = fopen(fileName, "w");
+
+  if (file != (FILE*) NULL) {
+    for (int i = 0; i < groupList.numGroups; i++) {
+      fprintf(file, "%s %i\n", groupList.groups[i] -> name, groupList.groups[i] -> numUsers);
+      fprintf(file, "Users:\n");
+      for (int j = 0; j < groupList.groups[i] -> numUsers; j++) {
+        fprintf(file, "%s\n", groupList.groups[i] -> users[j].username);
+      }
+      fprintf(file, "Activities:\n");
+      for (int j = 0; j < groupList.groups[i] -> numActivities; j++) {
+        fprintf(file, "%s\n", groupList.groups[i] -> activityList[j].name);
+      }
+    }
+    fclose(file);
+  }
+}
+
+void readGroupsFromFile(GroupList* groupList, char* fileName) {
+  FILE* file;
+
+  file = fopen(fileName, "r");
+
+  if (file != (FILE*) NULL) {
+    while (!feof(file)) {
+      Group group;
+      fscanf(file, "%s %i\n", group.name, &group.numUsers);
+      group.users = (User*) malloc(sizeof(User) * group.numUsers);
+      for (int i = 0; i < group.numUsers; i++) {
+        fscanf(file, "%s\n", group.users[i].username);
+      }
+      group.numActivities = 0;
+      for (int i = 0; i < group.numActivities; i++) {
+        fscanf(file, "%s\n", group.activityList[i].name);
+        group.numActivities++;
+      }
+      groupList -> groups[groupList -> numGroups] = &group;
+      groupList -> numGroups++;
+    }
+    fclose(file);
+  }
 }

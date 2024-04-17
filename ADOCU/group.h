@@ -25,12 +25,12 @@ typedef struct {
 } Group;
 
 typedef struct {
-  Group* groups;
+  Group** groups;
   int numGroups;
 } GroupList;
 
-void createGroup(char* name, int maxUsers, GroupList* groupList);
-void joinGroup(char* name, User user, GroupList* groupList);
+void createGroup(char* name, int maxUsers, GroupList* groupList, Group* group);
+Group* joinGroup(char* name, User user, GroupList* groupList);
 void printGroups(GroupList groupList);
 void freeGroup(Group* group);
 char* menuJoinGroup();
@@ -38,10 +38,13 @@ char* menuCreateGroupName();
 int menuCreateGroupMaxUsers();
 int seeActivities(ActivityList* activityList);
 void addActivityToGroup(Activity activity, Group* group);
+void updateGroupActivitiesInGroupList(GroupList* groupList, Group* group);
 void seeGroupActivities(Group* group);
 int readActivitiesInDB(ActivityList* activityList, sqlite3* db);
 int insertActivitiesInDB(ActivityList activityList, sqlite3* db);
 void deleteActivity(ActivityList* activityList);
 void addActivity(ActivityList* activityList, Activity activity);
+void writeGroupsInFile(GroupList groupList, char* fileName);
+void readGroupsFromFile(GroupList* groupList, char* fileName);
 
 #endif
