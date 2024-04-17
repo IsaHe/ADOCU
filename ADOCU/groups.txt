@@ -1,0 +1,7 @@
+Grupo: Hola (3 usuarios max).
+Users (1 usuarios):
+	Nombre: Aitor, Usuario: Peral, Contraseña: 111, Edad: 20, Admin: U.
+Activities (3 actividades):
+	- Futbol
+	- Boxeo
+	- Baloncesto

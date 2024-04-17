@@ -45,6 +45,5 @@ int insertActivitiesInDB(ActivityList activityList, sqlite3* db);
 void deleteActivity(ActivityList* activityList);
 void addActivity(ActivityList* activityList, Activity activity);
 void writeGroupsInFile(GroupList groupList, char* fileName);
-void readGroupsFromFile(GroupList* groupList, char* fileName);
 
 #endif

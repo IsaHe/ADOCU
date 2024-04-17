@@ -1,7 +1,8 @@
+#include "valoration.h"
+#include "sqlite3.h"
+
 #ifndef VALORATIONLIST_H_
 #define VALORATIONLIST_H_
-
-#include "valoration.h"
 
 typedef struct {
     Valoration *valorations;

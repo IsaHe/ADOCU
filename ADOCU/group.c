@@ -1,5 +1,4 @@
 #include "group.h"
-#include "userList.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -246,40 +245,15 @@ void writeGroupsInFile(GroupList groupList, char* fileName) {
 
   if (file != (FILE*) NULL) {
     for (int i = 0; i < groupList.numGroups; i++) {
-      fprintf(file, "%s %i\n", groupList.groups[i] -> name, groupList.groups[i] -> numUsers);
-      fprintf(file, "Users:\n");
+      fprintf(file, "Grupo: %s (%i usuarios max).\n", groupList.groups[i] -> name, groupList.groups[i] -> maxUsers);
+      fprintf(file, "Users (%i usuarios):\n", groupList.groups[i] -> numUsers);
       for (int j = 0; j < groupList.groups[i] -> numUsers; j++) {
-        fprintf(file, "%s\n", groupList.groups[i] -> users[j].username);
+        fprintf(file, "\tNombre: %s, Usuario: %s, Contraseña: %s, Edad: %i, Admin: %c.\n", groupList.groups[i] -> users[j].name, groupList.groups[i] -> users[j].username, groupList.groups[i] -> users[j].password, groupList.groups[i] -> users[j].age, groupList.groups[i] -> users[j].admin);
       }
-      fprintf(file, "Activities:\n");
+      fprintf(file, "Activities (%i actividades):\n", groupList.groups[i] -> numActivities);
       for (int j = 0; j < groupList.groups[i] -> numActivities; j++) {
-        fprintf(file, "%s\n", groupList.groups[i] -> activityList[j].name);
+        fprintf(file, "\t- %s\n", groupList.groups[i] -> activityList[j].name);
       }
-    }
-    fclose(file);
-  }
-}
-
-void readGroupsFromFile(GroupList* groupList, char* fileName) {
-  FILE* file;
-
-  file = fopen(fileName, "r");
-
-  if (file != (FILE*) NULL) {
-    while (!feof(file)) {
-      Group group;
-      fscanf(file, "%s %i\n", group.name, &group.numUsers);
-      group.users = (User*) malloc(sizeof(User) * group.numUsers);
-      for (int i = 0; i < group.numUsers; i++) {
-        fscanf(file, "%s\n", group.users[i].username);
-      }
-      group.numActivities = 0;
-      for (int i = 0; i < group.numActivities; i++) {
-        fscanf(file, "%s\n", group.activityList[i].name);
-        group.numActivities++;
-      }
-      groupList -> groups[groupList -> numGroups] = &group;
-      groupList -> numGroups++;
     }
     fclose(file);
   }

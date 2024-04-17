@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "userList.h"
 #include "valorationList.h"
-#include "sqlite3.h"
+#include "user.h"
 
 int readValorationsFromDB(ValorationList* valorationList, sqlite3* db) {
     sqlite3_stmt* statement;

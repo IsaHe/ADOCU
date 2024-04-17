@@ -3,7 +3,6 @@
 #define MAX_ACTIVITIES 10
 
 #include "menus.h"
-#include "userList.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -52,7 +51,7 @@ int main() {
 			printf("¡Gracias por usar ADOCU!\n");
 		// Opcion 1 iniciar sesion
 		} else if (option == '1') {
-			user = askForUser();
+			user = askForUser(userList);
 			if (findUserInList(userList, user) == 1) { // Inicio sesion correcto
 				// Menu inicio sesion
 				printf("Bienvenido :)!\n");
@@ -182,6 +181,7 @@ int main() {
 	insertUsersInDB(userList, db);
 	insertValorationsInDB(valorationList, db);
 	insertActivitiesInDB(activityList, db);
+	writeGroupsInFile(groupList, "groups.txt");
 
 	// Visualizacion de los datos
 	seeUserList(userList);
