@@ -66,7 +66,6 @@ int main() {
 					}
 				}
 				if (userInGroup == 0) {
-				printf("El usuario NO esta en un grupo.\n");
 					do {
 						optionLogIn = menuLogIn();
 						if (optionLogIn == '1') {
@@ -80,25 +79,23 @@ int main() {
 							printf("Unirse a Grupo\n");
 							char* groupName = menuJoinGroup();
 							joinGroup(groupName, user, &groupList);
-							printGroups(groupList);
+							break;
 						}
 					} while (optionLogIn != '3');
-				} else {
-					printf("El usuario SI tiene grupo.\n");
-					do {
-						optionActivity = menuActivity();
-						if (optionActivity == '1') {
-							int option = seeActivities(&activityList);
-							if (option == -1) {
-								printf("Seleccione una opcion valida.\n");
-							} else {
-								addActivityToGroup(activityList.activityList[option - 1], &group);
-							}
-						} else if (optionActivity == '2') {
-							seeGroupActivities(&group);
-						}
-					} while (optionActivity != '3');
 				}
+				do {
+					optionActivity = menuActivity();
+					if (optionActivity == '1') {
+						int option = seeActivities(&activityList);
+						if (option == -1) {
+							printf("Seleccione una opcion valida.\n");
+						} else {
+							addActivityToGroup(activityList.activityList[option - 1], &group);
+						}
+					} else if (optionActivity == '2') {
+						seeGroupActivities(&group);
+					}
+				} while (optionActivity != '3');
 			} else if (findUserInList(userList, user) == 2) { // Inicio sesion como Admin
 				// Menu Admin
 				printf("¡Has iniciado sesion como admin ;)!\n");
