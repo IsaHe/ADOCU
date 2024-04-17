@@ -41,7 +41,7 @@ int main() {
 	readUsersFromDB(&userList, db);
 	seeUserList(userList);
 	takeValorationsFromFile(&valorationList, FILE_NAME2);
-	initActivities(&activityList, db);
+	readActivitiesInDB(&activityList, db);
 
 	// Menus
 	do {
@@ -174,6 +174,7 @@ int main() {
 	// Escritura de datos en fichero o base de datos
 	insertUsersInDB(userList, db);
 	writeValorationsInFile(valorationList, FILE_NAME2);
+	insertActibitiesInDB(activityList, db);
 
 	// Visualizacion de los datos
 	seeUserList(userList);

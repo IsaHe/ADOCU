@@ -1,4 +1,5 @@
 #include "group.h"
+#include "userList.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -124,7 +125,7 @@ void seeGroupActivities(Group* group) {
     }
 }
 
-int initActivities(ActivityList* activityList, sqlite3* db) {
+int readActivitiesInDB(ActivityList* activityList, sqlite3* db) {
 	sqlite3_stmt* statement;
 
 	char sql[] = "select * from activities";
@@ -153,6 +154,39 @@ int initActivities(ActivityList* activityList, sqlite3* db) {
 	}
 
 	return SQLITE_OK;
+}
+
+int insertActibitiesInDB(ActivityList activityList, sqlite3* db) {
+  deleteDB(db, "activities");
+
+  for (int i = 0; i < activityList.numActivities; i++) {
+    sqlite3_stmt* statement;
+
+    char sql[] = "insert into activities (name) values (?)";
+		int result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &statement, NULL);
+		if (result != SQLITE_OK) {
+			printf("Error preparando el statement (INSERT).\n");
+			printf("%s\n", sqlite3_errmsg(db));
+			return result;
+		}
+
+		sqlite3_bind_text(statement, 1, activityList.activityList[i].name, strlen(activityList.activityList[i].name), SQLITE_STATIC);
+
+		result = sqlite3_step(statement);
+		if (result != SQLITE_DONE) {
+			printf("Error insertando un usuario.\n");
+			return result;
+		}
+
+		result = sqlite3_finalize(statement);
+		if (result != SQLITE_OK) {
+			printf("Error finalizando el statement (INSERT).\n");
+			printf("%s\n", sqlite3_errmsg(db));
+			return result;
+		}
+  }
+
+  return SQLITE_OK;
 }
 
 void deleteActivity(ActivityList* activityList) {
