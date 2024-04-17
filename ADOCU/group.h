@@ -1,4 +1,5 @@
 #include "user.h"
+#include "sqlite3.h"
 
 #define MAX_ACTIVITIES 10
 
@@ -38,7 +39,7 @@ int menuCreateGroupMaxUsers();
 int seeActivities(ActivityList* activityList);
 void addActivityToGroup(Activity activity, Group* group);
 void seeGroupActivities(Group* group);
-void initActivities(ActivityList* activityList);
+int initActivities(ActivityList* activityList, sqlite3* db);
 void deleteActivity(ActivityList* activityList);
 void addActivity(ActivityList* activityList, Activity activity);
 

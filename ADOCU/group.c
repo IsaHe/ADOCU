@@ -124,18 +124,35 @@ void seeGroupActivities(Group* group) {
     }
 }
 
-void initActivities(ActivityList* activityList) {
-  strcpy(activityList -> activityList[0].name, "Futbol");
-  strcpy(activityList -> activityList[1].name, "Boxeo");
-  strcpy(activityList -> activityList[2].name, "Baloncesto");
-  strcpy(activityList -> activityList[3].name, "Piraguismo");
-  strcpy(activityList -> activityList[4].name, "Tenis");
-  strcpy(activityList -> activityList[5].name, "Padel");
-  strcpy(activityList -> activityList[6].name, "Golf");
-  strcpy(activityList -> activityList[7].name, "Ajedrez");
-  strcpy(activityList -> activityList[8].name, "Senderismo");
-  strcpy(activityList -> activityList[9].name, "Surf");
-  activityList -> numActivities = 10;
+int initActivities(ActivityList* activityList, sqlite3* db) {
+	sqlite3_stmt* statement;
+
+	char sql[] = "select * from activities";
+
+	int result = sqlite3_prepare_v2(db, sql, -1, &statement, NULL);
+	if (result != SQLITE_OK) {
+		printf("Error preparando el statement (SELECT).\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	activityList -> numActivities = 0;
+	do {
+		result = sqlite3_step(statement);
+		if (result == SQLITE_ROW) {
+			strcpy(activityList -> activityList[activityList -> numActivities].name, sqlite3_column_text(statement, 0));
+			activityList -> numActivities++;
+		}
+	} while (result == SQLITE_ROW);
+
+	result = sqlite3_finalize(statement);
+	if (result != SQLITE_OK) {
+		printf("Error finalizando el statement (SELECT).\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	return SQLITE_OK;
 }
 
 void deleteActivity(ActivityList* activityList) {

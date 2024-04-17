@@ -28,7 +28,6 @@ int main() {
 	groupList.groups = (Group*) malloc(sizeof(Group) * 100);
 	groupList.numGroups = 0;
 	ActivityList activityList;
-	initActivities(&activityList);
 
 	// Abrir base de datos
 	int result = sqlite3_open("adocu.sqlite", &db);
@@ -39,10 +38,10 @@ int main() {
 	printf("Database opened\n");
 
 	// Coger los datos de fichero o base de datos
-	int test = readUsersFromDB(&userList, db);
-	printf("%i\n", test);
+	readUsersFromDB(&userList, db);
 	seeUserList(userList);
 	takeValorationsFromFile(&valorationList, FILE_NAME2);
+	initActivities(&activityList, db);
 
 	// Menus
 	do {
@@ -179,6 +178,7 @@ int main() {
 	// Visualizacion de los datos
 	seeUserList(userList);
 	seeValorations(valorationList);
+	seeActivities(&activityList);
 	printGroups(groupList);
 
 	// Liberar memoria
