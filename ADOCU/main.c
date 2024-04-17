@@ -79,23 +79,26 @@ int main() {
 							printf("Unirse a Grupo\n");
 							char* groupName = menuJoinGroup();
 							joinGroup(groupName, user, &groupList);
+							userInGroup = 1;
 							break;
 						}
 					} while (optionLogIn != '3');
 				}
-				do {
-					optionActivity = menuActivity();
-					if (optionActivity == '1') {
-						int option = seeActivities(&activityList);
-						if (option == -1) {
-							printf("Seleccione una opcion valida.\n");
-						} else {
-							addActivityToGroup(activityList.activityList[option - 1], &group);
+				if (userInGroup == 1) {
+					do {
+						optionActivity = menuActivity();
+						if (optionActivity == '1') {
+							int option = seeActivities(&activityList);
+							if (option == -1) {
+								printf("Seleccione una opcion valida.\n");
+							} else {
+								addActivityToGroup(activityList.activityList[option - 1], &group);
+							}
+						} else if (optionActivity == '2') {
+							seeGroupActivities(&group);
 						}
-					} else if (optionActivity == '2') {
-						seeGroupActivities(&group);
-					}
-				} while (optionActivity != '3');
+					} while (optionActivity != '3');
+				}
 			} else if (findUserInList(userList, user) == 2) { // Inicio sesion como Admin
 				// Menu Admin
 				printf("¡Has iniciado sesion como admin ;)!\n");
