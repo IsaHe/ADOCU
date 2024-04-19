@@ -4,6 +4,8 @@
 #include <string.h>
 
 #define MAX_GROUP_NAME 30
+#define MAX_USERS 10
+#define MAX_ACTIVITIES 10
 
 void createGroup(char* name, int maxUsers, GroupList* groupList, Group* group) {
   group -> name = name;
@@ -60,8 +62,9 @@ char* menuJoinGroup() {
   char* name = (char*) malloc(sizeof(char) * (MAX_GROUP_NAME + 1));
   do {
     printf("Introduce el código de invitación del grupo: ");
-    fflush(stdin);
-    scanf("%s", name);
+    fflush(stdout);
+    fgets(name, MAX_GROUP_NAME, stdin);
+    clearIfNeeded(name, MAX_GROUP_NAME);
   } while (strlen(name) < 1);
   name[strcspn(name, "\n")] = 0;
   return name;
@@ -71,8 +74,8 @@ char* menuCreateGroupName() {
     char* name = (char*) malloc(sizeof(char) * (MAX_GROUP_NAME + 1));
     do {
         printf("Introduce el nombre del grupo: ");
-        fflush(stdin);
-        scanf("%s", name);
+        fflush(stdout);
+        fgets(name, MAX_GROUP_NAME, stdin);
     } while (strlen(name) < 1);
     name[strcspn(name, "\n")] = 0;
     return name;
@@ -83,8 +86,9 @@ int menuCreateGroupMaxUsers() {
   char str[10];
   do {
     printf("Introduce el número máximo de usuarios del grupo: ");
-    fflush(stdin);
-    scanf("%s", str);
+    fflush(stdout);
+    fgets(str, MAX_USERS, stdin);
+    clearIfNeeded(str, MAX_USERS);
   } while (str[0] == 0);
   sscanf(str, "%i", &maxUsers);
   return maxUsers;
@@ -96,7 +100,11 @@ int seeActivities(ActivityList* activityList) {
     printf("%i. %s\n", i + 1, activityList -> activityList[i].name);
   }
   printf("Elige una opcion: ");
-  scanf(" %i", &option);
+  fflush(stdout);
+  char optionStr[MAX_ACTIVITIES];
+  fgets(optionStr, MAX_ACTIVITIES, stdin);
+  sscanf(optionStr, "%i", &option);
+  clearIfNeeded(optionStr, MAX_ACTIVITIES);
   if (option <= activityList -> numActivities) {
       return option;
   } else {

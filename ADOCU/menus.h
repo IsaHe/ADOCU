@@ -1,3 +1,5 @@
+#include "user.h"
+
 #ifndef MENUS_H_
 #define MENUS_H_
 

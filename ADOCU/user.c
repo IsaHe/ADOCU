@@ -3,14 +3,24 @@
 #include <stdlib.h>
 #include "user.h"
 
+#define MAX_LINE 20
+
+void clearIfNeeded(char* str, int maxLine) {
+	if ((strlen(str) == maxLine - 1) && (str[maxLine - 2] != '\n')) {
+		while (getchar() != '\n');
+	}
+}
+
 User askForUser(UserList userList) {
 	User user;
 	printf("Introduce el usuario: ");
-	fflush(stdin);
-	scanf("%s", user.username);
+	fflush(stdout);
+	fgets(user.username, MAX_LINE, stdin);
+	clearIfNeeded(user.username, MAX_LINE);
 	printf("Introduce la contraseña: ");
-	fflush(stdin);
-	scanf("%s", user.password);
+	fflush(stdout);
+	fgets(user.password, MAX_LINE, stdin);
+	clearIfNeeded(user.password, MAX_LINE);
 	for (int i = 0; i < userList.numUsers; i++) {
 		if (strcmp(user.username, userList.userList[i].username) == 0 && strcmp(user.password, userList.userList[i].password) == 0) {
 			strcpy(user.name, userList.userList[i].name);
@@ -24,17 +34,23 @@ User askForUser(UserList userList) {
 User userToIntroduce() {
 	User user;
 	printf("Introduce el nombre: ");
-	fflush(stdin);
-	scanf("%s", user.name);
+	fflush(stdout);
+	fgets(user.name, MAX_LINE, stdin);
+	clearIfNeeded(user.name, MAX_LINE);
 	printf("Introduce la edad: ");
-	fflush(stdin);
-	scanf("%i", &user.age);
+	fflush(stdout);
+	char age[MAX_LINE];
+	fgets(age, MAX_LINE, stdin);
+	sscanf(age, "%d", &user.age);
+	clearIfNeeded(age, MAX_LINE);
 	printf("Introduce el usuario: ");
-	fflush(stdin);
-	scanf("%s", user.username);
+	fflush(stdout);
+	fgets(user.username, MAX_LINE, stdin);
+	clearIfNeeded(user.username, MAX_LINE);
 	printf("Introduce la contraseña: ");
-	fflush(stdin);
-	scanf("%s", user.password);
+	fflush(stdout);
+	fgets(user.password, MAX_LINE, stdin);
+	clearIfNeeded(user.password, MAX_LINE);
 	user.admin = 'U';
 	return user;
 }
@@ -155,7 +171,7 @@ void seeUserList(UserList userList) {
 		}
 }
 
-int findUserInList(UserList userList, User user) {
+int findUserInList(UserList userList, User user, char* adminUsername, char* adminPassword) {
 	int position = 0;
 	int find = 0;
 	while (find == 0 && position < userList.numUsers) {
@@ -163,7 +179,7 @@ int findUserInList(UserList userList, User user) {
 			find = 1;
 		} else if (strcmp(userList.userList[position].username, user.username) == 0 && strcmp(userList.userList[position].password, user.password) != 0) {
 			find = 2;
-		} else if (strcmp(user.username, "Admin") == 0 && strcmp(user.password, "Admin") == 0) {
+		} else if (strcmp(user.username, adminUsername) == 0 && strcmp(user.password, adminPassword) == 0) {
 			find = 3;
 		} else {
 			position++;
@@ -217,8 +233,11 @@ int userToRemove(UserList userList) {
 	}
 	printf("0. Volver\n");
 	printf("Elige una opcion: ");
-	fflush(stdin);
-	scanf("%d", &position);
+	fflush(stdout);
+	char positionStr[MAX_LINE];
+	fgets(positionStr, MAX_LINE, stdin);
+	sscanf(positionStr, "%d", &position);
+	clearIfNeeded(positionStr, MAX_LINE);
 	return position;
 }
 

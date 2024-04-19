@@ -17,13 +17,14 @@ typedef struct {
 	int numUsers;
 } UserList;
 
+void clearIfNeeded(char* str, int maxLine);
 User askForUser(UserList userList);
 User userToIntroduce();
 int readUsersFromDB(UserList* userList, sqlite3* db);
 int deleteDB(sqlite3* db, char* table);
 int insertUsersInDB(UserList userList, sqlite3* db);
 void seeUserList(UserList userList);
-int findUserInList(UserList userList, User user);
+int findUserInList(UserList userList, User user, char* adminUsername, char* adminPassword);
 void addUserToList(UserList* userList, User user);
 int findUserInListRegister(UserList userList, User user);
 int userToRemove(UserList userList);

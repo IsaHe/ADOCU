@@ -1,7 +1,3 @@
-#define FILE_NAME1 "users.txt"
-#define FILE_NAME2 "valorations.txt"
-#define MAX_ACTIVITIES 10
-
 #include "menus.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,7 +7,34 @@
 #include "group.h"
 #include "sqlite3.h"
 
+#define MAX_ACTIVITIES 10
 
+void readConfigFile(char* databaseName, char* adminUsername, char* adminPassword, char* groupsFileName) {
+	FILE* file = fopen("config.properties", "r");
+	if (file == NULL) {
+		printf("Error opening file\n");
+		return;
+	}
+	char line[100];
+	while (fgets(line, 100, file) != NULL) {
+		char* key = strtok(line, "=");
+		char* value = strtok(NULL, "=");
+		if (strcmp(key, "databaseName") == 0) {
+			strcpy(databaseName, value);
+			databaseName[strcspn(databaseName, "\n")] = 0;
+		} else if (strcmp(key, "adminUsername") == 0) {
+			strcpy(adminUsername, value);
+			adminUsername[strcspn(adminUsername, "\n")] = 0;
+		} else if (strcmp(key, "adminPassword") == 0) {
+			strcpy(adminPassword, value);
+			adminPassword[strcspn(adminPassword, "\n")] = 0;
+		} else if (strcmp(key, "groupsFileName") == 0) {
+			strcpy(groupsFileName, value);
+			groupsFileName[strcspn(groupsFileName, "\n")] = 0;
+		}
+	}
+	fclose(file);
+}
 
 int main() {
 	// Declaracion de variables
@@ -27,14 +50,18 @@ int main() {
 	groupList.groups = (Group**) malloc(sizeof(Group*) * 100);
 	groupList.numGroups = 0;
 	ActivityList activityList;
+	char databaseName[20];
+	char adminUsername[20];
+	char adminPassword[20];
+	char groupsFileName[20];
+	readConfigFile(databaseName, adminUsername, adminPassword, groupsFileName);
 
 	// Abrir base de datos
-	int result = sqlite3_open("adocu.sqlite", &db);
+	int result = sqlite3_open(databaseName, &db);
 	if (result != SQLITE_OK) {
 		printf("Error opening database\n");
 		return result;
 	}
-	printf("Database opened\n");
 
 	// Coger los datos de fichero o base de datos
 	readUsersFromDB(&userList, db);
@@ -52,7 +79,7 @@ int main() {
 		// Opcion 1 iniciar sesion
 		} else if (option == '1') {
 			user = askForUser(userList);
-			if (findUserInList(userList, user) == 1) { // Inicio sesion correcto
+			if (findUserInList(userList, user, adminUsername, adminPassword) == 1) { // Inicio sesion correcto
 				// Menu inicio sesion
 				printf("Bienvenido :)!\n");
 				int userInGroup = 0;
@@ -133,7 +160,7 @@ int main() {
 					} while (optionActivity != '3');
 					updateGroupActivitiesInGroupList(&groupList, group);
 				}
-			} else if (findUserInList(userList, user) == 2) { // Inicio sesion como Admin
+			} else if (findUserInList(userList, user, adminUsername, adminPassword) == 2) { // Inicio sesion como Admin
 				// Menu Admin
 				printf("¡Has iniciado sesion como admin ;)!\n");
 				do {
@@ -154,7 +181,9 @@ int main() {
 							printf("Escribe una actividad que van a poder seleccionar los grupos: ");
 							fflush(stdin);
 							Activity activity;
-							scanf("%s", activity.name);
+							fflush(stdout);
+							fgets(activity.name, MAX_ACTIVITIES, stdin);
+							clearIfNeeded(activity.name, MAX_ACTIVITIES);
 							addActivity(&activityList, activity);
 						}
 					} else if (optionAdmin == '3') { // Eliminar actividades
@@ -169,9 +198,9 @@ int main() {
 						readUserValorationsFromDB(db);
 					}
 				} while (optionAdmin != '6');
-			} else if (findUserInList(userList, user) == -1) { // Contraseña incorrecta
+			} else if (findUserInList(userList, user, adminUsername, adminPassword) == -1) { // Contraseña incorrecta
 				printf("Contraseña incorrecta!\n");
-			} else if (findUserInList(userList, user) == -2){ // No estar registrado
+			} else if (findUserInList(userList, user, adminUsername, adminPassword) == -2){ // No estar registrado
 				printf("No estas registrado, pulse el 2.!\n");
 			}
 		// Opcion 2 registrarse
@@ -187,7 +216,7 @@ int main() {
 	insertUsersInDB(userList, db);
 	insertValorationsInDB(valorationList, db);
 	insertActivitiesInDB(activityList, db);
-	writeGroupsInFile(groupList, "groups.txt");
+	writeGroupsInFile(groupList, groupsFileName);
 
 	// Visualizacion de los datos
 	seeUserList(userList);
@@ -198,6 +227,7 @@ int main() {
 	free(valorationList.valorations);
 	free(userList.userList);
 	free(groupList.groups);
+	sqlite3_close(db);
 
 	return 0;
 }
