@@ -65,6 +65,7 @@ char* menuJoinGroup() {
     fflush(stdout);
     fgets(name, MAX_GROUP_NAME, stdin);
     clearIfNeeded(name, MAX_GROUP_NAME);
+    name[strcspn(name, "\n")] = 0;
   } while (strlen(name) < 1);
   name[strcspn(name, "\n")] = 0;
   return name;
@@ -89,6 +90,7 @@ int menuCreateGroupMaxUsers() {
     fflush(stdout);
     fgets(str, MAX_USERS, stdin);
     clearIfNeeded(str, MAX_USERS);
+    str[strcspn(str, "\n")] = 0;
   } while (str[0] == 0);
   sscanf(str, "%i", &maxUsers);
   return maxUsers;
@@ -105,6 +107,7 @@ int seeActivities(ActivityList* activityList) {
   fgets(optionStr, MAX_ACTIVITIES, stdin);
   sscanf(optionStr, "%i", &option);
   clearIfNeeded(optionStr, MAX_ACTIVITIES);
+  optionStr[strcspn(optionStr, "\n")] = 0;
   if (option <= activityList -> numActivities) {
       return option;
   } else {

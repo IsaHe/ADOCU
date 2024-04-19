@@ -184,6 +184,7 @@ int main() {
 							fflush(stdout);
 							fgets(activity.name, MAX_ACTIVITIES, stdin);
 							clearIfNeeded(activity.name, MAX_ACTIVITIES);
+							activity.name[strcspn(activity.name, "\n")] = 0;
 							addActivity(&activityList, activity);
 						}
 					} else if (optionAdmin == '3') { // Eliminar actividades

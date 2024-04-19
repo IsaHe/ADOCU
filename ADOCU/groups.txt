@@ -1,4 +1,5 @@
 Grupo: Hola (1 usuarios max).
 Users (1 usuarios):
-	Nombre: Aitor, Usuario: Peral, Contraseña: 111, Edad: 20, Admin: U.
-Activities (0 actividades):
+	Nombre: A, Usuario: A, Contraseña: A, Edad: 20, Admin: U.
+Activities (1 actividades):
+	- Futbol

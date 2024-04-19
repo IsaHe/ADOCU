@@ -14,6 +14,7 @@ char mainMenu() {
 	char option[MAX_LINE];
 	fgets(option, MAX_LINE, stdin);
 	clearIfNeeded(option, MAX_LINE);
+	option[strcspn(option, "\n")] = 0;
 	return option[0];
 }
 
@@ -29,6 +30,7 @@ char menuValoration() {
 	char option[MAX_LINE];
 	fgets(option, MAX_LINE, stdin);
 	clearIfNeeded(option, MAX_LINE);
+	option[strcspn(option, "\n")] = 0;
 	return option[0];
 }
 
@@ -44,6 +46,7 @@ char menuAdmin() {
 	char option[MAX_LINE];
 	fgets(option, MAX_LINE, stdin);
 	clearIfNeeded(option, MAX_LINE);
+	option[strcspn(option, "\n")] = 0;
 	return option[0];
 }
 
@@ -57,6 +60,7 @@ char menuLogIn() {
 	char option[MAX_LINE];
 	fgets(option, MAX_LINE, stdin);
 	clearIfNeeded(option, MAX_LINE);
+	option[strcspn(option, "\n")] = 0;
 	return option[0];
 }
 
@@ -69,5 +73,6 @@ char menuActivity() {
 	char option[MAX_LINE];
 	fgets(option, MAX_LINE, stdin);
 	clearIfNeeded(option, MAX_LINE);
+	option[strcspn(option, "\n")] = 0;
 	return option[0];
 }

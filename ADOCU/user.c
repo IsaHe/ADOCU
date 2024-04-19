@@ -17,10 +17,12 @@ User askForUser(UserList userList) {
 	fflush(stdout);
 	fgets(user.username, MAX_LINE, stdin);
 	clearIfNeeded(user.username, MAX_LINE);
+	user.username[strcspn(user.username, "\n")] = 0;
 	printf("Introduce la contraseña: ");
 	fflush(stdout);
 	fgets(user.password, MAX_LINE, stdin);
 	clearIfNeeded(user.password, MAX_LINE);
+	user.password[strcspn(user.password, "\n")] = 0;
 	for (int i = 0; i < userList.numUsers; i++) {
 		if (strcmp(user.username, userList.userList[i].username) == 0 && strcmp(user.password, userList.userList[i].password) == 0) {
 			strcpy(user.name, userList.userList[i].name);
@@ -37,6 +39,7 @@ User userToIntroduce() {
 	fflush(stdout);
 	fgets(user.name, MAX_LINE, stdin);
 	clearIfNeeded(user.name, MAX_LINE);
+	user.name[strcspn(user.name, "\n")] = 0;
 	printf("Introduce la edad: ");
 	fflush(stdout);
 	char age[MAX_LINE];
@@ -47,10 +50,12 @@ User userToIntroduce() {
 	fflush(stdout);
 	fgets(user.username, MAX_LINE, stdin);
 	clearIfNeeded(user.username, MAX_LINE);
+	user.username[strcspn(user.username, "\n")] = 0;
 	printf("Introduce la contraseña: ");
 	fflush(stdout);
 	fgets(user.password, MAX_LINE, stdin);
 	clearIfNeeded(user.password, MAX_LINE);
+	user.password[strcspn(user.password, "\n")] = 0;
 	user.admin = 'U';
 	return user;
 }
