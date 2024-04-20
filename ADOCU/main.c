@@ -6,6 +6,7 @@
 #include "valorationList.h"
 #include "group.h"
 #include "sqlite3.h"
+#include "logger.h"
 
 #define MAX_ACTIVITIES 10
 
@@ -13,6 +14,7 @@ void readConfigFile(char* databaseName, char* adminUsername, char* adminPassword
 	FILE* file = fopen("config.properties", "r");
 	if (file == NULL) {
 		printf("Error opening file\n");
+        logAction("Error abriendo el fichero de configuracion", "sistema", 'f');
 		return;
 	}
 	char line[100];
@@ -34,6 +36,7 @@ void readConfigFile(char* databaseName, char* adminUsername, char* adminPassword
 		}
 	}
 	fclose(file);
+    logAction("Cargada la configuracion", "sistema", 's');
 }
 
 int main() {
@@ -59,7 +62,7 @@ int main() {
 	// Abrir base de datos
 	int result = sqlite3_open(databaseName, &db);
 	if (result != SQLITE_OK) {
-		printf("Error opening database\n");
+        logAction("Error abriendo la base de datos", "sistema", 'f');
 		return result;
 	}
 

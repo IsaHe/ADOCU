@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "user.h"
+#include "logger.h"
 
 #define MAX_LINE 20
 
@@ -67,8 +68,7 @@ int readUsersFromDB(UserList* userList, sqlite3* db) {
 
 	int result = sqlite3_prepare_v2(db, sql, -1, &statement, NULL);
 	if (result != SQLITE_OK) {
-		printf("Error preparando el statement (SELECT).\n");
-		printf("%s\n", sqlite3_errmsg(db));
+        logAction(sqlite3_errmsg(db), "sistema", 'f');
 		return result;
 	}
 	
@@ -93,11 +93,11 @@ int readUsersFromDB(UserList* userList, sqlite3* db) {
 
 	result = sqlite3_finalize(statement);
 	if (result != SQLITE_OK) {
-		printf("Error finalizando el statement (SELECT).\n");
-		printf("%s\n", sqlite3_errmsg(db));
+        logAction(sqlite3_errmsg(db), "sistema", 'f');
 		return result;
 	}
 
+    logAction("Usuarios leidos correctamente", "sistema", 's');
 	return SQLITE_OK;
 }
 
@@ -109,22 +109,19 @@ int deleteDB(sqlite3* db, char* table) {
 
 	int result = sqlite3_prepare_v2(db, sql, -1, &statement, NULL);
 	if (result != SQLITE_OK) {
-		printf("Error preparando el statement (DELETE).\n");
-		printf("%s\n", sqlite3_errmsg(db));
+        logAction(sqlite3_errmsg(db), "Preprar statment", 'f');
 		return result;
 	}
 
 	result = sqlite3_step(statement);
 	if (result != SQLITE_DONE) {
-		printf("Error eliminando datos.\n");
-		printf("%s\n", sqlite3_errmsg(db));
+        logAction(sqlite3_errmsg(db), "Ejecutar statment", 'f');
 		return result;
 	}
 
 	result = sqlite3_finalize(statement);
 	if (result != SQLITE_OK) {
-		printf("Error finalizando el statement (DELETE).\n");
-		printf("%s\n", sqlite3_errmsg(db));
+        logAction(sqlite3_errmsg(db), "Finalizar statment", 'f');
 		return result;
 	}
 
@@ -139,8 +136,7 @@ int insertUsersInDB(UserList userList, sqlite3* db) {
 		char sql[] = "insert into users (name, username, password, age, admin) values (?, ?, ?, ?, ?)";
 		int result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &statement, NULL);
 		if (result != SQLITE_OK) {
-			printf("Error preparando el statement (INSERT).\n");
-			printf("%s\n", sqlite3_errmsg(db));
+            logAction(sqlite3_errmsg(db), "Preprar statment", 'f');
 			return result;
 		}
 
@@ -155,14 +151,13 @@ int insertUsersInDB(UserList userList, sqlite3* db) {
 
 		result = sqlite3_step(statement);
 		if (result != SQLITE_DONE) {
-			printf("Error insertando un usuario.\n");
+            logAction(sqlite3_errmsg(db), "Ejecutar statment", 'f');
 			return result;
 		}
 
 		result = sqlite3_finalize(statement);
 		if (result != SQLITE_OK) {
-			printf("Error finalizando el statement (INSERT).\n");
-			printf("%s\n", sqlite3_errmsg(db));
+            logAction(sqlite3_errmsg(db), "Finalizar statment", 'f');
 			return result;
 		}
 	}
@@ -191,12 +186,16 @@ int findUserInList(UserList userList, User user, char* adminUsername, char* admi
 		}
 	}
 	if (find == 1) {
+        logAction("Usuario encontrado", user.username, 's');
 		return 1;
 	} else if (find == 2) {
+        logAction("Contraseña incorrecta", user.username, 'f');
 		return -1;
 	} else if (find == 3) {
+        logAction("Admin encontrado", user.username, 's');
 		return 2;
 	} else {
+        logAction("Usuario no encontrado", user.username, 'f');
 		return -2;
 	}
 }
@@ -205,8 +204,10 @@ void addUserToList(UserList* userList, User user) {
 	if (userList -> numUsers < userList -> size) {
 		userList -> userList[userList -> numUsers] = user;
 		userList -> numUsers++;
+        logAction("Usuario añadido correctamente", user.username, 's');
 	} else {
 		printf("Lo sentimos el limite de usuarios esta completo :(\n");
+        logAction("Limite de usuarios completado", user.username, 'f');
 	}
 }
 
@@ -222,9 +223,11 @@ int findUserInListRegister(UserList userList, User user) {
 	}
 	if (find == 1) {
 		printf("Ese usuario ya esta registrado, pruebe otro :(\n");
+        logAction("Usuario ya registrado", user.username, 'f');
 		return -1;
 	} else {
 		printf("Usuario registrado correctamente :)\n");
+        logAction("Usuario registrado correctamente", user.username, 's');
 		return position;
 	}
 }
@@ -250,11 +253,13 @@ void deleteUserWithPosition(UserList* userList, int position) {
 	int j = 0;
 	if (position == 0) {
 		printf("No se ha eliminado ningun usuario.\n");
+        logAction("No se ha eliminado ningun usuario", "sistema", 'f');
 	} else {
 		User* auxUser = (User*) malloc(sizeof(User) * userList -> size);
 		for (int i = 0; i < userList -> numUsers; i++) {
 			if (i == position - 1) {
 				printf("Usuario eliminado correctamente!\n");
+                logAction("Usuario eliminado correctamente", userList -> userList[i].username, 's');
 			} else {
 				auxUser[j] = userList -> userList[i];
 				j++;
