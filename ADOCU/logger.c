@@ -25,6 +25,6 @@ void logAction(const char* action, const char* username, char status){
     }
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
-    fprintf(file, "%d-%02d-%02d %02d:%02d:%02d - accion: %s realizada por: %s\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, action, username);
+    fprintf(file, "%d-%02d-%02d %02d:%02d:%02d - Accion: %s - Realizada por: %s\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, action, username);
     fclose(file);
 }
