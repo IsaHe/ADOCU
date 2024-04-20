@@ -38,7 +38,7 @@ int insertUserValorationInDB(Valoration valoration, User user, sqlite3* db) {
     result = sqlite3_finalize(statement);
     if (result != SQLITE_OK) {
         printf("Error finalizando el statement (INSERT).\n");
-        printf("%s\n", sqlite3_errmsg(db));ç
+        printf("%s\n", sqlite3_errmsg(db));
         logAction(sqlite3_errmsg(db), "Finalizar statment", 'f');
         return result;
     }
