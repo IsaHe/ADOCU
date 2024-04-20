@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "logger.h"
 
 #define MAX_GROUP_NAME 30
 #define MAX_USERS 10
@@ -23,8 +24,10 @@ void createGroup(char* name, int maxUsers, GroupList* groupList, Group* group) {
     groupList -> groups[groupList -> numGroups] = group;
     groupList -> numGroups++;
     printf("Grupo creado correctamente.\n");
+    logAction("Grupo creado correctamente", "sistema", 's');
   } else {
     printf("Ya existe un grupo con ese nombre.\n");
+    logAction("Error creando el grupo", "sistema", 'f');
   }
 }
 
@@ -36,9 +39,11 @@ Group* joinGroup(char* name, User user, GroupList* groupList) {
         groupList -> groups[i] -> users[groupList -> groups[i] -> numUsers] = user;
         groupList -> groups[i] -> numUsers++;
         printf("Te has unido al grupo correctamente.\n");
+        logAction("Usuario unido al grupo correctamente", user.username, 's');
         return group;
       } else {
         printf("Este grupo ha alcanzado el numero maximo de usuarios.\n");
+        logAction("Error uniendo al usuario al grupo", user.username, 'f');
         return NULL;
       }
     }
@@ -127,8 +132,10 @@ void addActivityToGroup(Activity activity, Group* group) {
     group -> activityList[group -> numActivities] = activity;
     group -> numActivities += 1;
     printf("Actividad seleccionada.\n");
+    logAction("Actividad seleccionada", group->name, 's');
   } else {
     printf("Lo siento esa actividad ya está seleccionada.\n");
+    logAction("Intentando añadir una actividad ya seleccionada", group->name, 'f');
   }
 }
 
@@ -154,8 +161,7 @@ int readActivitiesInDB(ActivityList* activityList, sqlite3* db) {
 
 	int result = sqlite3_prepare_v2(db, sql, -1, &statement, NULL);
 	if (result != SQLITE_OK) {
-		printf("Error preparando el statement (SELECT).\n");
-		printf("%s\n", sqlite3_errmsg(db));
+        logAction(sqlite3_errmsg(db), "Preparar statment", 'f');
 		return result;
 	}
 
@@ -170,8 +176,7 @@ int readActivitiesInDB(ActivityList* activityList, sqlite3* db) {
 
 	result = sqlite3_finalize(statement);
 	if (result != SQLITE_OK) {
-		printf("Error finalizando el statement (SELECT).\n");
-		printf("%s\n", sqlite3_errmsg(db));
+        logAction(sqlite3_errmsg(db), "Finalizar statment", 'f');
 		return result;
 	}
 
@@ -187,8 +192,7 @@ int insertActivitiesInDB(ActivityList activityList, sqlite3* db) {
     char sql[] = "insert into activities (name) values (?)";
 		int result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &statement, NULL);
 		if (result != SQLITE_OK) {
-			printf("Error preparando el statement (INSERT).\n");
-			printf("%s\n", sqlite3_errmsg(db));
+            logAction(sqlite3_errmsg(db), "Preprar statment", 'f');
 			return result;
 		}
 
@@ -196,14 +200,13 @@ int insertActivitiesInDB(ActivityList activityList, sqlite3* db) {
 
 		result = sqlite3_step(statement);
 		if (result != SQLITE_DONE) {
-			printf("Error insertando un usuario.\n");
+            logAction(sqlite3_errmsg(db), "Ejecutar statment", 'f');
 			return result;
 		}
 
 		result = sqlite3_finalize(statement);
 		if (result != SQLITE_OK) {
-			printf("Error finalizando el statement (INSERT).\n");
-			printf("%s\n", sqlite3_errmsg(db));
+            logAction(sqlite3_errmsg(db), "Finalizar statment", 'f');
 			return result;
 		}
   }
@@ -215,6 +218,7 @@ void deleteActivity(ActivityList* activityList) {
     int option = seeActivities(activityList);
     if (option == -1) {
         printf("Seleccione una opcion valida.\n");
+        logAction("Actividad no valida seleccionada", "sistema", 'f');
     } else {
         Activity activityListAux[(activityList -> numActivities) - 1];
         int count = 0;
@@ -226,6 +230,7 @@ void deleteActivity(ActivityList* activityList) {
         }
         activityList -> numActivities -= 1;
         printf("La actividad se ha eliminado correctamente.\n");
+        logAction("Actividad eliminada correctamente", "sistema", 's');
 
         for (int i = 0; i < activityList -> numActivities; i++) {
             activityList -> activityList[i] = activityListAux[i];
@@ -245,8 +250,10 @@ void addActivity(ActivityList* activityList, Activity activity) {
         activityList -> activityList[activityList -> numActivities] = activity;
         activityList -> numActivities += 1;
         printf("La actividad se ha añadido correctamente.\n");
+        logAction("Actividad añadida correctamente", activity.name, 's');
     } else {
         printf("La actividad ya esta en la lista.\n");
+        logAction("Error añadiendo la actividad", activity.name, 'f');
     }
 }
 
@@ -267,6 +274,9 @@ void writeGroupsInFile(GroupList groupList, char* fileName) {
         fprintf(file, "\t- %s\n", groupList.groups[i] -> activityList[j].name);
       }
     }
+    logAction("Grupos guardados en fichero", "sistema", 's');
     fclose(file);
+  } else {
+    logAction("Error guardando los grupos en fichero", "sistema", 'f');
   }
 }
