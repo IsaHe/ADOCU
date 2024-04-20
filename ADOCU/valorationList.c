@@ -3,6 +3,7 @@
 #include <string.h>
 #include "valorationList.h"
 #include "user.h"
+#include "logger.h"
 
 int readValorationsFromDB(ValorationList* valorationList, sqlite3* db) {
     sqlite3_stmt* statement;
@@ -11,8 +12,7 @@ int readValorationsFromDB(ValorationList* valorationList, sqlite3* db) {
 
 	int result = sqlite3_prepare_v2(db, sql, -1, &statement, NULL);
 	if (result != SQLITE_OK) {
-		printf("Error preparando el statement (SELECT).\n");
-		printf("%s\n", sqlite3_errmsg(db));
+        logAction(sqlite3_errmsg(db), "Preparar statment", 'f');
 		return result;
 	}
 	
@@ -34,8 +34,7 @@ int readValorationsFromDB(ValorationList* valorationList, sqlite3* db) {
 
 	result = sqlite3_finalize(statement);
 	if (result != SQLITE_OK) {
-		printf("Error finalizando el statement (SELECT).\n");
-		printf("%s\n", sqlite3_errmsg(db));
+        logAction(sqlite3_errmsg(db), "Finalizar statment", 'f');
 		return result;
 	}
 
@@ -50,8 +49,7 @@ int insertValorationsInDB(ValorationList valorationList, sqlite3* db) {
 		char sql[] = "insert into valorations (valoration) values (?)";
 		int result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &statement, NULL);
 		if (result != SQLITE_OK) {
-			printf("Error preparando el statement (INSERT).\n");
-			printf("%s\n", sqlite3_errmsg(db));
+            logAction(sqlite3_errmsg(db), "Preparar statment", 'f');
 			return result;
 		}
 
@@ -63,6 +61,7 @@ int insertValorationsInDB(ValorationList valorationList, sqlite3* db) {
 		result = sqlite3_step(statement);
 		if (result != SQLITE_DONE) {
 			printf("Error insertando un usuario.\n");
+            logAction(sqlite3_errmsg(db), "Ejecutar statment", 'f');
 			return result;
 		}
 
@@ -70,6 +69,7 @@ int insertValorationsInDB(ValorationList valorationList, sqlite3* db) {
 		if (result != SQLITE_OK) {
 			printf("Error finalizando el statement (INSERT).\n");
 			printf("%s\n", sqlite3_errmsg(db));
+            logAction(sqlite3_errmsg(db), "Finalizar statment", 'f');
 			return result;
 		}
 	}
@@ -88,8 +88,10 @@ void addToValorations(ValorationList* valorationList, Valoration valoration) {
         valorationList -> valorations[valorationList -> numValorations] = valoration;
         valorationList -> numValorations++;
         printf("Gracias por tu valoracion :)\n");
+        logAction("Valoracion añadida", "sistema", 's');
     } else {
         printf("La lista de valoraciones esta llena ;(\n");
+        logAction("Error añadiendo valoracion", "sistema", 'f');
     }
 }
 

@@ -104,41 +104,49 @@ int main() {
 							group -> name = menuCreateGroupName();
 							group -> maxUsers = menuCreateGroupMaxUsers();
 							createGroup(group -> name, group -> maxUsers, &groupList, group);
+                            logAction("Grupo creado", user.username, 's');
 						} else if (optionLogIn == '2') {
 							printf("Unirse a Grupo\n");
 							char* groupName = menuJoinGroup();
 							group = joinGroup(groupName, user, &groupList);
 							if (group != NULL) {
 								userInGroup = 1;
+                                logAction("Usuario unido al grupo", user.username, 's');
 								break;
 							} else {
 								printf("No se ha podido unir al grupo.\n");
+                                logAction("Error uniendo al usuario al grupo", user.username, 'f');
 							}
 						} else if (optionLogIn == '3') {
 							do {
 								optionValoration = menuValoration();
 								if (optionValoration == '1') { // Crear valoracion de 1
 									printf("HAS VALORADO MUY MAL\n");
+                                    logAction("Valoracion muy mala", user.username, 's');
 									valoration = insertIntoValoration(optionValoration);
 									addToValorations(&valorationList, valoration);
 									insertUserValorationInDB(valoration, user, db);
 								} else if (optionValoration == '2') { // Crear valoracion de 2
 									printf("HAS VALORADO MAL\n");
+                                    logAction("Valoracion mala", user.username, 's');
 									valoration = insertIntoValoration(optionValoration);
 									addToValorations(&valorationList, valoration);
 									insertUserValorationInDB(valoration, user, db);
 								} else if (optionValoration == '3') { // Crear valoracion de 3
 									printf("HAS VALORADO REGULAR\n");
+                                    logAction("Valoracion regular", user.username, 's');
 									valoration = insertIntoValoration(optionValoration);
 									addToValorations(&valorationList, valoration);
 									insertUserValorationInDB(valoration, user, db);
 								} else if (optionValoration == '4') { // Crear valoracion de 4
 									printf("HAS VALORADO BIEN\n");
+                                    logAction("Valoracion buena", user.username, 's');
 									valoration = insertIntoValoration(optionValoration);
 									addToValorations(&valorationList, valoration);
 									insertUserValorationInDB(valoration, user, db);
 								} else if (optionValoration == '5') { // Crear valoracion de 5
 									printf("HAS VALORADO MUY BIEN\n");
+                                    logAction("Valoracion muy buena", user.username, 's');
 									valoration = insertIntoValoration(optionValoration);
 									addToValorations(&valorationList, valoration);
 									insertUserValorationInDB(valoration, user, db);
@@ -154,11 +162,14 @@ int main() {
 							int option = seeActivities(&activityList);
 							if (option == -1) {
 								printf("Seleccione una opcion valida.\n");
+                                logAction("Actividad no valida introducida", user.username, 'f');
 							} else {
 								addActivityToGroup(activityList.activityList[option - 1], group);
+                                logAction("Actividad añadida al grupo", user.username, 's');
 							}
 						} else if (optionActivity == '2') {
 							seeGroupActivities(group);
+                            logAction("Mostrando las actividades del grupo", user.username, 's');
 						}
 					} while (optionActivity != '3');
 					updateGroupActivitiesInGroupList(&groupList, group);
@@ -170,16 +181,20 @@ int main() {
 					optionAdmin = menuAdmin();
 					if (optionAdmin == '1') { // Eliminar usuarios
 						printf("Eliminar Usuarios\n");
+                        logAction("Eliminando usuarios", "admin", 's');
 						int position = userToRemove(userList); // Conseguir la posicion del array del usuario
 						if (position < (userList.numUsers + 1)) {
 							deleteUserWithPosition(&userList, position); // Eliminar al usuario por la posicion del array
 						} else {
 							printf("Ese usuario no esta, intentelo de nuevo!\n"); // Si el usuario no esta en el array
+                            logAction("Usuario no encontrado", "admin", 'f');
 						}
 					} else if (optionAdmin == '2') { // Añadir actividades
 						printf("Añadir Actividades\n");
+                        logAction("Añadiendo actividades", "admin", 's');
 						if (activityList.numActivities == 10) {
 							printf("No se pueden seleccionar mas actividades.\n");
+                            logAction("No se pueden añadir mas actividades", "admin", 'f');
 						} else {
 							printf("Escribe una actividad que van a poder seleccionar los grupos: ");
 							fflush(stdin);

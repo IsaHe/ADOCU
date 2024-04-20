@@ -1,10 +1,12 @@
 #include "valoration.h"
 #include <stdio.h>
 #include <string.h>
+#include "logger.h"
 
 Valoration insertIntoValoration(char valoration) {
     Valoration valorationResult;
     valorationResult.valoration = valoration;
+    logAction("Valoracion insertada", "sistema", 's');
     return valorationResult;
 }
 
@@ -16,6 +18,7 @@ int insertUserValorationInDB(Valoration valoration, User user, sqlite3* db) {
     if (result != SQLITE_OK) {
         printf("Error preparando el statement (INSERT).\n");
         printf("%s\n", sqlite3_errmsg(db));
+        logAction(sqlite3_errmsg(db), "Preparar statment", 'f');
         return result;
     }
 
@@ -28,13 +31,15 @@ int insertUserValorationInDB(Valoration valoration, User user, sqlite3* db) {
     result = sqlite3_step(statement);
     if (result != SQLITE_DONE) {
         printf("Error insertando un usuario.\n");
+        logAction(sqlite3_errmsg(db), "Ejecutar statment", 'f');
         return result;
     }
 
     result = sqlite3_finalize(statement);
     if (result != SQLITE_OK) {
         printf("Error finalizando el statement (INSERT).\n");
-        printf("%s\n", sqlite3_errmsg(db));
+        printf("%s\n", sqlite3_errmsg(db));ç
+        logAction(sqlite3_errmsg(db), "Finalizar statment", 'f');
         return result;
     }
 
@@ -50,6 +55,7 @@ int readUserValorationsFromDB(sqlite3* db) {
 	if (result != SQLITE_OK) {
 		printf("Error preparando el statement (SELECT).\n");
 		printf("%s\n", sqlite3_errmsg(db));
+        logAction(sqlite3_errmsg(db), "Preparar statment", 'f');
 		return result;
 	}
 	
@@ -69,6 +75,7 @@ int readUserValorationsFromDB(sqlite3* db) {
 	if (result != SQLITE_OK) {
 		printf("Error finalizando el statement (SELECT).\n");
 		printf("%s\n", sqlite3_errmsg(db));
+        logAction(sqlite3_errmsg(db), "Finalizar statment", 'f');
 		return result;
 	}
 
