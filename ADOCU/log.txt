@@ -1,0 +1,16 @@
+SUCCESS - 2024-04-21 21:38:50 - Accion: Cargada la configuracion - Realizada por: sistema
+SUCCESS - 2024-04-21 21:38:50 - Accion: Usuarios leidos correctamente - Realizada por: sistema
+SUCCESS - 2024-04-21 21:38:59 - Accion: Usuario encontrado - Realizada por: Erik
+SUCCESS - 2024-04-21 21:39:05 - Accion: Grupo creado correctamente - Realizada por: sistema
+SUCCESS - 2024-04-21 21:39:05 - Accion: Grupo creado - Realizada por: Erik
+SUCCESS - 2024-04-21 21:39:52 - Accion: Usuario unido al grupo correctamente - Realizada por: Erik
+SUCCESS - 2024-04-21 21:39:52 - Accion: Usuario unido al grupo - Realizada por: Erik
+SUCCESS - 2024-04-21 21:39:56 - Accion: Actividad seleccionada - Realizada por: Hola
+SUCCESS - 2024-04-21 21:39:56 - Accion: Actividad añadida al grupo - Realizada por: Erik
+SUCCESS - 2024-04-21 21:39:57 - Accion: Mostrando las actividades del grupo - Realizada por: Erik
+SUCCESS - 2024-04-21 21:40:06 - Accion: Admin encontrado - Realizada por: Admin
+SUCCESS - 2024-04-21 21:40:06 - Accion: Admin encontrado - Realizada por: Admin
+SUCCESS - 2024-04-21 21:40:18 - Accion: Añadiendo actividades - Realizada por: admin
+SUCCESS - 2024-04-21 21:40:20 - Accion: Actividad añadida correctamente - Realizada por: Admin
+SUCCESS - 2024-04-21 21:40:28 - Accion: Actividad eliminada correctamente - Realizada por: sistema
+SUCCESS - 2024-04-21 21:41:01 - Accion: Grupos guardados en fichero - Realizada por: sistema

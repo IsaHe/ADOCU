@@ -1,12 +1,8 @@
-//
-// Created by PC on 20/04/2024.
-//
-
 #include "logger.h"
 #include <stdio.h>
 #include <time.h>
 
-void logAction(const char* action, const char* username, char status){
+void logAction(const char* action, const char* username, char status) {
     FILE* file = fopen("log.txt", "a");
     if (file == NULL) {
         printf("Error opening file\n");
