@@ -10,16 +10,18 @@ using namespace std;
 
 class Menus {
 public:
+    Menus();
     static char mainMenu();
     static char menuValoration();
     static char menuAdmin();
     static char menuLogIn();
     static char menuActivity();
-    static char menuCreateGroupName();
+    static char* menuCreateGroupName();
     static char* menuJoinGroup();
     static int menuCreateGroupMaxUsers();
     static int seeActivities();
     static void seeGroupActivities();
+    static char menuRegistro();
 };
 
 #endif //ADOCU_MENUS_H

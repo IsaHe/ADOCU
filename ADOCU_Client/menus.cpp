@@ -4,6 +4,8 @@
 
 #include "menus.h"
 
+Menus::Menus() {}
+
 char Menus::mainMenu() {
     cout << "1. Iniciar Sesión" << endl;
     cout << "2. Registrarse" << endl;
@@ -43,6 +45,10 @@ char Menus::menuAdmin() {
     return
 }
 
+char* Menus::menuRegistro() {
+    // TODO: Implementar
+}
+
 char Menus::menuLogIn() {
     cout << "1. Crear Grupo" << endl;
     cout << "2. Unirse a Grupo" << endl;
@@ -67,7 +73,7 @@ char Menus::menuActivity() {
     return option;
 }
 
-char Menus::menuCreateGroupName() {
+char* Menus::menuCreateGroupName() {
     cout << "Introduce el nombre del grupo: ";
     char* groupName = new char[MAX_LINE];
     cin.getline(groupName, MAX_LINE);
