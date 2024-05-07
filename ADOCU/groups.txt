@@ -1,5 +1,0 @@
-Grupo: Hola (1 usuarios max).
-Users (1 usuarios):
-	Nombre: Erik, Usuario: Erik, Contraseña: 222, Edad: 20, Admin: U.
-Activities (1 actividades):
-	- Futbol

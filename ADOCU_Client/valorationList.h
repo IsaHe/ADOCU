@@ -9,9 +9,18 @@ class ValorationList {
         int size;
     public:
         ValorationList();
+        ValorationList(int size);
+        ValorationList(Valoration *valorations, int numValorations, int size);
         ValorationList(const ValorationList &valorationList);
-        ValorationList(Valoration *valorations, int numValoramiento, int size);
         virtual ~ValorationList();
+
+        Valoration *getValorations();
+        int getNumValorations();
+        int getSize();
+        void setValorations(Valoration *valorations);
+        void setNumValorations(int numValorations);
+        void setSize(int size);
+        void addValoration(Valoration valoration);
 };
 
 #endif

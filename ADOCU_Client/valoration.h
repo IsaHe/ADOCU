@@ -6,9 +6,12 @@ class Valoration {
         char valoration;
     public:
         Valoration();
-        Valoration(const Valoration &valoration);
         Valoration(char valoration);
+        Valoration(const Valoration &valoration);
         virtual ~Valoration();
+
+        char getValoration();
+        void setValoration(char valoration);
 };
 
 #endif

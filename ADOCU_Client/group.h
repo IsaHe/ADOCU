@@ -5,17 +5,34 @@
 
 class Group {
     private:
-        char* name;
-        User* users;
+        char *name;
+        User **users;
         int numUsers;
         int maxUsers;
-        Activity activityList[MAX_ACTIVITIES];
+        Activity *activityList;
         int numActivities;
     public:
         Group();
+        Group(char *name, User **users, int numUsers, int maxUsers, Activity *activityList, int numActivities);
         Group(const Group &group);
-        Group(char *name, User *users, int numUsers, int masUsers, Activity *activityList, int numActivities);
         virtual ~Group();
+
+        char* getName();
+        User** getUsers();
+        int getNumUsers();
+        int getMaxUsers();
+        Activity* getActivityList();
+        int getNumActivities();
+        void setName(char* name);
+        void setUsers(User **users);
+        void setNumUsers(int numUsers);
+        void setMaxUsers(int maxUsers);
+        void setActivityList(Activity *activityList);
+        void setNumActivities(int numActivities);
+        void addUser(User *user);
+        void addActivity(Activity activity);
+        void showActivities();
+        Group& operator=(const Group &group);
 };
 
 #endif

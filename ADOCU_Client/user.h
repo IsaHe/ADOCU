@@ -7,12 +7,20 @@ class User {
 	    char username[20];
 	    char password[20];
 	    int age;
-	    char admin;
     public:
         User();
-        User(char *name, char *username, char *password, int age, char * admin);
+        User(char *name, char *username, char *password, int age);
         User(const User &user);
         virtual ~User();
+
+        char* getName();
+        char* getUsername();
+        char* getPassword();
+        int getAge();
+        void setName(char* name);
+        void setUsername(char* username);
+        void setPassword(char* password);
+        void setAge(int age);
 };
 
 #endif

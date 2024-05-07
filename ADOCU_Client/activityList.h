@@ -4,13 +4,19 @@
 
 class ActivityList {
     private:
-        Activity activityList[MAX_ACTIVITIES];
+        Activity *activityList;
         int numActivities;
     public:
         ActivityList();
-        ActivityList(const ActivityList &activityList);
         ActivityList(Activity *ativityList, int numActividades);
+        ActivityList(const ActivityList &activityList);
         virtual ~ActivityList();
+
+        Activity getActivity(int position);
+        int getNumActivities();
+        void setActivityList(Activity *activityList);
+        void setNumActivities(int numActivities);
+        void seeActivities();
 };
 
 #endif

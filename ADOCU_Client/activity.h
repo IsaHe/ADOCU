@@ -8,9 +8,12 @@ class Activity {
         char name[30];
     public:
         Activity();
-        Activity(const Activity &activity);
         Activity(char *name);
+        Activity(const Activity &activity);
         virtual ~Activity();
+
+        char* getName();
+        void setName(char* name);
 };
 
 #endif
