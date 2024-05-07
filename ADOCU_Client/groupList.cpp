@@ -56,18 +56,18 @@ void GroupList::setNumGroups(int numGroups) {
 
 void GroupList::addGroup(Group *group) {
     if (numGroups < size) {
-        groups[numGroups] = group;
-        numGroups++;
+        getGroups()[getNumGroups()] = group;
+        setNumGroups(getNumGroups() + 1);
     } else {
         cout << "No se pueden añadir más grupos" << endl;
     }
 }
 
-int GroupList::findUserInGroup(User user) {
+int GroupList::findUserInGroup(User *user) {
     for (int i = 0; i < numGroups; i++) {
         for (int j = 0; j < groups[i]->getNumUsers(); j++) {
-            cout << groups[i]->getName() << endl;
-            if (strcmp(groups[i]->getUsers()[j]->getUsername(), user.getUsername()) == 0) {
+            if (strcmp(groups[i]->getUsers()[j]->getUsername(), user->getUsername()) == 0) {
+                cout << "Si: " << groups[i]->getName() << groups[i]->getUsers()[j]->getName() << endl;
                 return 1;
             }
         }
@@ -99,6 +99,8 @@ void GroupList::createGroup(Group *group) {
     group->setMaxUsers(maxUsers);
     group->setActivityList(new Activity[10]);
     group->setNumActivities(0);
+    this->addGroup(group);
+    cout << "Grupo creado" << endl;
 }
 
 void GroupList::joinGroup(User *user) {
@@ -131,4 +133,11 @@ int GroupList::getGroupPositionWithUser(User user) {
         }
     }
     return -1;
+}
+
+GroupList& GroupList::operator=(const GroupList &groupList) {
+    groups = groupList.groups;
+    size = groupList.size;
+    numGroups = groupList.numGroups;
+    return *this;
 }

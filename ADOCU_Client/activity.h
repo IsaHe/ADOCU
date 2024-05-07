@@ -14,6 +14,7 @@ class Activity {
 
         char* getName();
         void setName(char* name);
+        Activity& operator=(const Activity &activity);
 };
 
 #endif

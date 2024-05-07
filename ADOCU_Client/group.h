@@ -1,15 +1,17 @@
 #include "user.h"
 #include "activity.h"
+#include "activityList.h"
+
 #ifndef GROUP_H_
 #define GROUP_H_
 
 class Group {
     private:
-        char *name;
+        char name[30];
         User **users;
         int numUsers;
         int maxUsers;
-        Activity *activityList;
+        Activity activityList[10];
         int numActivities;
     public:
         Group();
@@ -30,7 +32,7 @@ class Group {
         void setActivityList(Activity *activityList);
         void setNumActivities(int numActivities);
         void addUser(User *user);
-        void addActivity(Activity activity);
+        void addActivity(ActivityList activityList2);
         void showActivities();
         Group& operator=(const Group &group);
 };

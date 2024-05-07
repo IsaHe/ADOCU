@@ -4,22 +4,24 @@
 using namespace std;
 
 ActivityList::ActivityList() {
-    activityList = new Activity[10];
     numActivities = 0;
 }
 
 ActivityList::ActivityList(Activity *ativityList, int numActividades) {
-    this->activityList = activityList;
+    for (int i = 0; i < numActividades; i++) {
+        activityList[i] = ativityList[i];
+    }
     this->numActivities = numActivities;
 }
 
 ActivityList::ActivityList(const ActivityList &activityList) {
-    this->activityList = activityList.activityList;
+    for (int i = 0; i < activityList.numActivities; i++) {
+        this->activityList[i] = activityList.activityList[i];
+    }
     this->numActivities = activityList.numActivities;
 }
 
 ActivityList::~ActivityList() {
-    delete[] activityList;
 }
 
 Activity ActivityList::getActivity(int position) {
@@ -31,7 +33,9 @@ int ActivityList::getNumActivities() {
 }
 
 void ActivityList::setActivityList(Activity *activityList) {
-    this->activityList = activityList;
+    for (int i = 0; i < numActivities; i++) {
+        this->activityList[i] = activityList[i];
+    }
 }
 
 void ActivityList::setNumActivities(int numActivities) {

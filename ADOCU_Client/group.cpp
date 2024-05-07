@@ -8,38 +8,37 @@
 using namespace std;
 
 Group::Group() {
-    name = NULL;
+    strcpy(name, "");
     users = NULL;
     numUsers = 0;
     maxUsers = 0;
-    activityList = NULL;
     numActivities = 0;
 }
 
 Group::Group(char *name, User **users, int numUsers, int maxUsers, Activity *activityList, int numActivities) {
-    this->name = new char[strlen(name) + 1];
     strcpy(this->name, name);
     this->users = users;
     this->numUsers = numUsers;
     this->maxUsers = maxUsers;
-    this->activityList = activityList;
+    for (int i = 0; i < 10; i++) {
+        this->activityList[i] = activityList[i];
+    }
     this->numActivities = numActivities;
 }
 
 Group::Group(const Group &group) {
-    name = new char[strlen(group.name) + 1];
     strcpy(name, group.name);
     users = group.users;
     numUsers = group.numUsers;
     maxUsers = group.maxUsers;
-    activityList = group.activityList;
+    for (int i = 0; i < 10; i++) {
+        activityList[i] = group.activityList[i];
+    }
     numActivities = group.numActivities;
 }
 
 Group::~Group() {
-    delete[] name;
     delete[] users;
-    delete[] activityList;
 }
 
 char* Group::getName() {
@@ -67,8 +66,6 @@ int Group::getNumActivities() {
 }
 
 void Group::setName(char* name) {
-    delete[] this->name;
-    this->name = new char[strlen(name) + 1];
     strcpy(this->name, name);
 }
 
@@ -85,7 +82,9 @@ void Group::setMaxUsers(int maxUsers) {
 }
 
 void Group::setActivityList(Activity *activityList) {
-    this->activityList = activityList;
+    for (int i = 0; i < 10; i++) {
+        this->activityList[i] = activityList[i];
+    }
 }
 
 void Group::setNumActivities(int numActivities) {
@@ -97,25 +96,31 @@ void Group::addUser(User *user) {
     numUsers++;
 }
 
-void Group::addActivity(Activity activity) {
-    activityList[numActivities] = activity;
-    numActivities++;
+void Group::addActivity(ActivityList activityList2) {
+    cout << "Introce el número de la actividad: ";
+    int option;
+    cin >> option;
+    cin.ignore();
+    getActivityList()[getNumActivities()] = activityList2.getActivity(option - 1);
+    setNumActivities(getNumActivities() + 1);
+    cout << "Actividad añadida" << endl;
 }
 
 void Group::showActivities() {
-    for (int i = 0; i < numActivities; i++) {
-        cout << activityList[i].getName() << endl;
+    cout << "Actividades " << "(" << getNumActivities() << "):" << endl;
+    for (int i = 0; i < getNumActivities(); i++) {
+        cout << getActivityList()[i].getName() << endl;
     }
 }
 
 Group& Group::operator=(const Group &group) {
-    delete[] name;
-    name = new char[strlen(group.name) + 1];
     strcpy(name, group.name);
     users = group.users;
     numUsers = group.numUsers;
     maxUsers = group.maxUsers;
-    activityList = group.activityList;
+    for (int i = 0; i < 10; i++) {
+        activityList[i] = group.activityList[i];
+    }
     numActivities = group.numActivities;
     return *this;
 }

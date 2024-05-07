@@ -26,3 +26,8 @@ char* Activity::getName() {
 void Activity::setName(char* name) {
     strcpy(this->name, name);
 }
+
+Activity& Activity::operator=(const Activity &activity) {
+    strcpy(name, activity.name);
+    return *this;
+}

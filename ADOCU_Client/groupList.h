@@ -21,10 +21,11 @@ class GroupList {
         void setSize(int size);
         void setNumGroups(int numGroups);
         void addGroup(Group *group);
-        int findUserInGroup(User user);
+        int findUserInGroup(User *user);
         void createGroup(Group *group);
         void joinGroup(User *user);
         int getGroupPositionWithUser(User user);
+        GroupList& operator=(const GroupList &groupList);
 };
 
 #endif

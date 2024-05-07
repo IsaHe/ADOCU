@@ -59,3 +59,10 @@ void User::setAge(int age) {
     this->age = age;
 }
 
+User& User::operator=(const User &user) {
+    strcpy(this->name, user.name);
+    strcpy(this->username, user.username);
+    strcpy(this->password, user.password);
+    this->age = user.age;
+    return *this;
+}

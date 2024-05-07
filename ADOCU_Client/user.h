@@ -21,6 +21,7 @@ class User {
         void setUsername(char* username);
         void setPassword(char* password);
         void setAge(int age);
+        User& operator=(const User &user);
 };
 
 #endif
