@@ -53,3 +53,22 @@ char Menus::groupMenu() {
     cin.ignore(); // Se descarta el salto de línea
     return option;
 }
+
+void Menus::registerMenu(UserList *userList, User *user) {
+    cout << "Introduce tu nombre de usuario: ";
+    char username[20];
+    cin.getline(username, 20);
+    cout << "Introduce tu contraseña: ";
+    char password[20];
+    cin.getline(password, 20);
+    cout << "Introduce tu edad: ";
+    int age;
+    cin >> age;
+    cin.ignore(); // Se descarta el salto de línea
+    user->setName(username);
+    user->setUsername(username);
+    user->setPassword(password);
+    user->setAge(age);
+    userList->addUserToList(user);
+    cout << "¡Usuario registrado con éxito!" << endl;
+}

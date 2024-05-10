@@ -27,6 +27,10 @@ ValorationList::ValorationList(const ValorationList &valorationList) {
     this->size = valorationList.size;
 }
 
+ValorationList::~ValorationList() {
+    delete[] valorations;
+}
+
 Valoration *ValorationList::getValorations() {
     return valorations;
 }
@@ -51,15 +55,17 @@ void ValorationList::setSize(int size) {
     this->size = size;
 }
 
-ValorationList::~ValorationList() {
-    delete[] valorations;
-}
-
 void ValorationList::addValoration(Valoration valoration) {
     if (numValorations < size) {
         valorations[numValorations] = valoration;
         numValorations++;
     } else {
         cout << "No se pueden añadir más valoraciones" << endl;
+    }
+}
+
+void ValorationList::seeValorations() {
+    for (int i = 0; i < numValorations; i++) {
+        cout << i + 1 << ". " << valorations[i].getValoration() << endl;
     }
 }

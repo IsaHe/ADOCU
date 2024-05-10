@@ -21,6 +21,7 @@ class ValorationList {
         void setNumValorations(int numValorations);
         void setSize(int size);
         void addValoration(Valoration valoration);
+        void seeValorations();
 };
 
 #endif

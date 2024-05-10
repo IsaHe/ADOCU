@@ -67,7 +67,6 @@ int GroupList::findUserInGroup(User *user) {
     for (int i = 0; i < numGroups; i++) {
         for (int j = 0; j < groups[i]->getNumUsers(); j++) {
             if (strcmp(groups[i]->getUsers()[j]->getUsername(), user->getUsername()) == 0) {
-                cout << "Si: " << groups[i]->getName() << groups[i]->getUsers()[j]->getName() << endl;
                 return 1;
             }
         }

@@ -19,15 +19,14 @@ int main() {
     User user1("Erik", "Erik", "111", 20);
     User user2("Peral", "Peral", "222", 20);
     User user3("Urrutia", "Urrutia", "333", 20);
+    User user4("Isaac", "Isaac", "444", 20);
     UserList userList(10);
     userList.addUserToList(&user1);
     userList.addUserToList(&user2);
     userList.addUserToList(&user3);
+    userList.addUserToList(&user4);
     Group *group;
-    // Group group1("Hola", new User*[10], 0, 10, new Activity[10], 0);
-    // group1.addUser(&user1);
     GroupList groupList(10);
-    // groupList.addGroup(&group1);
     Valoration valoration;
     ValorationList valorationList(10);
     ActivityList activityList;
@@ -39,12 +38,7 @@ int main() {
     activityList.setActivityList(activities);
 
     do {
-        // El problema es que cuando se crean los grupos, se crean con la misma direccion de memoria porque se pasa la direccion de memoria de la variable group que está definida arriba y nunca cambia. Por eso, cuando se añade un usuario a un grupo, se añade a todos los grupos. La solucion es crear un nuevo grupo cada vez que se crea un grupo.
         option = menu.mainMenu();
-        cout << groupList.getNumGroups() << endl;
-        for (int i = 0; i < groupList.getNumGroups(); i++) {
-            cout << groupList.getGroups()[i]->getName() << endl;
-        }
         if (option == '1') {
             user = userList.askForUser();
             if (userList.findUserInList(user) == 1) {
@@ -68,14 +62,10 @@ int main() {
                 } else {
                     do {
                         group = groupList.getGroups()[groupList.getGroupPositionWithUser(*user)];
-                        cout << group->getNumActivities() << endl;
-                        cout << "¡Bienvenido al grupo " << group->getName() << "!" << endl;
-                        cout << groupList.getGroupPositionWithUser(*user) << endl;
                         option = menu.groupMenu();
                         if (option == '1') {
                             activityList.seeActivities();
                             group->addActivity(activityList);
-                            group->showActivities();
                         } else if (option == '2') {
                             group->showActivities();
                         }
@@ -85,7 +75,8 @@ int main() {
                 cout << "Usuario o contraseña incorrectos" << endl;
             }
         } else if (option == '2') {
-            cout << "Registrarse" << endl;
+            User *userAux = new User();
+            menu.registerMenu(&userList, userAux);
         }
     } while (option != '0');
 
