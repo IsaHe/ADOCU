@@ -9,8 +9,11 @@
 #include <winsock2.h>
 #include "logger.h"
 
-#define PORT 8080
+#define DEFAULT_BUFLEN 512
 
-
+void initialize_winsock();
+SOCKET create_server(int port);
+void start_listening(SOCKET ListenSocket);
+void close_server(SOCKET ListenSocket);
 
 #endif //ADOCU_SERVER_H

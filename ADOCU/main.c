@@ -7,6 +7,7 @@
 #include "group.h"
 #include "sqlite3.h"
 #include "logger.h"
+#include "server.h"
 
 #define MAX_ACTIVITIES 10
 
@@ -71,6 +72,11 @@ int main() {
 	seeUserList(userList);
 	readValorationsFromDB(&valorationList, db);
 	readActivitiesInDB(&activityList, db);
+
+    // Inicializar el servidor
+    initialize_winsock();
+    SOCKET ListenSocket = create_server(27015);
+    start_listening(ListenSocket);
 
 	// Menus
 	do {

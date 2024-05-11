@@ -1,56 +1,74 @@
 #include "server.h"
+#include <stdio.h>
+#include <winsock2.h>
+#include "logger.h"
 
-int main() {
+void initialize_winsock() {
     WSADATA wsaData;
-    int server_fd, new_socket;
-    struct sockaddr_in address;
-    int opt = 1;
-    int addrlen = sizeof(address);
-    char buffer[1024] = {0};
 
-    // Inicializar la biblioteca Winsock
-    if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
-        logAction("WSAStartup failed", "server", 'f');
-        return 1;
+    if (WSAStartup(MAKEWORD(2,2), &wsaData) != 0) {
+        logAction("WSAStartup a fallado", "sistema", 'f');
+        exit(1);
     }
+    logAction("WSAStartup iniciado correctamente", "sistema", 's');
+}
 
-    // Crear el socket del servidor
-    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
-        logAction("Socket creation failed", "server", 'f');
+SOCKET create_server(int port) {
+    SOCKET ListenSocket = INVALID_SOCKET;
+    struct sockaddr_in serv_addr;
+
+    ListenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (ListenSocket == INVALID_SOCKET) {
+        logAction("Error creando el socket", "sistema", 'f');
         WSACleanup();
-        return 1;
+        exit(1);
     }
+    logAction("Socket creado correctamente", "sistema", 's');
 
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons(PORT);
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    serv_addr.sin_port = htons(port);
 
-    // Adjuntar el socket al puerto 8080
-    if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) == SOCKET_ERROR) {
-        logAction("Bind failed", "server", 'f');
-        closesocket(server_fd);
+    if (bind(ListenSocket, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) == SOCKET_ERROR) {
+        logAction("Error vinculando el socket al puerto", "sistema", 'f');
+        closesocket(ListenSocket);
         WSACleanup();
-        return 1;
+        exit(1);
     }
-    if (listen(server_fd, SOMAXCONN) == SOCKET_ERROR) {
-        logAction("Listen failed", "server", 'f');
-        closesocket(server_fd);
+    logAction("Socket vinculado correctamente", "sistema", 's');
+
+    return ListenSocket;
+}
+
+void start_listening(SOCKET ListenSocket)  {
+    char recvbuf[DEFAULT_BUFLEN];
+
+    if (listen(ListenSocket, SOMAXCONN) == SOCKET_ERROR) {
+        logAction("Error escuchando las conexiones entrantes", "sistema", 'f');
+        close_server(ListenSocket);
+        exit(1);
+    }
+    logAction("Escuchando las conexiones entrantes...", "sistema", 's');
+
+    SOCKET ClientSocket;
+    if ((ClientSocket = accept(ListenSocket, NULL, NULL)) == INVALID_SOCKET) {
+        logAction("Error aceptando las conexiones entrantes", "sistema", 'f');
+        close_server(ListenSocket);
+        exit(1);
+    }
+    logAction("Conexión aceptada", "sistema", 's');
+
+    // Aquí puedes manejar la conexión entrante, por ejemplo, leyendo y escribiendo en el socket
+}
+
+void close_server(SOCKET ListenSocket) {
+    if (closesocket(ListenSocket) == SOCKET_ERROR) {
+        printf("close failed: %d\n", WSAGetLastError());
+        logAction("Error cerrando el socket", "sistema", 'f');
         WSACleanup();
-        return 1;
+        exit(1);
     }
-    if ((new_socket = accept(server_fd, (struct sockaddr *)&address, &addrlen)) == INVALID_SOCKET) {
-        logAction("Accept failed", "server", 'f');
-        closesocket(server_fd);
-        WSACleanup();
-        return 1;
-    }
+    logAction("Socket cerrado correctamente", "sistema", 's');
 
-    // Enviar mensaje al cliente
-
-
-    // Limpiar y cerrar
-    closesocket(new_socket);
     WSACleanup();
-
-    return 0;
 }
