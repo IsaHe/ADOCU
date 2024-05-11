@@ -58,7 +58,21 @@ void start_listening(SOCKET ListenSocket)  {
     }
     logAction("Conexión aceptada", "sistema", 's');
 
-    // Aquí puedes manejar la conexión entrante, por ejemplo, leyendo y escribiendo en el socket
+    int bytesRecividos;
+    do {
+        bytesRecividos = recv(ClientSocket, recvbuf, DEFAULT_BUFLEN, 0);
+        if (bytesRecividos > 0) {
+            logAction("Datos recibidos %d", "sistema", 's', bytesRecividos);
+            logAction(recvbuf, "sistema", 's');
+        } else if (bytesRecividos == 0) {
+            logAction("Conexión cerrada", "sistema", 's');
+        } else {
+            printf("recv failed: %d\n", WSAGetLastError());
+            logAction("Error recibiendo datos", "sistema", 'f');
+            close_server(ListenSocket);
+            exit(1);
+        }
+    } while (bytesRecividos > 0);
 }
 
 void close_server(SOCKET ListenSocket) {
