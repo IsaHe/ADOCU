@@ -37,6 +37,16 @@ int main() {
     activityList.setNumActivities(3);
     activityList.setActivityList(activities);
 
+    //Enviar un mensaje de prueba al servidor
+    ClientSocket clientSocket(27015);
+    const char *message = "Hola servidor";
+    int bytesSent = clientSocket.sendData(message);
+    if (bytesSent == -1) {
+        cout << "Error al enviar el mensaje" << endl;
+    } else {
+        cout << "Mensaje enviado" << endl;
+    }
+
     do {
         option = menu.mainMenu();
         if (option == '1') {
