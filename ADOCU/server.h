@@ -1,6 +1,3 @@
-//
-// Created by PC on 07/05/2024.
-//
 
 #ifndef ADOCU_SERVER_H
 #define ADOCU_SERVER_H
