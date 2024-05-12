@@ -7,6 +7,8 @@
 #include <iostream>
 using namespace std;
 
+#define DEFAULT_BUFLEN 512
+
 class ClientSocket {
 private:
     WSADATA wsaData;

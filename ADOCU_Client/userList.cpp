@@ -38,11 +38,11 @@ User** UserList::getUsers() {
     return users;
 }
 
-int UserList::getNumUsers() {
+int UserList::getNumUsers() const {
     return numUsers;
 }
 
-int UserList::getSize() {
+int UserList::getSize() const {
     return size;
 }
 
@@ -97,4 +97,64 @@ UserList& UserList::operator=(const UserList &userList) {
     numUsers = userList.numUsers;
     size = userList.size;
     return *this;
+}
+
+#define MAX_NAME_LENGTH 100
+#define MAX_USERNAME_LENGTH 100
+#define MAX_PASSWORD_LENGTH 100
+
+char* parseAttribute(const char*& p, int skip, int max_length) {
+    p += skip;
+    char* attribute = new char[max_length];
+    char* attributePtr = attribute;
+    while (*p != '\"') {
+        *attributePtr++ = *p++;
+    }
+    *attributePtr = '\0';
+    return attribute;
+}
+
+int parseAge(const char*& p) {
+    p += 7; // Saltar "\"age\": "
+    int age = 0;
+    while (*p != ',') {
+        age = age * 10 + (*p++ - '0');
+    }
+    return age;
+}
+
+char parseAdmin(const char*& p) {
+    p += 10; // Saltar "\"admin\": \""
+    return *p;
+}
+
+void parseUser(const char*& p, User* user) {
+    while (*p != '}') {
+        if (strncmp(p, "\"name\": \"", 9) == 0) {
+            user->setName(parseAttribute(p, 9, MAX_NAME_LENGTH));
+        } else if (strncmp(p, "\"username\": \"", 13) == 0) {
+            user->setUsername(parseAttribute(p, 13, MAX_USERNAME_LENGTH));
+        } else if (strncmp(p, "\"password\": \"", 13) == 0) {
+            user->setPassword(parseAttribute(p, 13, MAX_PASSWORD_LENGTH));
+        } else if (strncmp(p, "\"age\": ", 7) == 0) {
+            user->setAge(parseAge(p));
+        } else if (strncmp(p, "\"admin\": \"", 10) == 0) {
+            p++; // Saltar el caracter de admin
+        }
+        p++;
+    }
+}
+
+UserList UserList::unJsonifyUserList(const char* jsonString) {
+    UserList userList = UserList(100);
+    const char* p = jsonString;
+    while (*p) {
+        if (*p == '{') {
+            User* user = new User();
+            parseUser(p, user);
+            userList.addUserToList(user);
+        }
+        p++;
+    }
+    return userList;
 }

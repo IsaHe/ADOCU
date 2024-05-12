@@ -17,8 +17,8 @@ class UserList {
         virtual ~UserList();
 
         User** getUsers();
-        int getNumUsers();
-        int getSize();
+        int getNumUsers() const;
+        int getSize() const;
         void setUsers(User **users);
         void setNumUsers(int numUsers);
         void setSize(int size);
@@ -26,6 +26,7 @@ class UserList {
         int findUserInList(User *user);
         void addUserToList(User *user);
         UserList& operator=(const UserList &userList);
+        static UserList unJsonifyUserList(const char *json);
 };
 
 #endif

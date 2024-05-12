@@ -22,6 +22,7 @@ class User {
         void setPassword(char* password);
         void setAge(int age);
         User& operator=(const User &user);
+        static User* unJsonifyUser(char *json);
 };
 
 #endif

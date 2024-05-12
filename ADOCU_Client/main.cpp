@@ -39,13 +39,24 @@ int main() {
 
     //Enviar un mensaje de prueba al servidor
     ClientSocket clientSocket(27015);
-    const char *message = "Hola servidor";
+    const char *message = "Hola";
     int bytesSent = clientSocket.sendData(message);
     if (bytesSent == -1) {
         cout << "Error al enviar el mensaje" << endl;
     } else {
         cout << "Mensaje enviado" << endl;
+        int bytesReceived = 1;
+        do {
+            char recvbuf[DEFAULT_BUFLEN];
+            bytesReceived = clientSocket.receiveData(recvbuf, DEFAULT_BUFLEN);
+            UserList userList = UserList::unJsonifyUserList(recvbuf);
+            cout << "Usuarios recibidos: " << userList.getNumUsers() << endl;
+            for (int i = 0; i < userList.getNumUsers(); i++) {
+                cout << "Usuario " << i << ": " << userList.getUsers()[i]->getUsername() << endl;
+            }
+        } while (bytesReceived > 0);
     }
+
 
     do {
         option = menu.mainMenu();

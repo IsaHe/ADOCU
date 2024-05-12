@@ -66,3 +66,31 @@ User& User::operator=(const User &user) {
     this->age = user.age;
     return *this;
 }
+
+User* User::unJsonifyUser(char *json) {
+    User* user = new User();
+    char *token = strtok(json, ",");
+    while (token != NULL) {
+        char *key = strtok(token, ":");
+        char *value = strtok(NULL, ":");
+        if (strcmp(key, "\"name\"") == 0) {
+            value = strtok(value, "\"");
+            value = strtok(NULL, "\"");
+            user->setName(value);
+        } else if (strcmp(key, "\"username\"") == 0) {
+            value = strtok(value, "\"");
+            value = strtok(NULL, "\"");
+            user->setUsername(value);
+        } else if (strcmp(key, "\"password\"") == 0) {
+            value = strtok(value, "\"");
+            value = strtok(NULL, "\"");
+            user->setPassword(value);
+        } else if (strcmp(key, "\"age\"") == 0) {
+            value = strtok(value, "\"");
+            value = strtok(NULL, "\"");
+            user->setAge(atoi(value));
+        }
+        token = strtok(NULL, ",");
+    }
+    return user;
+}
