@@ -29,5 +29,8 @@ void addUserToList(UserList* userList, User user);
 int findUserInListRegister(UserList userList, User user);
 int userToRemove(UserList userList);
 void deleteUserWithPosition(UserList* userList, int position);
+char* jsonifyUserList(UserList userList);
+char* processUserDB(sqlite3* db);
+
 
 #endif

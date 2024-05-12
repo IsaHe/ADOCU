@@ -101,6 +101,49 @@ int readUsersFromDB(UserList* userList, sqlite3* db) {
 	return SQLITE_OK;
 }
 
+char* jsonifyUserList(UserList userList) {
+    char* json = (char*) malloc(1000);
+    strcpy(json, "[");
+    for (int i = 0; i < userList.numUsers; i++) {
+        strcat(json, "{");
+        strcat(json, "\"name\": \"");
+        strcat(json, userList.userList[i].name);
+        strcat(json, "\", ");
+        strcat(json, "\"username\": \"");
+        strcat(json, userList.userList[i].username);
+        strcat(json, "\", ");
+        strcat(json, "\"password\": \"");
+        strcat(json, userList.userList[i].password);
+        strcat(json, "\", ");
+        strcat(json, "\"age\": ");
+        char age[5];
+        sprintf(age, "%d", userList.userList[i].age);
+        strcat(json, age);
+        strcat(json, ", ");
+        strcat(json, "\"admin\": \"");
+        char admin[2];
+        admin[0] = userList.userList[i].admin;
+        admin[1] = '\0';
+        strcat(json, admin);
+        strcat(json, "\"");
+        strcat(json, "}");
+        if (i < userList.numUsers - 1) {
+            strcat(json, ", ");
+        }
+    }
+    strcat(json, "]");
+    strcat(json, "\0");
+    return json;
+}
+
+char* processUserDB(sqlite3* db) {
+    UserList userList;
+    readUsersFromDB(&userList, db);
+    char* json = jsonifyUserList(userList);
+    free(userList.userList);
+    return json;
+}
+
 int deleteDB(sqlite3* db, char* table) {
 	sqlite3_stmt* statement;
 
