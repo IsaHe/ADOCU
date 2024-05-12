@@ -1,7 +1,5 @@
+
 #include "server.h"
-#include <stdio.h>
-#include <winsock2.h>
-#include "logger.h"
 
 void initialize_winsock() {
     WSADATA wsaData;
@@ -40,7 +38,7 @@ SOCKET create_server(int port) {
     return ListenSocket;
 }
 
-void start_listening(SOCKET ListenSocket)  {
+void start_listening(SOCKET ListenSocket, sqlite3* db)  {
     char recvbuf[DEFAULT_BUFLEN];
 
     if (listen(ListenSocket, SOMAXCONN) == SOCKET_ERROR) {
@@ -62,8 +60,9 @@ void start_listening(SOCKET ListenSocket)  {
     do {
         bytesRecividos = recv(ClientSocket, recvbuf, DEFAULT_BUFLEN, 0);
         if (bytesRecividos > 0) {
-            logAction("Datos recibidos %d", "sistema", 's', bytesRecividos);
+            logAction("Bytes recibidos: %d", "sistema", 's', bytesRecividos);
             logAction(recvbuf, "sistema", 's');
+            process_client(recvbuf, bytesRecividos, db, ClientSocket);
         } else if (bytesRecividos == 0) {
             logAction("Conexión cerrada", "sistema", 's');
         } else {
@@ -73,6 +72,29 @@ void start_listening(SOCKET ListenSocket)  {
             exit(1);
         }
     } while (bytesRecividos > 0);
+}
+
+void process_client(char* recvbuf, int recvbuflen, sqlite3* db, SOCKET ClientSocket) {
+    if(strcmp(recvbuf, "exit") == 0) {
+        logAction("Cerrando el servidor", "sistema", 's');
+        exit(0);
+    }
+    if(strcmp(recvbuf, "Hola") == 0) {
+        logAction("Primer contacto con el cliente establecido", "cliente", 's');
+        send_data(ClientSocket, processUserDB(db));
+    }
+}
+
+void send_data(SOCKET ClientSocket, const char* sendbuf) {
+    int iResult = send(ClientSocket, sendbuf, (int)strlen(sendbuf), 0);
+    if (iResult == SOCKET_ERROR) {
+        printf("send failed: %d\n", WSAGetLastError());
+        logAction("Error enviando datos", "sistema", 'f');
+        closesocket(ClientSocket);
+        WSACleanup();
+        exit(1);
+    }
+    logAction("Datos enviados correctamente", "sistema", 's');
 }
 
 void close_server(SOCKET ListenSocket) {

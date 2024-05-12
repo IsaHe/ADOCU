@@ -76,7 +76,7 @@ int main() {
     // Inicializar el servidor
     initialize_winsock();
     SOCKET ListenSocket = create_server(27015);
-    start_listening(ListenSocket);
+    start_listening(ListenSocket, db);
 
 	// Menus
 	do {
