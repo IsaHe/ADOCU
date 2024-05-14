@@ -31,6 +31,6 @@ int userToRemove(UserList userList);
 void deleteUserWithPosition(UserList* userList, int position);
 char* jsonifyUserList(UserList userList);
 char* processUserDB(sqlite3* db);
-
+UserList unJsonifyUserList(char* json);
 
 #endif

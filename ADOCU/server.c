@@ -62,7 +62,7 @@ void start_listening(SOCKET ListenSocket, sqlite3* db)  {
         if (bytesRecividos > 0) {
             logAction("Bytes recibidos: %d", "sistema", 's', bytesRecividos);
             logAction(recvbuf, "sistema", 's');
-            process_client(recvbuf, bytesRecividos, db, ClientSocket);
+            process_client(recvbuf, db, ClientSocket);
         } else if (bytesRecividos == 0) {
             logAction("Conexión cerrada", "sistema", 's');
         } else {
@@ -74,14 +74,15 @@ void start_listening(SOCKET ListenSocket, sqlite3* db)  {
     } while (bytesRecividos > 0);
 }
 
-void process_client(char* recvbuf, int recvbuflen, sqlite3* db, SOCKET ClientSocket) {
-    if(strcmp(recvbuf, "exit") == 0) {
+void process_client(char* recvbuf, sqlite3* db, SOCKET ClientSocket) {
+    if(strcmp(recvbuf, "0") == 0){
         logAction("Cerrando el servidor", "sistema", 's');
         exit(0);
     }
-    if(strcmp(recvbuf, "Hola") == 0) {
+    if(strcmp(recvbuf, "1") == 0) {
         logAction("Primer contacto con el cliente establecido", "cliente", 's');
         send_data(ClientSocket, processUserDB(db));
+        send_data(ClientSocket, processValorationDB(db));
     }
 }
 

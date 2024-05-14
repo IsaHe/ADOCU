@@ -16,5 +16,7 @@ void seeValorations(ValorationList valorationList);
 void addToValorations(ValorationList* valorationList, Valoration valoration);
 float calculateMeanValoration(ValorationList valorationList);
 void seeMeanValoration(float valoration);
+char* jsonifyValorationList(ValorationList valorationList);
+char* processValorationDB(sqlite3* db);
 
 #endif

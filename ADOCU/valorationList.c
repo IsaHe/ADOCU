@@ -41,6 +41,36 @@ int readValorationsFromDB(ValorationList* valorationList, sqlite3* db) {
 	return SQLITE_OK;
 }
 
+char* jsonifyValorationList(ValorationList valorationList) {
+    char* json = (char*) malloc(1000);
+    strcpy(json, "[");
+    for (int i = 0; i < valorationList.numValorations; i++) {
+        strcat(json, "{");
+        strcat(json, "\"valoration\": \"");
+        char valoration[2] = {valorationList.valorations[i].valoration, '\0'};
+        strcat(json, valoration);
+        strcat(json, "\"");
+        strcat(json, "}");
+        if (i < valorationList.numValorations - 1) {
+            strcat(json, ",");
+        }
+    }
+    strcat(json, "]");
+    strcat(json, "\0");
+    return json;
+}
+
+char* processValorationDB(sqlite3* db) {
+    ValorationList valorationList;
+    int result = readValorationsFromDB(&valorationList, db);
+    if (result != SQLITE_OK) {
+        logAction(sqlite3_errmsg(db), "sistema", 'f');
+        return NULL;
+    }
+    char* json = jsonifyValorationList(valorationList);
+    return json;
+}
+
 int insertValorationsInDB(ValorationList valorationList, sqlite3* db) {
     deleteDB(db, "valorations");
 	for (int i = 0; i < valorationList.numValorations; i++) {

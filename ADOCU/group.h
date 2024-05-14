@@ -45,5 +45,11 @@ int insertActivitiesInDB(ActivityList activityList, sqlite3* db);
 void deleteActivity(ActivityList* activityList);
 void addActivity(ActivityList* activityList, Activity activity);
 void writeGroupsInFile(GroupList groupList, char* fileName);
+GroupList unJsonifyGroupsFromFile(char *fileName);
+ActivityList addActivityToList(ActivityList activityList, Activity activity);
+char *processGroupsFile(char *fileName);
+char *processActivitiesDB(sqlite3 *db);
+char *jsonifyGroups(GroupList groupList);
+ActivityList unJsonifyActivities(char *json);
 
 #endif

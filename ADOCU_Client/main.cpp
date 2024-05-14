@@ -7,8 +7,8 @@
 #include "activityList.h"
 #include "valoration.h"
 #include "valorationList.h"
-#include <string.h>
 #include <iostream>
+#include "clientSocket.h"
 
 using namespace std;
 
@@ -39,7 +39,7 @@ int main() {
 
     //Enviar un mensaje de prueba al servidor
     ClientSocket clientSocket(27015);
-    const char *message = "Hola";
+    const char *message = "1"; //Pedir al servidor que envie todos los datos de la bd
     int bytesSent = clientSocket.sendData(message);
     if (bytesSent == -1) {
         cout << "Error al enviar el mensaje" << endl;
@@ -47,8 +47,8 @@ int main() {
         cout << "Mensaje enviado" << endl;
         int bytesReceived = 1;
         do {
-            char recvbuf[DEFAULT_BUFLEN];
-            bytesReceived = clientSocket.receiveData(recvbuf, DEFAULT_BUFLEN);
+            char recvbuf[512];
+            bytesReceived = clientSocket.receiveData(recvbuf, 512);
             UserList userList = UserList::unJsonifyUserList(recvbuf);
             cout << "Usuarios recibidos: " << userList.getNumUsers() << endl;
             for (int i = 0; i < userList.getNumUsers(); i++) {
