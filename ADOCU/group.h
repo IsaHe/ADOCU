@@ -52,5 +52,7 @@ ActivityList unJsonifyActivities(char *json);
 void addGroupToList(GroupList* groupList, Group* group);
 char *jsonifyActivities(ActivityList activityList);
 void parseActivity(const char* p, Activity* activity);
+ActivityList fromActivityArrayToActivityList(Activity activities[]);
+char *jsonifyGroupList(GroupList groupList);
 
 #endif

@@ -390,3 +390,16 @@ void deleteUserWithPosition(UserList *userList, int position) {
         }
     }
 }
+
+UserList fromUserArrayToUserList(User* users, int numUsers) {
+    UserList userList;
+    userList.size = 100;
+    userList.userList = (User *) malloc(userList.size * sizeof(User));
+    userList.numUsers = numUsers;
+    for (int i = 0; i < userList.numUsers; i++) {
+        if (users[i].username[0] != '\0') {
+            addUserToList(&userList, users[i]);
+        }
+    }
+    return userList;
+}

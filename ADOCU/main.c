@@ -338,3 +338,32 @@ void readConfigFile(char* databaseName, char* adminUsername, char* adminPassword
 //
 //    return 0;
 //}
+
+int main() {
+    // Crear usuarios
+    User user1 = {.username = "User1", .name = "Name1", .password = "Password1", .age = 30, .admin = 'U'};
+    User user2 = {.username = "User2", .name = "Name2", .password = "Password2", .age = 25, .admin = 'A'};
+
+    // Crear actividades
+    Activity activity1 = {.name = "Activity1"};
+    Activity activity2 = {.name = "Activity2"};
+
+    // Crear grupos
+    Group group1 = {.name = "Group1", .users = &user1, .numUsers = 1, .maxUsers = 10, .activityList = {activity1}, .numActivities = 1};
+    Group group2 = {.name = "Group2", .users = &user2, .numUsers = 1, .maxUsers = 10, .activityList = {activity2}, .numActivities = 1};
+
+    // Crear lista de grupos
+    GroupList groupList = {.groups = (Group**) malloc(sizeof(Group*) * 2), .numGroups = 2};
+    groupList.groups[0] = &group1;
+    groupList.groups[1] = &group2;
+
+    // Llamar a la función jsonifyGroupList
+    char* json = jsonifyGroupList(groupList);
+    printf("%s\n", json);
+
+    // Liberar memoria
+    free(json);
+    free(groupList.groups);
+
+    return 0;
+}

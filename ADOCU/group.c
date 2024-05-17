@@ -336,3 +336,40 @@ void addActivityToList(ActivityList *activityList, Activity activity) {
     activityList->activityList[activityList->numActivities] = activity;
     activityList->numActivities++;
 }
+
+ActivityList fromActivityArrayToActivityList(Activity activities[]) {
+    ActivityList activityList;
+    activityList.numActivities = 0;
+    for (int i = 0; i < MAX_ACTIVITIES; i++) {
+        addActivityToList(&activityList, activities[i]);
+    }
+    return activityList;
+}
+
+char *jsonifyGroupList(GroupList groupList) {
+    char *json = (char *) malloc(1000);
+    strcpy(json, "[");
+    for (int i = 0; i < groupList.numGroups; i++) {
+        strcat(json, "{");
+        strcat(json, "\"name\": \"");
+        strcat(json, groupList.groups[i]->name);
+        strcat(json, "\", ");
+
+        int numUsers = groupList.groups[i]->numUsers;
+        UserList userList = fromUserArrayToUserList(groupList.groups[i]->users, numUsers);
+        strcat(json, "\"users\": ");
+        strcat(json, jsonifyUserList(userList));
+
+        ActivityList activityList = fromActivityArrayToActivityList(groupList.groups[i]->activityList);
+        strcat(json, ", \"activities\": ");
+        strcat(json, jsonifyActivities(activityList));
+        
+        strcat(json, "}");
+        if (i < groupList.numGroups - 1) {
+            strcat(json, ",");
+        }
+    }
+    strcat(json, "]");
+    strcat(json, "\0");
+    return json;
+}
