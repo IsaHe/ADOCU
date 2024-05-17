@@ -204,23 +204,26 @@ char *jsonifyActivities(ActivityList activityList) {
     return json;
 }
 
+void parseActivity(const char *p, Activity *activity) {
+    while (*p != '}') {
+        if(strncmp(p, "\"name\": \"", 9) == 0) {
+            strcpy(activity->name, parseAttribute(p, 9, MAX_NAME_ACTIVITY));
+        }
+        p++;
+    }
+}
+
 ActivityList unJsonifyActivities(char *json) {
     ActivityList activityList;
     activityList.numActivities = 0;
-    char *token = strtok(json, ",");
-    while (token != NULL) {
-        Activity activity;
-        while (token != NULL) {
-            char *key = strtok(token, ":");
-            char *value = strtok(NULL, ":");
-            if (strcmp(key, "\"name\"") == 0) {
-                value = strtok(value, "\"");
-                value = strtok(NULL, "\"");
-                strcpy(activity.name, value);
-                addActivityToList(&activityList, activity);
-            }
-            token = strtok(NULL, ",");
+    char *jsonAux = json;
+    while (*jsonAux) {
+        if (*jsonAux == '{') {
+            Activity activity;
+            parseActivity(jsonAux, &activity);
+            addActivityToList(&activityList, activity);
         }
+        jsonAux++;
     }
     return activityList;
 }

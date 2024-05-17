@@ -6,6 +6,8 @@
 #ifndef GROUP_H_
 #define GROUP_H_
 
+#define MAX_NAME_ACTIVITY 30
+
 typedef struct {
   char name[30];
 } Activity;
@@ -49,5 +51,6 @@ char *processActivitiesDB(sqlite3 *db);
 ActivityList unJsonifyActivities(char *json);
 void addGroupToList(GroupList* groupList, Group* group);
 char *jsonifyActivities(ActivityList activityList);
+void parseActivity(const char* p, Activity* activity);
 
 #endif

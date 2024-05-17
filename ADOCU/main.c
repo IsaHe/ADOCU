@@ -293,48 +293,48 @@ void readConfigFile(char* databaseName, char* adminUsername, char* adminPassword
 //}
 
 
-int main() {
-    // Crear una lista de usuarios
-    UserList userList;
-    userList.size = 2;
-    userList.userList = (User *)malloc(userList.size * sizeof(User));
-    userList.numUsers = 0;
-
-    // Crear el primer usuario
-    User user1;
-    strcpy(user1.name, "John Doe");
-    strcpy(user1.username, "johndoe");
-    strcpy(user1.password, "password1");
-    user1.age = 30;
-    user1.admin = 'U';
-
-    // Crear el segundo usuario
-    User user2;
-    strcpy(user2.name, "Jane Doe");
-    strcpy(user2.username, "janedoe");
-    strcpy(user2.password, "password2");
-    user2.age = 25;
-    user2.admin = 'A';
-
-    // Añadir los usuarios a la lista
-    userList.userList[userList.numUsers++] = user1;
-    userList.userList[userList.numUsers++] = user2;
-
-    // Convertir la lista de usuarios a JSON
-    char *json = jsonifyUserList(userList);
-    printf("JSON: %s\n", json);
-
-    // Convertir el JSON de nuevo a una lista de usuarios
-    UserList userList2 = unJsonifyUserList(json);
-    printf("Number of users: %d\n", userList2.numUsers);
-    for (int i = 0; i < userList2.numUsers; i++) {
-        printf("User %d: %s\n", i+1, userList2.userList[i].name);
-    }
-
-    // Liberar la memoria
-    free(userList.userList);
-    free(userList2.userList);
-    free(json);
-
-    return 0;
-}
+//int main() {
+//    // Crear una lista de usuarios
+//    UserList userList;
+//    userList.size = 2;
+//    userList.userList = (User *)malloc(userList.size * sizeof(User));
+//    userList.numUsers = 0;
+//
+//    // Crear el primer usuario
+//    User user1;
+//    strcpy(user1.name, "John Doe");
+//    strcpy(user1.username, "johndoe");
+//    strcpy(user1.password, "password1");
+//    user1.age = 30;
+//    user1.admin = 'U';
+//
+//    // Crear el segundo usuario
+//    User user2;
+//    strcpy(user2.name, "Jane Doe");
+//    strcpy(user2.username, "janedoe");
+//    strcpy(user2.password, "password2");
+//    user2.age = 25;
+//    user2.admin = 'A';
+//
+//    // Añadir los usuarios a la lista
+//    userList.userList[userList.numUsers++] = user1;
+//    userList.userList[userList.numUsers++] = user2;
+//
+//    // Convertir la lista de usuarios a JSON
+//    char *json = jsonifyUserList(userList);
+//    printf("JSON: %s\n", json);
+//
+//    // Convertir el JSON de nuevo a una lista de usuarios
+//    UserList userList2 = unJsonifyUserList(json);
+//    printf("Number of users: %d\n", userList2.numUsers);
+//    for (int i = 0; i < userList2.numUsers; i++) {
+//        printf("User %d: %s\n", i+1, userList2.userList[i].name);
+//    }
+//
+//    // Liberar la memoria
+//    free(userList.userList);
+//    free(userList2.userList);
+//    free(json);
+//
+//    return 0;
+//}
