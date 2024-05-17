@@ -3,6 +3,10 @@
 #ifndef USER_H_
 #define USER_H_
 
+#define MAX_NAME 20
+#define MAX_USERNAME 20
+#define MAX_PASSWORD 20
+
 typedef struct {
 	char name[20];
 	char username[20];
@@ -31,6 +35,11 @@ int userToRemove(UserList userList);
 void deleteUserWithPosition(UserList* userList, int position);
 char* jsonifyUserList(UserList userList);
 char* processUserDB(sqlite3* db);
-UserList unJsonifyUserList(char* json);
+UserList unJsonifyUserList(const char* json);
+void parseUser(const char* p, User* user);
+char parseAdmin(const char* p);
+int parseAge(const char* p);
+char* parseAttribute(const char* p, int skip, int max_length);
+
 
 #endif
