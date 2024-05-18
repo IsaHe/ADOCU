@@ -142,7 +142,7 @@ GroupList& GroupList::operator=(const GroupList &groupList) {
     return *this;
 }
 
-char *parseName(char *json) {
+char *parseGroupName(char *json) {
     json += 9;
     char *name = new char[30];
     char *namePtr = name;
@@ -157,7 +157,7 @@ void parseGroup(char *json, Group *group, int* numCiclesAux) {
     int numCicles = 0;
     while (*json != '}' && *json) {
         if (strncmp(json, "\"name\": \"", 9) == 0) {
-            group->setName(parseName(json));
+            group->setName(parseGroupName(json));
         } else if (strncmp(json, "\"users\": ", 8) == 0) {
             numCicles = 0;
             UserList userList = UserList::unJsonifyUserList(json, &numCicles);
@@ -183,6 +183,7 @@ GroupList GroupList::unJsonifyGroupList(char *json) {
     int maxGroups = 100;
     groups = new Group*[maxGroups];
     numGroups = 0;
+    size = maxGroups;
     int numCicles = 0;
     char *jsonAux = json;
     while (*jsonAux) {

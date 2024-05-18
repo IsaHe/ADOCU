@@ -103,7 +103,7 @@ UserList& UserList::operator=(const UserList &userList) {
 #define MAX_USERNAME_LENGTH 100
 #define MAX_PASSWORD_LENGTH 100
 
-char* parseAttribute(const char*& p, int skip, int max_length) {
+char* parseAttribute(const char* p, int skip, int max_length) {
     p += skip;
     char* attribute = new char[max_length];
     char* attributePtr = attribute;
@@ -114,7 +114,7 @@ char* parseAttribute(const char*& p, int skip, int max_length) {
     return attribute;
 }
 
-int parseAge(const char*& p) {
+int parseAge(const char* p) {
     p += 7; // Saltar "\"age\": "
     int age = 0;
     while (*p != ',') {
@@ -123,12 +123,12 @@ int parseAge(const char*& p) {
     return age;
 }
 
-char parseAdmin(const char*& p) {
+char parseAdmin(const char* p) {
     p += 10; // Saltar "\"admin\": \""
     return *p;
 }
 
-void parseUser(const char*& p, User* user) {
+void parseUser(const char* p, User* user) {
     while (*p != '}') {
         if (strncmp(p, "\"name\": \"", 9) == 0) {
             user->setName(parseAttribute(p, 9, MAX_NAME_LENGTH));
@@ -148,7 +148,7 @@ void parseUser(const char*& p, User* user) {
 UserList UserList::unJsonifyUserList(const char* jsonString, int* numCicles) {
     UserList userList = UserList(100);
     const char* p = jsonString;
-    while (*p) {
+    while (*p != ']') {
         if (*p == '{') {
             User* user = new User();
             parseUser(p, user);
