@@ -357,11 +357,18 @@ int main() {
     groupList.groups[0] = &group1;
     groupList.groups[1] = &group2;
 
-    // Llamar a la función jsonifyGroupList
+    // Convertir la lista de grupos a JSON
     char* json = jsonifyGroupList(groupList);
-    printf("%s\n", json);
+    printf("JSON: %s\n", json);
 
-    // Liberar memoria
+    // Convertir el JSON de nuevo a una lista de grupos
+    GroupList groupList2 = unJsonifyGroupList(json);
+    printf("Número de grupos: %d\n", groupList2.numGroups);
+    for (int i = 0; i < groupList2.numGroups; i++) {
+        printf("Grupo %d: %s\n", i + 1, groupList2.groups[i]->name);
+    }
+
+    // Liberar la memoria
     free(json);
     free(groupList.groups);
 

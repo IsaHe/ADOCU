@@ -213,17 +213,18 @@ void parseActivity(const char *p, Activity *activity) {
     }
 }
 
-ActivityList unJsonifyActivities(char *json) {
+ActivityList unJsonifyActivities(char *json, int *numCicles) {
     ActivityList activityList;
     activityList.numActivities = 0;
     char *jsonAux = json;
-    while (*jsonAux) {
+    while (*jsonAux && *jsonAux != ']') {
         if (*jsonAux == '{') {
             Activity activity;
             parseActivity(jsonAux, &activity);
             addActivityToList(&activityList, activity);
         }
         jsonAux++;
+        (*numCicles)++;
     }
     return activityList;
 }
@@ -315,15 +316,13 @@ void addActivity(ActivityList *activityList, Activity activity) {
     }
 }
 
-void addGroupToList(GroupList *groupList, Group *group) {
-    Group **groupsAux = (Group **) malloc(sizeof(Group*) * groupList->numGroups + 1);
-    for (int i = 0; i < groupList->numGroups; i++) {
-        groupsAux[i] = groupList->groups[i];
+void addGroupToList(GroupList *groupList, Group *group, int maxGroups) {
+    if (groupList->numGroups == maxGroups) {
+        printf("No se pueden añadir más grupos.\n");
+        logAction("Error añadiendo grupo", "sistema", 'f');
+        return;
     }
-    groupsAux[groupList->numGroups] = group;
-
-    free(groupList->groups);
-    groupList->groups = groupsAux;
+    groupList->groups[groupList->numGroups] = group;
     groupList->numGroups++;
 }
 
@@ -363,7 +362,7 @@ char *jsonifyGroupList(GroupList groupList) {
         ActivityList activityList = fromActivityArrayToActivityList(groupList.groups[i]->activityList, groupList.groups[i]->numActivities);
         strcat(json, ", \"activities\": ");
         strcat(json, jsonifyActivities(activityList));
-        
+
         strcat(json, "}");
         if (i < groupList.numGroups - 1) {
             strcat(json, ",");
@@ -372,4 +371,51 @@ char *jsonifyGroupList(GroupList groupList) {
     strcat(json, "]");
     strcat(json, "\0");
     return json;
+}
+
+void parseGroup(char *p, Group *group, int *numCiclesAux) {
+    int numCicles = 0;
+    while (*p != '}' && *p) {
+        if (strncmp(p, "\"name\": \"", 9) == 0) {
+            group->name = parseAttribute(p, 9, MAX_GROUP_NAME);
+        } else if (strncmp(p, "\"users\": ", 8) == 0) {
+            numCicles = 0;
+            UserList userList = unJsonifyUserList(p, &numCicles);
+            p+=numCicles;
+            (*numCiclesAux) += numCicles;
+            group->numUsers = userList.numUsers;
+            group->users = userList.userList;
+        } else if (strncmp(p, "\"activities\": ", 14) == 0) {
+            numCicles = 0;
+            ActivityList activityList = unJsonifyActivities(p, &numCicles);
+            p+=numCicles;
+            (*numCiclesAux) += numCicles;
+            group->numActivities = activityList.numActivities;
+            for (int i = 0; i < activityList.numActivities; i++) {
+                group->activityList[i] = activityList.activityList[i];
+            }
+        }
+        p++;
+        (*numCiclesAux)++;
+    }
+}
+
+GroupList unJsonifyGroupList(char *json) {
+    GroupList* groupList = (GroupList *) malloc(sizeof(GroupList));
+    int maxGroups = 100;
+    groupList->groups = (Group **) malloc(sizeof(Group *) * maxGroups);
+    groupList->numGroups = 0;
+    int numCicles = 0;
+    char *jsonAux = json;
+    while (*jsonAux) {
+        if (*jsonAux == '{') {
+            Group group;
+            numCicles = 0;
+            parseGroup(jsonAux, &group, &numCicles);
+            jsonAux+=numCicles;
+            addGroupToList(groupList, &group, maxGroups);
+        }
+        jsonAux++;
+    }
+    return *groupList;
 }

@@ -35,7 +35,7 @@ int userToRemove(UserList userList);
 void deleteUserWithPosition(UserList* userList, int position);
 char* jsonifyUserList(UserList userList);
 char* processUserDB(sqlite3* db);
-UserList unJsonifyUserList(const char* json);
+UserList unJsonifyUserList(const char* json, int *numCicles);
 void parseUser(const char* p, User* user);
 char parseAdmin(const char* p);
 int parseAge(const char* p);

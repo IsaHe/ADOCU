@@ -48,11 +48,12 @@ void deleteActivity(ActivityList* activityList);
 void addActivity(ActivityList* activityList, Activity activity);
 void addActivityToList(ActivityList *activityList, Activity activity);
 char *processActivitiesDB(sqlite3 *db);
-ActivityList unJsonifyActivities(char *json);
-void addGroupToList(GroupList* groupList, Group* group);
+ActivityList unJsonifyActivities(char *json, int *numCicles);
+void addGroupToList(GroupList* groupList, Group* group, int maxGroups);
 char *jsonifyActivities(ActivityList activityList);
 void parseActivity(const char* p, Activity* activity);
 ActivityList fromActivityArrayToActivityList(Activity activities[], int numActivities);
 char *jsonifyGroupList(GroupList groupList);
+GroupList unJsonifyGroupList(char *json);
 
 #endif

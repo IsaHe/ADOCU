@@ -179,19 +179,20 @@ void parseUser(const char *p, User *user) {
     }
 }
 
-UserList unJsonifyUserList(const char *json) {
+UserList unJsonifyUserList(const char *json, int* numCicles) {
     UserList userList;
     userList.size = 100;
     userList.userList = (User *) malloc(userList.size * sizeof(User));
     userList.numUsers = 0;
     const char *p = json;
-    while (*p) {
+    while (*p && *p != ']') {
         if (*p == '{') {
             User user;
             parseUser(p, &user);
             addUserToList(&userList, user);
         }
         p++;
+        (*numCicles)++;
     }
     return userList;
 }
