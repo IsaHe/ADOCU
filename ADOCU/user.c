@@ -395,8 +395,8 @@ UserList fromUserArrayToUserList(User* users, int numUsers) {
     UserList userList;
     userList.size = 100;
     userList.userList = (User *) malloc(userList.size * sizeof(User));
-    userList.numUsers = numUsers;
-    for (int i = 0; i < userList.numUsers; i++) {
+    userList.numUsers = 0;
+    for (int i = 0; i < numUsers; i++) {
         if (users[i].username[0] != '\0') {
             addUserToList(&userList, users[i]);
         }

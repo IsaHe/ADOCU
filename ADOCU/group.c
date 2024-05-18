@@ -337,10 +337,10 @@ void addActivityToList(ActivityList *activityList, Activity activity) {
     activityList->numActivities++;
 }
 
-ActivityList fromActivityArrayToActivityList(Activity activities[]) {
+ActivityList fromActivityArrayToActivityList(Activity activities[], int numActividades) {
     ActivityList activityList;
     activityList.numActivities = 0;
-    for (int i = 0; i < MAX_ACTIVITIES; i++) {
+    for (int i = 0; i < numActividades; i++) {
         addActivityToList(&activityList, activities[i]);
     }
     return activityList;
@@ -360,7 +360,7 @@ char *jsonifyGroupList(GroupList groupList) {
         strcat(json, "\"users\": ");
         strcat(json, jsonifyUserList(userList));
 
-        ActivityList activityList = fromActivityArrayToActivityList(groupList.groups[i]->activityList);
+        ActivityList activityList = fromActivityArrayToActivityList(groupList.groups[i]->activityList, groupList.groups[i]->numActivities);
         strcat(json, ", \"activities\": ");
         strcat(json, jsonifyActivities(activityList));
         
