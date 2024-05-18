@@ -426,7 +426,12 @@ void writeGroupsInFile(GroupList groups, FILE *file) {
     free(json);
 }
 
-GroupList readGroupsFromFile(FILE *file) {
+void readGroupsFromFile(char *fileName, GroupList *groupList) {
+    FILE *file = fopen(fileName, "r");
+    *groupList = readGroupsFromFileAux(file);
+}
+
+GroupList readGroupsFromFileAux(FILE *file) {
     fseek(file, 0, SEEK_END);
     long fileSize = ftell(file);
     fseek(file, 0, SEEK_SET);

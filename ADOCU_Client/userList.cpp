@@ -145,7 +145,7 @@ void parseUser(const char*& p, User* user) {
     }
 }
 
-UserList UserList::unJsonifyUserList(const char* jsonString) {
+UserList UserList::unJsonifyUserList(const char* jsonString, int* numCicles) {
     UserList userList = UserList(100);
     const char* p = jsonString;
     while (*p) {
@@ -155,6 +155,7 @@ UserList UserList::unJsonifyUserList(const char* jsonString) {
             userList.addUserToList(user);
         }
         p++;
+        (*numCicles)++;
     }
     return userList;
 }

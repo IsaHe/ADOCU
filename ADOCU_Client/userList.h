@@ -26,7 +26,7 @@ class UserList {
         int findUserInList(User *user);
         void addUserToList(User *user);
         UserList& operator=(const UserList &userList);
-        static UserList unJsonifyUserList(const char *json);
+        static UserList unJsonifyUserList(const char *json, int *numCicles);
 };
 
 #endif

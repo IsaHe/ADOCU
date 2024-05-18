@@ -26,6 +26,8 @@ class GroupList {
         void joinGroup(User *user);
         int getGroupPositionWithUser(User user);
         GroupList& operator=(const GroupList &groupList);
+        GroupList unJsonifyGroupList(char *json);
+        void addNewGroup(Group *group);
 };
 
 #endif

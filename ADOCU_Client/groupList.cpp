@@ -1,4 +1,5 @@
 #include "groupList.h"
+#include "userList.h"
 #include <string.h>
 #include <iostream>
 
@@ -139,4 +140,70 @@ GroupList& GroupList::operator=(const GroupList &groupList) {
     size = groupList.size;
     numGroups = groupList.numGroups;
     return *this;
+}
+
+char *parseName(char *json) {
+    json += 9;
+    char *name = new char[30];
+    char *namePtr = name;
+    while (*json != '\"') {
+        *namePtr++ = *json++;
+    }
+    *namePtr = '\0';
+    return name;
+}
+
+void parseGroup(char *json, Group *group, int* numCiclesAux) {
+    int numCicles = 0;
+    while (*json != '}' && *json) {
+        if (strncmp(json, "\"name\": \"", 9) == 0) {
+            group->setName(parseName(json));
+        } else if (strncmp(json, "\"users\": ", 8) == 0) {
+            numCicles = 0;
+            UserList userList = UserList::unJsonifyUserList(json, &numCicles);
+            json+=numCicles;
+            (*numCiclesAux) += numCicles;
+            group->setNumUsers(userList.getNumUsers());
+            group->setUsers(userList.getUsers());
+        } else if (strncmp(json, "\"activities\": ", 14) == 0) {
+            numCicles = 0;
+            ActivityList activityList;
+            activityList = activityList.unjsonifyActivityList(json, &numCicles);
+            json+=numCicles;
+            (*numCiclesAux) += numCicles;
+            group->setNumActivities(activityList.getNumActivities());
+            group->setActivityList(activityList.getActivityList());
+        }
+        json++;
+        (*numCiclesAux)++;
+    }
+}
+
+GroupList GroupList::unJsonifyGroupList(char *json) {
+    int maxGroups = 100;
+    groups = new Group*[maxGroups];
+    numGroups = 0;
+    int numCicles = 0;
+    char *jsonAux = json;
+    while (*jsonAux) {
+        if (*jsonAux == '{') {
+            Group* group = new Group();
+            numCicles = 0;
+            parseGroup(jsonAux, group, &numCicles);
+            jsonAux+=numCicles;
+            addNewGroup(group);
+        }
+        jsonAux++;
+    }
+    return *this;
+}
+
+void GroupList::addNewGroup(Group *group) {
+    if (numGroups < size) {
+        groups[numGroups] = group;
+        numGroups++;
+    } else {
+        cout << "No se pueden añadir más grupos" << endl;
+    }
+
 }

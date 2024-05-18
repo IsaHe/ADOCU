@@ -17,6 +17,10 @@ class ActivityList {
         void setActivityList(Activity *activityList);
         void setNumActivities(int numActivities);
         void seeActivities();
+        static char *jsonifyActivityList(ActivityList activityList);
+        ActivityList unjsonifyActivityList(char *json, int* numCicles);
+        void addActivity(const Activity& activity);
+        Activity* getActivityList();
 };
 
 #endif

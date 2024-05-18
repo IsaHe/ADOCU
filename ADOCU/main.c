@@ -72,6 +72,7 @@ int main() {
 	seeUserList(userList);
 	readValorationsFromDB(&valorationList, db);
 	readActivitiesInDB(&activityList, db);
+    readGroupsFromFile(groupsFileName, &groupList);
 
     // Inicializar el servidor
     initialize_winsock();
