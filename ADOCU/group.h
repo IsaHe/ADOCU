@@ -55,5 +55,6 @@ void parseActivity(const char* p, Activity* activity);
 ActivityList fromActivityArrayToActivityList(Activity activities[], int numActivities);
 char *jsonifyGroupList(GroupList groupList);
 GroupList unJsonifyGroupList(char *json);
+void parseGroup(char *p, Group *group, int *numCiclesAux);
 
 #endif
