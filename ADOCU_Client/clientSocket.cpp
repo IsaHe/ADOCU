@@ -77,3 +77,28 @@ ClientSocket::~ClientSocket() {
     closesocket(ConnectSocket);
     WSACleanup();
 }
+
+int ClientSocket::sendGroup(Group *group) const {
+    int resultadoOperacion = sendData(group->jsonifyGroup());
+    return resultadoOperacion;
+}
+
+int ClientSocket::sendUser(User *user, Group *group) const {
+    int resultadoOperacion = sendData(user->jsonifyUser(group->getName()));
+    return resultadoOperacion;
+}
+
+int ClientSocket::sendValoration(Valoration *valoration) const {
+    int resultadoOperacion = sendData(valoration->jsonifyValoration());
+    return resultadoOperacion;
+}
+
+int ClientSocket::sendActivity(Activity *activity, Group *group) const {
+    int resultadoOperacion = sendData(activity->jsonifyActivity(group->getName()));
+    return resultadoOperacion;
+}
+
+int ClientSocket::sendNewUser(User *user) const {
+    int resultadoOperacion = sendData(user->jsonifyNewUser());
+    return resultadoOperacion;
+}

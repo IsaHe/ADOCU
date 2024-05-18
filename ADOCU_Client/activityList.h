@@ -4,7 +4,7 @@
 
 class ActivityList {
     private:
-        Activity activityList[10];
+    Activity activityList[100];
         int numActivities;
     public:
         ActivityList();

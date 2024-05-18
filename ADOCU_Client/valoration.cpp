@@ -17,10 +17,22 @@ Valoration::Valoration(const Valoration &valoration) {
 
 Valoration::~Valoration() {};
 
-char Valoration::getValoration() {
+char Valoration::getValoration() const {
     return valoration;
 }
 
 void Valoration::setValoration(char valoration) {
     this->valoration = valoration;
+}
+
+char *Valoration::jsonifyValoration() const {
+    char *json = new char[7];
+    json[0] = 'v';
+    json[1] = 'a';
+    json[2] = 'l';
+    json[3] = '{';
+    json[4] = valoration;
+    json[5] = '}';
+    json[6] = '\0';
+    return json;
 }

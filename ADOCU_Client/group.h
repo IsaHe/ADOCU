@@ -32,8 +32,11 @@ class Group {
         void setActivityList(Activity *activityList);
         void setNumActivities(int numActivities);
         void addUser(User *user);
-        void addActivity(ActivityList activityList2);
+
+    Activity addActivity(ActivityList activityList2);
         void showActivities();
+
+    char *jsonifyGroup();
         Group& operator=(const Group &group);
 };
 

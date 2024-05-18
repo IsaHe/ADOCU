@@ -96,7 +96,7 @@ void Group::addUser(User *user) {
     numUsers++;
 }
 
-void Group::addActivity(ActivityList activityList2) {
+Activity Group::addActivity(ActivityList activityList2) {
     cout << "Introce el número de la actividad: ";
     int option;
     cin >> option;
@@ -104,6 +104,7 @@ void Group::addActivity(ActivityList activityList2) {
     getActivityList()[getNumActivities()] = activityList2.getActivity(option - 1);
     setNumActivities(getNumActivities() + 1);
     cout << "Actividad añadida" << endl;
+    return getActivityList()[getNumActivities() - 1];
 }
 
 void Group::showActivities() {
@@ -123,4 +124,19 @@ Group& Group::operator=(const Group &group) {
     }
     numActivities = group.numActivities;
     return *this;
+}
+
+char *Group::jsonifyGroup() {
+    std::string jsonString = "\"group\"{";
+    jsonString += "\"name\": \"" + std::string(name) + "\",";
+    jsonString += "\"numUsers\": " + std::to_string(numUsers) + ",";
+    jsonString += "\"maxUsers\": " + std::to_string(maxUsers) + ",";
+    jsonString += "\"numActivities\": " + std::to_string(numActivities);
+
+    jsonString += "}";
+
+    char *cstr = new char[jsonString.length() + 1];
+    strcpy(cstr, jsonString.c_str());
+
+    return cstr;
 }

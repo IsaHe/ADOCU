@@ -31,3 +31,15 @@ Activity& Activity::operator=(const Activity &activity) {
     strcpy(name, activity.name);
     return *this;
 }
+
+char *Activity::jsonifyActivity(char *groupname) {
+    char *json = new char[100];
+    strcpy(json, "\"activity\": \"");
+    strcat(json, groupname);
+    strcat(json, "\"{");
+    strcat(json, "\"name\": \"");
+    strcat(json, name);
+    strcat(json, "\"");
+    strcat(json, "}");
+    return json;
+}

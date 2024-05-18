@@ -10,8 +10,10 @@ class Valoration {
         Valoration(const Valoration &valoration);
         virtual ~Valoration();
 
-        char getValoration();
+    char getValoration() const;
         void setValoration(char valoration);
+
+    char *jsonifyValoration() const;
 };
 
 #endif

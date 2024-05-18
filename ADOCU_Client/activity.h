@@ -14,6 +14,8 @@ class Activity {
 
         char* getName();
         void setName(char* name);
+
+    char *jsonifyActivity(char *groupname);
         Activity& operator=(const Activity &activity);
 };
 

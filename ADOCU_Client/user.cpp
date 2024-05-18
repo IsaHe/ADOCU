@@ -66,3 +66,30 @@ User& User::operator=(const User &user) {
     this->age = user.age;
     return *this;
 }
+
+char *User::jsonifyUser(char *group) {
+    std::string json = "\"user\": \"";
+    json += std::string(group) + "\"{";
+    json += "\"name\": \"" + std::string(name) + "\",";
+    json += "\"username\": \"" + std::string(username) + "\",";
+    json += "\"password\": \"" + std::string(password) + "\",";
+    json += "\"age \": " + std::to_string(age);
+    json += "\"admin\": \"U\"";
+    json += "}";
+    char *cstr = new char[json.length() + 1];
+    strcpy(cstr, json.c_str());
+    return cstr;
+}
+
+char *User::jsonifyNewUser() {
+    std::string json = "\"userNew\"{";
+    json += "\"name\": \"" + std::string(name) + "\",";
+    json += "\"username\": \"" + std::string(username) + "\",";
+    json += "\"password\": \"" + std::string(password) + "\",";
+    json += "\"age \": " + std::to_string(age);
+    json += "\"admin\": \"U\"";
+    json += "}";
+    char *cstr = new char[json.length() + 1];
+    strcpy(cstr, json.c_str());
+    return cstr;
+}
