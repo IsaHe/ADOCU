@@ -409,13 +409,31 @@ GroupList unJsonifyGroupList(char *json) {
     char *jsonAux = json;
     while (*jsonAux) {
         if (*jsonAux == '{') {
-            Group group;
+            Group* group = (Group *) malloc(sizeof(Group));
             numCicles = 0;
-            parseGroup(jsonAux, &group, &numCicles);
+            parseGroup(jsonAux, group, &numCicles);
             jsonAux+=numCicles;
-            addGroupToList(groupList, &group, maxGroups);
+            addGroupToList(groupList, group, maxGroups);
         }
         jsonAux++;
     }
     return *groupList;
+}
+
+void writeGroupsInFile(GroupList groups, FILE *file) {
+    char *json = jsonifyGroupList(groups);
+    fprintf(file, "%s", json);
+    free(json);
+}
+
+GroupList readGroupsFromFile(FILE *file) {
+    fseek(file, 0, SEEK_END);
+    long fileSize = ftell(file);
+    fseek(file, 0, SEEK_SET);
+    char *json = (char *) malloc(fileSize + 1);
+    fread(json, 1, fileSize, file);
+    json[fileSize] = '\0';
+    GroupList groupList = unJsonifyGroupList(json);
+    free(json);
+    return groupList;
 }
