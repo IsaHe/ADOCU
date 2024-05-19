@@ -69,8 +69,9 @@ void procesClientBuff(char *recvbuf, UserList* userList, ValorationList* valorat
         cerrarServidor(*userList, *valorationList, *groupList, *activityList, db, ClientSocket, groupsFileName);
         exit(0);
     } else if (strncmp(recvbuf, "\"group\"{", 8) == 0) {
+        printf("Recibido grupo nuevo\n");
         Group* group = malloc(sizeof(Group));
-        parseGroup(recvbuf, group, 0);
+        parseNewGroup(recvbuf, group);
         addGroupToList(groupList, group, 100);
     }  else if (strncmp(recvbuf, "\"user\": \"", 9) == 0) {
         User* user = malloc(sizeof(User));

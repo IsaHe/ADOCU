@@ -62,5 +62,6 @@ void readGroupsFromFile(char *filename, GroupList *groupList);
 GroupList readGroupsFromFileAux(FILE *file);
 Group *findGroupByName(GroupList groupList, char *name);
 char *seekGroupName(char *json, int skip);
+void parseNewGroup(char *json, Group *group);
 
 #endif

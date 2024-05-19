@@ -322,6 +322,12 @@ void addGroupToList(GroupList *groupList, Group *group, int maxGroups) {
         logAction("Error añadiendo grupo", "sistema", 'f');
         return;
     }
+    // Check if the groupList is null
+    if (groupList->groups == NULL) {
+        printf("Los grupos son nulos\n");
+        logAction("Grupos eran nulos al añadir", "sistema", 'f');
+        groupList->groups = (Group **) malloc(sizeof(Group *) * maxGroups);
+    }
     groupList->groups[groupList->numGroups] = group;
     groupList->numGroups++;
     logAction("Grupo añadido correctamente", group->name, 's');
@@ -401,6 +407,23 @@ void parseGroup(char *p, Group *group, int *numCiclesAux) {
     }
 }
 
+void parseNewGroup(char *json, Group *group) {
+    int numCicles = 0;
+    while (*json != '}') {
+        if (strncmp(json, "\"name\": \"", 9) == 0) {
+            group->name = parseAttribute(json, 9, MAX_GROUP_NAME);
+        } else if (strncmp(json, "\"maxUsers\": ", 12) == 0) {
+            group->maxUsers = parseAge(json);
+        } else if (strncmp(json, "\"numUsers\": ", 12) == 0) {
+            group->numUsers = parseAge(json);
+        } else if (strncmp(json, "\"numActivities\": ", 17) == 0) {
+            group->numActivities = parseAge(json);
+        }
+        json++;
+        numCicles++;
+    }
+}
+
 GroupList unJsonifyGroupList(char *json) {
     GroupList* groupList = (GroupList *) malloc(sizeof(GroupList));
     int maxGroups = 100;
@@ -414,6 +437,7 @@ GroupList unJsonifyGroupList(char *json) {
             numCicles = 0;
             parseGroup(jsonAux, group, &numCicles);
             jsonAux+=numCicles;
+            group->users = (User *) malloc(sizeof(User) * group->maxUsers);
             addGroupToList(groupList, group, maxGroups);
         }
         jsonAux++;
