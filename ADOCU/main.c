@@ -41,7 +41,7 @@ void readConfigFile(char* databaseName, char* adminUsername, char* adminPassword
 }
 
 void procesClientBuff(char *recvbuf, UserList* userList, ValorationList* valorationList, GroupList* groupList, ActivityList* activityList, sqlite3* db, SOCKET ClientSocket) {
-    if (strcmp(recvbuf, "Hola") == 0) {
+    if (strncmp(recvbuf, "Hola", 4) == 0) {
         logAction("Primer contacto con el cliente establecido", "cliente", 's');
         send_data(ClientSocket, jsonifyGroupList(*groupList));
     } else if (strcmp(recvbuf, "Adios") == 0) {
@@ -151,25 +151,21 @@ int main() {
         }
     } while (bytesRecividos > 0);
 
-//	// Escritura de datos en fichero o base de datos
-//	insertUsersInDB(userList, db);
-//	insertValorationsInDB(valorationList, db);
-//	insertActivitiesInDB(activityList, db);
-//	writeGroupsInFile(groupList, groupsFileName);
-//
-//	// Visualizacion de los datos
-//	seeUserList(userList);
-//	seeValorations(valorationList);
-//	printGroups(groupList);
-//
-//	// Liberar memoria
-//	free(valorationList.valorations);
-//	free(userList.userList);
-//	free(groupList.groups);
-//	sqlite3_close(db);
-//
-//	return 0;
-//
-//
+	// Escritura de datos en fichero o base de datos
+	insertUsersInDB(userList, db);
+	insertValorationsInDB(valorationList, db);
+	insertActivitiesInDB(activityList, db);
+	writeGroupsInFile(groupList, groupsFileName);
+
+	// Visualizacion de los datos
+	seeUserList(userList);
+	seeValorations(valorationList);
+	printGroups(groupList);
+
+	// Liberar memoria
+	free(valorationList.valorations);
+	free(userList.userList);
+	free(groupList.groups);
+	sqlite3_close(db);
     return 0;
 }
