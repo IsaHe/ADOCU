@@ -1,0 +1,1 @@
+[{"name": "Group1", "users": [{"name": "Name1", "username": "User1", "password": "Password1", "age": 30, "admin": "U"}], "activities": [{"name": "Activity1"}]},{"name": "Group2", "users": [{"name": "Name2", "username": "User2", "password": "Password2", "age": 25, "admin": "A"}], "activities": [{"name": "Activity2"}]}]
