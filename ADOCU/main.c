@@ -72,6 +72,7 @@ void procesClientBuff(char *recvbuf, UserList* userList, ValorationList* valorat
         printf("Recibido grupo nuevo\n");
         Group* group = malloc(sizeof(Group));
         parseNewGroup(recvbuf, group);
+        group->users = malloc(sizeof(User) * group->maxUsers);
         addGroupToList(groupList, group, 100);
     }  else if (strncmp(recvbuf, "\"user\": \"", 9) == 0) {
         User* user = malloc(sizeof(User));
@@ -135,7 +136,6 @@ int main() {
     initialize_winsock();
     SOCKET ListenSocket = create_server(27015);
 
-    char recvbuf[DEFAULT_BUFLEN];
 
     if (listen(ListenSocket, SOMAXCONN) == SOCKET_ERROR) {
         logAction("Error escuchando las conexiones entrantes", "sistema", 'f');
@@ -157,6 +157,7 @@ int main() {
 
     int bytesRecividos;
     do {
+        char recvbuf[DEFAULT_BUFLEN];
         bytesRecividos = recv(ClientSocket, recvbuf, DEFAULT_BUFLEN, 0);
         if (bytesRecividos > 0) {
             logAction("Bytes recibidos: %d", "sistema", 's', bytesRecividos);

@@ -32,12 +32,18 @@ void createGroup(char *name, int maxUsers, GroupList *groupList, Group *group) {
 }
 
 Group *joinGroup(char *name, User user, GroupList *groupList) {
+    logAction("Intentando unir al usuario al grupo", user.username, 's');
     for (int i = 0; i < groupList->numGroups; i++) {
+        logAction("Buscando grupo", groupList->groups[i]->name, 's');
         if (strcmp(groupList->groups[i]->name, name) == 0) {
+            logAction("Grupo encontrado", groupList->groups[i]->name, 's');
             if (groupList->groups[i]->maxUsers > groupList->groups[i]->numUsers) {
                 Group *group = groupList->groups[i];
+                logAction("Añadiendo usuario al grupo", user.username, 's');
                 groupList->groups[i]->users[groupList->groups[i]->numUsers] = user;
+                logAction("Usuario añadido al grupo", user.username, 's');
                 groupList->groups[i]->numUsers++;
+                logAction("Usuario añadido al grupo correctamente", user.username, 's');
                 printf("Te has unido al grupo correctamente.\n");
                 logAction("Usuario unido al grupo correctamente", user.username, 's');
                 return group;
@@ -48,6 +54,7 @@ Group *joinGroup(char *name, User user, GroupList *groupList) {
             }
         }
     }
+    logAction("Error uniendo al usuario al grupo", user.username, 'f');
     return NULL;
 }
 
