@@ -404,3 +404,13 @@ UserList fromUserArrayToUserList(User* users, int numUsers) {
     }
     return userList;
 }
+
+User getUserFromListByUserName(UserList userList, char* username){
+    User user;
+    for (int i = 0; i < userList.numUsers; i++) {
+        if (strcmp(userList.userList[i].username, username) == 0) {
+            user = userList.userList[i];
+        }
+    }
+    return user;
+}

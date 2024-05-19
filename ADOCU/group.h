@@ -60,5 +60,7 @@ void parseGroup(char *p, Group *group, int *numCiclesAux);
 void writeGroupsInFile(GroupList groups, char *file);
 void readGroupsFromFile(char *filename, GroupList *groupList);
 GroupList readGroupsFromFileAux(FILE *file);
+Group *findGroupByName(GroupList groupList, char *name);
+char *seekGroupName(char *json);
 
 #endif

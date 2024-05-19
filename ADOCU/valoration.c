@@ -81,3 +81,22 @@ int readUserValorationsFromDB(sqlite3* db) {
 
 	return SQLITE_OK;
 }
+
+void parseValoration(char* json, Valoration* valoration) {
+    while (*json != '{') {
+        json++;
+    }
+    json++;
+    valoration->valoration = *json;
+}
+
+char* seekUserName(char* json) {
+    json += 15;
+    char* name = (char*) malloc(20);
+    char* namePtr = name;
+    while (*json != '\"') {
+        *namePtr++ = *json++;
+    }
+    *namePtr = '\0';
+    return name;
+}

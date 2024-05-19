@@ -88,8 +88,8 @@ int ClientSocket::sendUser(User *user, Group *group) const {
     return resultadoOperacion;
 }
 
-int ClientSocket::sendValoration(Valoration *valoration) const {
-    int resultadoOperacion = sendData(valoration->jsonifyValoration());
+int ClientSocket::sendValoration(Valoration *valoration, const User& user) const {
+    int resultadoOperacion = sendData(valoration->jsonifyValoration(user));
     return resultadoOperacion;
 }
 

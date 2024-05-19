@@ -40,6 +40,34 @@ void readConfigFile(char* databaseName, char* adminUsername, char* adminPassword
     logAction("Cargada la configuracion", "sistema", 's');
 }
 
+void procesClientBuff(char *recvbuf, UserList* userList, ValorationList* valorationList, GroupList* groupList, ActivityList* activityList, sqlite3* db, SOCKET ClientSocket) {
+    if (strcmp(recvbuf, "Hola") == 0) {
+        logAction("Primer contacto con el cliente establecido", "cliente", 's');
+        send_data(ClientSocket, jsonifyGroupList(*groupList));
+    } else if (strcmp(recvbuf, "Adios") == 0) {
+        logAction("Cerrando el servidor", "sistema", 's');
+        exit(0);
+    } else if (strncmp(recvbuf, "\"group\"{", 8) == 0) {
+        Group* group = malloc(sizeof(Group));
+        parseGroup(recvbuf, group, 0);
+        addGroupToList(groupList, group, 100);
+    }  else if (strncmp(recvbuf, "\"user\": \"", 9) == 0) {
+        User* user = malloc(sizeof(User));
+        parseUser(recvbuf, user);
+        joinGroup(seekGroupName(recvbuf), *user, groupList);
+    } else if (strncmp(recvbuf, "\"valoration\": \"", 15) == 0) {
+        Valoration valoration;
+        parseValoration(recvbuf, &valoration);
+        User user = getUserFromListByUserName(*userList, seekUserName(recvbuf));
+        insertUserValorationInDB(valoration, user, db);
+    } else if (strncmp(recvbuf, "\"activity\": \"", 13) == 0) {
+        Activity activity;
+        parseActivity(recvbuf, &activity);
+        addActivityToList(activityList, activity);
+    }
+}
+
+
 int main() {
 	// Declaracion de variables
 	sqlite3* db;
@@ -104,10 +132,7 @@ int main() {
             logAction(recvbuf, "sistema", 's');
             printf("Datos recibidos: %s\n", recvbuf);
 
-            if (strcmp(recvbuf, "Hola") == 0) {
-                logAction("Primer contacto con el cliente establecido", "cliente", 's');
-                send_data(ClientSocket, jsonifyGroupList(groupList));
-            }
+            procesClientBuff(recvbuf, &userList, &valorationList, &groupList, &activityList, db, ClientSocket);
 
         } else if (bytesRecividos == 0) {
             logAction("Conexión cerrada", "sistema", 's');

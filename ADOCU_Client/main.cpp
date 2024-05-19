@@ -64,15 +64,13 @@ int main() {
                             clientSocket.sendGroup(groupAux);
                         } else if (option == '2') {
                             groupList.joinGroup(user);
-                            clientSocket.sendGroup(groupList.getGroups()[groupList.getGroupPositionWithUser(*user)]);
-                            clientSocket.sendUser(user,
-                                                  groupList.getGroups()[groupList.getGroupPositionWithUser(*user)]);
+                            clientSocket.sendUser(user,groupList.getGroups()[groupList.getGroupPositionWithUser(*user)]);
                             break;
                         } else if (option == '3') {
                             option = menu.valorationMenu();
                             valoration.setValoration(option);
                             valorationList.addValoration(valoration);
-                            clientSocket.sendValoration(&valoration);
+                            clientSocket.sendValoration(&valoration, *user);
                             cout << "¡Gracias por valorar!" << endl;
                         }
                     } while (option != '4');

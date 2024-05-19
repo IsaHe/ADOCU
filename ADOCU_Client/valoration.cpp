@@ -1,5 +1,6 @@
 #include "valoration.h"
 #include <iostream>
+#include <string.h>
 
 using namespace std;
 
@@ -25,14 +26,15 @@ void Valoration::setValoration(char valoration) {
     this->valoration = valoration;
 }
 
-char *Valoration::jsonifyValoration() const {
-    char *json = new char[7];
-    json[0] = 'v';
-    json[1] = 'a';
-    json[2] = 'l';
-    json[3] = '{';
-    json[4] = valoration;
-    json[5] = '}';
-    json[6] = '\0';
-    return json;
+char *Valoration::jsonifyValoration(User user) const {
+    std::string json = "\"valoration\": \"";
+    json += user.getUsername();
+    json += "\"{";
+    json += valoration;
+    json += "}";
+
+    char *cstr = new char[json.length() + 1];
+    strcpy(cstr, json.c_str());
+
+    return cstr;
 }

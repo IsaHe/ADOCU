@@ -34,7 +34,7 @@ public:
 
     int sendUser(User *user, Group *group) const;
 
-    int sendValoration(Valoration *valoration) const;
+    int sendValoration(Valoration *valoration, const User& user) const;
 
     int sendActivity(Activity *activity, Group *group) const;
 

@@ -1,6 +1,8 @@
 #ifndef VALORATION_H_
 #define VALORATION_H_
 
+#include "user.h"
+
 class Valoration {
     private:
         char valoration;
@@ -10,10 +12,10 @@ class Valoration {
         Valoration(const Valoration &valoration);
         virtual ~Valoration();
 
-    char getValoration() const;
+        char getValoration() const;
         void setValoration(char valoration);
 
-    char *jsonifyValoration() const;
+        char *jsonifyValoration(User user) const;
 };
 
 #endif

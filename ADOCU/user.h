@@ -41,6 +41,7 @@ char parseAdmin(const char* p);
 int parseAge(const char* p);
 char* parseAttribute(const char* p, int skip, int max_length);
 UserList fromUserArrayToUserList(User* users, int numUsers);
+User getUserFromListByUserName(UserList userList, char* username);
 
 
 #endif

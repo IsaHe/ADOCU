@@ -453,3 +453,23 @@ GroupList readGroupsFromFileAux(FILE *file) {
     free(json);
     return groupList;
 }
+
+Group *findGroupByName(GroupList groupList, char *name) {
+    for (int i = 0; i < groupList.numGroups; i++) {
+        if (strcmp(groupList.groups[i]->name, name) == 0) {
+            return groupList.groups[i];
+        }
+    }
+    return NULL;
+}
+
+char *seekGroupName(char *json) {
+    json += 9;
+    char *name = (char *) malloc(30);
+    char *namePtr = name;
+    while (*json != '\"') {
+        *namePtr++ = *json++;
+    }
+    *namePtr = '\0';
+    return name;
+}
