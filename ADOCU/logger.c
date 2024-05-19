@@ -4,7 +4,7 @@
 #include <stdarg.h>
 
 void logAction(const char* action, const char* username, int status, ...)  {
-    FILE* file = fopen("log.txt", "a");
+    FILE* file = fopen("log.txt", "w");
     if (file == NULL) {
         printf("Error opening file\n");
         return;

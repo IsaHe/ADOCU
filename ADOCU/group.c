@@ -324,6 +324,7 @@ void addGroupToList(GroupList *groupList, Group *group, int maxGroups) {
     }
     groupList->groups[groupList->numGroups] = group;
     groupList->numGroups++;
+    logAction("Grupo añadido correctamente", group->name, 's');
 }
 
 void addActivityToList(ActivityList *activityList, Activity activity) {
