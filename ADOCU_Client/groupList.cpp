@@ -106,11 +106,12 @@ void GroupList::createGroup(Group *group) {
 void GroupList::joinGroup(User *user) {
     cout << "Unirse a Grupo" << endl;
     cout << "Introduce el nombre del grupo: ";
-    char groupName[30];
+    std::string groupName;
     cin >> groupName;
     cin.ignore();
     for (int i = 0; i < numGroups; i++) {
-        if (strcmp(groups[i]->getName(), groupName) == 0) {
+        std::string name = groups[i]->getName();
+        if (name == groupName) {
             if (groups[i]->getNumUsers() < groups[i]->getMaxUsers()) {
                 groups[i]->addUser(user);
                 cout << "Usuario unido al grupo" << endl;
@@ -192,6 +193,7 @@ GroupList GroupList::unJsonifyGroupList(char *json) {
             numCicles = 0;
             parseGroup(jsonAux, group, &numCicles);
             jsonAux+=numCicles;
+            group->setMaxUsers(20);
             addNewGroup(group);
         }
         jsonAux++;

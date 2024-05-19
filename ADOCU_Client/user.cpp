@@ -73,7 +73,7 @@ char *User::jsonifyUser(char *group) {
     json += "\"name\": \"" + std::string(name) + "\",";
     json += "\"username\": \"" + std::string(username) + "\",";
     json += "\"password\": \"" + std::string(password) + "\",";
-    json += "\"age \": " + std::to_string(age);
+    json += "\"age \": " + std::to_string(age) + ",";
     json += "\"admin\": \"U\"";
     json += "}";
     char *cstr = new char[json.length() + 1];
@@ -86,7 +86,7 @@ char *User::jsonifyNewUser() {
     json += "\"name\": \"" + std::string(name) + "\",";
     json += "\"username\": \"" + std::string(username) + "\",";
     json += "\"password\": \"" + std::string(password) + "\",";
-    json += "\"age \": " + std::to_string(age);
+    json += "\"age \": " + std::to_string(age) + ",";
     json += "\"admin\": \"U\"";
     json += "}";
     char *cstr = new char[json.length() + 1];
