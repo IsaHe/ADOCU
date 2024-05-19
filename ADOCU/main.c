@@ -139,6 +139,7 @@ int main() {
     if (listen(ListenSocket, SOMAXCONN) == SOCKET_ERROR) {
         logAction("Error escuchando las conexiones entrantes", "sistema", 'f');
         close_server(ListenSocket);
+        cerrarServidor(userList, valorationList, groupList, activityList, db, ListenSocket, groupsFileName);
         exit(1);
     }
     logAction("Escuchando las conexiones entrantes...", "sistema", 's');
