@@ -70,7 +70,15 @@ void Group::setName(char* name) {
 }
 
 void Group::setUsers(User **users) {
-    this->users = users;
+    if (this->users != NULL) {
+        delete[] this->users;
+    }
+
+    this->users = new User *[this->numUsers];
+
+    for (int i = 0; i < this->numUsers; i++) {
+        this->users[i] = new User(*users[i]);
+    }
 }
 
 void Group::setNumUsers(int numUsers) {

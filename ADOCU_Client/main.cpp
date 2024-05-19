@@ -35,11 +35,14 @@ int main() {
         clientSocket.receiveData(recvbuf, 512);
         groupList = groupList.unJsonifyGroupList(recvbuf);
         for (int i = 0; i < groupList.getNumGroups(); i++) {
+            cout << "Grupo Recivido: " << groupList.getGroups()[i]->getName() << endl;
             for (int j = 0; j < groupList.getGroups()[i]->getNumUsers(); j++) {
                 userList.addUserToList(groupList.getGroups()[i]->getUsers()[j]);
+                cout << "Usuario Recivido: " << groupList.getGroups()[i]->getUsers()[j]->getName() << endl;
             }
             for (int j = 0; j < groupList.getGroups()[i]->getNumActivities(); j++) {
                 activityList.addActivity(groupList.getGroups()[i]->getActivityList()[j]);
+                cout << "Actividad Recivida: " << groupList.getGroups()[i]->getActivityList()[j].getName() << endl;
             }
         }
         cout << "Grupos Recividos: " << groupList.getNumGroups() << endl;
