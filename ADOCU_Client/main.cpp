@@ -25,7 +25,7 @@ int main() {
 
     //Enviar un mensaje de prueba al servidor
     ClientSocket clientSocket(27015);
-    const char *message = "1"; //Pedir al servidor que envie todos los datos de la bd
+    const char *message = "Hola"; //Pedir al servidor que envie todos los datos de la bd
     int bytesSent = clientSocket.sendData(message);
     if (bytesSent == -1) {
         cout << "Error al enviar el mensaje" << endl;

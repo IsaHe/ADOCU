@@ -57,7 +57,7 @@ ActivityList fromActivityArrayToActivityList(Activity activities[], int numActiv
 char *jsonifyGroupList(GroupList groupList);
 GroupList unJsonifyGroupList(char *json);
 void parseGroup(char *p, Group *group, int *numCiclesAux);
-void writeGroupsInFile(GroupList groups, FILE *file);
+void writeGroupsInFile(GroupList groups, char *file);
 void readGroupsFromFile(char *filename, GroupList *groupList);
 GroupList readGroupsFromFileAux(FILE *file);
 

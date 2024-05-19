@@ -6,10 +6,10 @@ using namespace std;
 Menus::Menus() {}
 
 char Menus::mainMenu() {
-    cout << "1. Iniciar Sesión" << endl;
+    cout << "1. Iniciar Sesion" << endl;
     cout << "2. Registrarse" << endl;
     cout << "0. Salir" << endl;
-    cout << "Introduce opción: ";
+    cout << "Introduce opcion: ";
     char option;
     cin >> option;
     cin.ignore(); // Se descarta el salto de línea

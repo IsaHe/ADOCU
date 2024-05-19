@@ -47,6 +47,7 @@ void start_listening(SOCKET ListenSocket, sqlite3* db)  {
         exit(1);
     }
     logAction("Escuchando las conexiones entrantes...", "sistema", 's');
+    printf("Escuchando las conexiones entrantes...\n");
 
     SOCKET ClientSocket;
     if ((ClientSocket = accept(ListenSocket, NULL, NULL)) == INVALID_SOCKET) {
@@ -55,6 +56,7 @@ void start_listening(SOCKET ListenSocket, sqlite3* db)  {
         exit(1);
     }
     logAction("Conexión aceptada", "sistema", 's');
+    printf("Conexión aceptada\n");
 
     int bytesRecividos;
     do {
@@ -62,7 +64,13 @@ void start_listening(SOCKET ListenSocket, sqlite3* db)  {
         if (bytesRecividos > 0) {
             logAction("Bytes recibidos: %d", "sistema", 's', bytesRecividos);
             logAction(recvbuf, "sistema", 's');
-            process_client(recvbuf, db, ClientSocket);
+            printf("Datos recibidos: %s\n", recvbuf);
+
+            if (strcmp(recvbuf, "Hola") == 0) {
+                logAction("Primer contacto con el cliente establecido", "cliente", 's');
+                send_data(ClientSocket, recvbuf);
+            }
+
         } else if (bytesRecividos == 0) {
             logAction("Conexión cerrada", "sistema", 's');
         } else {

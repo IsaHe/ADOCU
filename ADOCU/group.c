@@ -420,15 +420,26 @@ GroupList unJsonifyGroupList(char *json) {
     return *groupList;
 }
 
-void writeGroupsInFile(GroupList groups, FILE *file) {
+void writeGroupsInFile(GroupList groups, char *file) {
     char *json = jsonifyGroupList(groups);
-    fprintf(file, "%s", json);
+    FILE *f = fopen(file, "w");
+    fprintf(f, "%s", json);
     free(json);
 }
 
 void readGroupsFromFile(char *fileName, GroupList *groupList) {
     FILE *file = fopen(fileName, "r");
-    *groupList = readGroupsFromFileAux(file);
+    if (file == NULL) {
+        printf("Error al abrir el archivo: %s\n", fileName);
+        return;
+    }
+    GroupList result = readGroupsFromFileAux(file);
+    if (result.groups == NULL) {
+        printf("Error al leer los grupos del archivo: %s\n", fileName);
+        return;
+    }
+    *groupList = result;
+    fclose(file);
 }
 
 GroupList readGroupsFromFileAux(FILE *file) {
