@@ -32,20 +32,13 @@ void createGroup(char *name, int maxUsers, GroupList *groupList, Group *group) {
 }
 
 Group *joinGroup(char *name, User user, GroupList *groupList) {
-    logAction("Intentando unir al usuario al grupo", user.username, 's');
     for (int i = 0; i < groupList->numGroups; i++) {
-        logAction("Buscando grupo", groupList->groups[i]->name, 's');
         if (strcmp(groupList->groups[i]->name, name) == 0) {
-            logAction("Grupo encontrado", groupList->groups[i]->name, 's');
             if (groupList->groups[i]->maxUsers > groupList->groups[i]->numUsers) {
                 Group *group = groupList->groups[i];
-                logAction("Añadiendo usuario al grupo", user.username, 's');
                 groupList->groups[i]->users[groupList->groups[i]->numUsers] = user;
-                logAction("Usuario añadido al grupo", user.username, 's');
                 groupList->groups[i]->numUsers++;
-                logAction("Usuario añadido al grupo correctamente", user.username, 's');
                 printf("Te has unido al grupo correctamente.\n");
-                logAction("Usuario unido al grupo correctamente", user.username, 's');
                 return group;
             } else {
                 printf("Este grupo ha alcanzado el numero maximo de usuarios.\n");
@@ -392,7 +385,7 @@ void parseGroup(char *p, Group *group, int *numCiclesAux) {
     while (*p != '}' && *p) {
         if (strncmp(p, "\"name\": \"", 9) == 0) {
             group->name = parseAttribute(p, 9, MAX_GROUP_NAME);
-        } else if (strncmp(p, "\"users\": ", 8) == 0) {
+        } else if (strncmp(p, "\"users\": ", 9) == 0) {
             numCicles = 0;
             UserList userList = unJsonifyUserList(p, &numCicles);
             p+=numCicles;
@@ -429,6 +422,7 @@ void parseNewGroup(char *json, Group *group) {
         json++;
         numCicles++;
     }
+    group->users = (User *) malloc(sizeof(User) * group->maxUsers);
 }
 
 GroupList unJsonifyGroupList(char *json) {

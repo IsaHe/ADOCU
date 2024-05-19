@@ -72,7 +72,6 @@ void procesClientBuff(char *recvbuf, UserList* userList, ValorationList* valorat
         printf("Recibido grupo nuevo\n");
         Group* group = malloc(sizeof(Group));
         parseNewGroup(recvbuf, group);
-        group->users = malloc(sizeof(User) * group->maxUsers);
         addGroupToList(groupList, group, 100);
     }  else if (strncmp(recvbuf, "\"user\": \"", 9) == 0) {
         User* user = malloc(sizeof(User));
