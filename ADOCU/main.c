@@ -54,16 +54,23 @@ void procesClientBuff(char *recvbuf, UserList* userList, ValorationList* valorat
     }  else if (strncmp(recvbuf, "\"user\": \"", 9) == 0) {
         User* user = malloc(sizeof(User));
         parseUser(recvbuf, user);
-        joinGroup(seekGroupName(recvbuf), *user, groupList);
+        joinGroup(seekGroupName(recvbuf, 9), *user, groupList);
     } else if (strncmp(recvbuf, "\"valoration\": \"", 15) == 0) {
         Valoration valoration;
         parseValoration(recvbuf, &valoration);
         User user = getUserFromListByUserName(*userList, seekUserName(recvbuf));
         insertUserValorationInDB(valoration, user, db);
+        addToValorations(valorationList, valoration);
     } else if (strncmp(recvbuf, "\"activity\": \"", 13) == 0) {
         Activity activity;
         parseActivity(recvbuf, &activity);
+        Group* group = findGroupByName(*groupList, seekGroupName(recvbuf, 13));
         addActivityToList(activityList, activity);
+        addActivityToGroup(activity, group);
+    } else if (strncmp(recvbuf, "\"userNew\"{", 10) == 0) {
+        User* user = malloc(sizeof(User));
+        parseUser(recvbuf, user);
+        addUserToList(userList, *user);
     }
 }
 

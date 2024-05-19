@@ -61,6 +61,6 @@ void writeGroupsInFile(GroupList groups, char *file);
 void readGroupsFromFile(char *filename, GroupList *groupList);
 GroupList readGroupsFromFileAux(FILE *file);
 Group *findGroupByName(GroupList groupList, char *name);
-char *seekGroupName(char *json);
+char *seekGroupName(char *json, int skip);
 
 #endif

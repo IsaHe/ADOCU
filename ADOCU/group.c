@@ -463,8 +463,8 @@ Group *findGroupByName(GroupList groupList, char *name) {
     return NULL;
 }
 
-char *seekGroupName(char *json) {
-    json += 9;
+char *seekGroupName(char *json, int skip) {
+    json += skip;
     char *name = (char *) malloc(30);
     char *namePtr = name;
     while (*json != '\"') {
