@@ -70,7 +70,7 @@ void procesClientBuff(char *recvbuf, UserList* userList, ValorationList* valorat
         exit(0);
     } else if (strncmp(recvbuf, "\"group\"{", 8) == 0) {
         Group* group = malloc(sizeof(Group));
-        parseGroup(recvbuf, group, 0);
+        parseNewGroup(recvbuf, group);
         addGroupToList(groupList, group, 100);
     }  else if (strncmp(recvbuf, "\"user\": \"", 9) == 0) {
         User* user = malloc(sizeof(User));
@@ -108,8 +108,8 @@ int main() {
 //	float meanValoration;
 //	Group* group;
 	GroupList groupList;
-//	groupList.groups = (Group**) malloc(sizeof(Group*) * 100);
-//	groupList.numGroups = 0;
+	groupList.groups = (Group**) malloc(sizeof(Group*) * 100);
+	groupList.numGroups = 0;
 	ActivityList activityList;
 	char databaseName[20];
 	char adminUsername[20];

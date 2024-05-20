@@ -399,6 +399,7 @@ void parseGroup(char *p, Group *group, int *numCiclesAux) {
         p++;
         (*numCiclesAux)++;
     }
+    group->maxUsers = MAX_USERS;
 }
 
 GroupList unJsonifyGroupList(char *json) {
@@ -473,4 +474,30 @@ char *seekGroupName(char *json, int skip) {
     }
     *namePtr = '\0';
     return name;
+}
+
+int parseInt (char *p, int skip) {
+    p += skip;
+    int num = 0;
+    while (*p != ',') {
+        num = num * 10 + (*p++ - '0');
+    }
+    return num;
+}
+
+void parseNewGroup(char *p, Group *group) {
+    while (*p != '}' && *p) {
+        if (strncmp(p, "\"name\": \"", 9) == 0) {
+            group->name = parseAttribute(p, 9, MAX_GROUP_NAME);
+        } else if (strncmp(p, "\"numUsers\": ", 12) == 0) {
+            group->numUsers = parseInt(p, 12);
+        } else if (strncmp(p, "\"maxUsers\": ", 12) == 0) {
+            group->maxUsers = parseInt(p, 12);
+        } else if (strncmp(p, "\"numActivities\": ", 17) == 0) {
+            group->numActivities = parseInt(p, 17);
+        }
+        p++;
+    }
+    group->maxUsers = MAX_USERS;
+    group->users = (User *) malloc(sizeof(User) * MAX_USERS);
 }
